@@ -46,13 +46,17 @@ export default class RepoPicker extends React.Component {
       .replace(/-/i, ' ')
   }
 
-  loadSuggestions() {
-    const { github } = this.props
+  getSearchQuery() {
     const cleanName = this.cleanEntityName()
     if (!cleanName) return
 
-    const q = `in:name in:readme in:description ${cleanName}`
-    const path = 'search/repositories?q=' + encodeURIComponent(q)
+    return `in:name in:readme in:description ${cleanName}`
+  }
+
+  loadSuggestions() {
+    const {github} = this.props
+
+    const path = 'search/repositories?q=' + encodeURIComponent(this.getSearchQuery())
     github.get(path).then(suggestions => {
       this.setState({ suggestions: suggestions.items })
     })
@@ -90,9 +94,30 @@ export default class RepoPicker extends React.Component {
     )
   }
 
+  renderCustomUrlRow(hasMatch) {
+    const { setRepo, repoUrl } = this.props
+    let { customRepo } = this.state
+    
+
+    return <tr>
+      <td>
+      <TextField 
+              defaultValue={hasMatch ? "" : repoUrl}
+              onChange={(event) => this.setState({customRepo: event.target.value})}
+              label="Or provide your own repository URL" />
+      </td>
+      <td>
+      <Button sizeType="slim" type="normal" 
+              onClick={() => setRepo(customRepo || repoUrl)}>
+            {repoUrl ? "Update" : "Set"} Repository
+          </Button>
+      </td>
+    </tr>
+
+  }
   renderSuggestions() {
     const { suggestions } = this.state
-    const { repoUrl } = this.props
+    const { repoUrl, githubUrl } = this.props
     const cleanName = this.cleanEntityName()
 
     if (suggestions.length == 0) {
@@ -103,28 +128,35 @@ export default class RepoPicker extends React.Component {
         </p>
       )
     }
-
+    
+    let hasMatch = false
+    const searchUrl = `${githubUrl}/search?q=${this.getSearchQuery()}` 
     // limit to top 5 suggestions
     return (
       <>
         <h2>Select a Repository</h2>
         <p>
-          We've searched github for a repository matching this
-          entity's name and have come up with these suggestions.
+          We've <a href={searchUrl} target="_blank">searched github</a> for 
+          a repository matching this entity's name and have come up 
+          with these suggestions.
         </p>
         <table style={{width: "100%", marginTop: "16px"}}>
           <tbody>
             {suggestions.slice(0, 8).map(item => {
-              return this.renderSuggestion(item, item.html_url == repoUrl)
+              const isSelected = item.html_url == repoUrl
+              hasMatch = hasMatch || isSelected
+              return this.renderSuggestion(item, isSelected)
             })}
+            {this.renderCustomUrlRow(hasMatch)}
           </tbody>
         </table>
       </>
     )
   }
+
+
   render() {
-    const { suggestions, customRepo } = this.state
-    const { setUserToken, setRepo } = this.props
+    const { suggestions } = this.state
 
     if (!suggestions) return "Loading suggestions..."
 
@@ -133,25 +165,18 @@ export default class RepoPicker extends React.Component {
         {this.renderSuggestions()}
       </StackItem>
       <StackItem>
-        <Stack alignmentType="center">
+        {/* <Stack alignmentType="center">
           <StackItem grow>
             <TextField 
+              defaultValue={repoUrl}
               onChange={(event) => this.setState({customRepo: event.target.value})}
               label="Or provide your own repository URL" />
           </StackItem>
-          <Button sizeType="slim" type="normal" onClick={() => setRepo(this.state.customRepo)}>
-            Set Repository
+          <Button sizeType="slim" type="normal" 
+              onClick={() => setRepo(customRepo || repoUrl)}>
+            {repoUrl ? "Update" : "Set"} Repository
           </Button>
-        </Stack>
-      </StackItem>
-      <StackItem>
-        <BlockText>
-          We integrate with your github repository using your personal API token.
-          <span> </span>
-          <Button onClick={() => setUserToken(null)} sizeType="slim" type="destructive">
-            Delete my user token
-          </Button>
-        </BlockText>
+        </Stack> */}
       </StackItem>
     </Stack>
   }

@@ -60,6 +60,8 @@ export default class GithubAbout extends React.Component {
     async _setRepo(repoUrl) { 
       const {entity} = this.state
 
+      console.log("SetRepo", repoUrl)
+
       const mutation = {actionType: EntityStorageMutation.ACTION_TYPE.WRITE_DOCUMENT, 
         collection: "global", 
         entityGuid: entity.guid, 
