@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Button, BlockText, Stack, StackItem } from 'nr1'
+import { Button, BlockText, Stack, StackItem, TextField } from 'nr1'
 import Github from './github'
 
 
@@ -112,7 +112,7 @@ export default class RepoPicker extends React.Component {
           We've searched github for a repository matching this
           entity's name and have come up with these suggestions.
         </p>
-        <table>
+        <table style={{width: "100%", marginTop: "16px"}}>
           <tbody>
             {suggestions.slice(0, 8).map(item => {
               return this.renderSuggestion(item, item.html_url == repoUrl)
@@ -123,14 +123,26 @@ export default class RepoPicker extends React.Component {
     )
   }
   render() {
-    const { suggestions } = this.state
-    const { setUserToken, repoUrl } = this.props
+    const { suggestions, customRepo } = this.state
+    const { setUserToken, setRepo } = this.props
 
     if (!suggestions) return "Loading suggestions..."
 
-    return <Stack directionType="vertical" style={{ width: "100%" }}>
+    return <Stack directionType="vertical" alignmentType="fill">
       <StackItem>
         {this.renderSuggestions()}
+      </StackItem>
+      <StackItem>
+        <Stack alignmentType="center">
+          <StackItem grow>
+            <TextField 
+              onChange={(event) => this.setState({customRepo: event.target.value})}
+              label="Or provide your own repository URL" />
+          </StackItem>
+          <Button sizeType="slim" type="normal" onClick={() => setRepo(this.state.customRepo)}>
+            Set Repository
+          </Button>
+        </Stack>
       </StackItem>
       <StackItem>
         <BlockText>

@@ -2,11 +2,11 @@
 export default class GitHub {
   constructor(userToken, host) {
     this.token = userToken
-    this.host = "https://source.datanerd.us/api/v3"
+    this.host = host
   }
 
   async call(httpMethod, path, payload) {
-    const url = `${this.host}/${path}`
+    const url = `${this.host}/api/v3/${path}`
     const options = {
       method: httpMethod,
       headers: {

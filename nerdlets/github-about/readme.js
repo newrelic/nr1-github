@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ReactMarkdown from 'react-markdown'
-import Github from './github'
 
 export default class ReadMe extends React.Component {
   static propTypes = {
@@ -32,10 +31,11 @@ export default class ReadMe extends React.Component {
   }
 
   render() {
-    const { readme } = (this.state || {})
+    const { readme} = (this.state || {})
 
     return (
       <div className="markdown">
+        <h1>Readme.md</h1>
         <ReactMarkdown source={readme} escapeHtml={false} />
       </div>
     )
