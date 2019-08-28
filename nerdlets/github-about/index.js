@@ -26,6 +26,7 @@ export default class GithubAbout extends React.Component {
     }
 
     async _setUserToken(userToken) {
+      console.log("setUserToken", userToken)
       const github = userToken && new Github(userToken, GITHUB_URL)
 
       this.setState({github})
@@ -58,7 +59,9 @@ export default class GithubAbout extends React.Component {
         console.error("Error parsing repository URL", repository, e)
       }
     
-      return <Tabs>
+      return <>
+      <h2>About this Entity - Github</h2>
+      <Tabs>
         <TabsItem itemKey = "readme" label="Readme">
           <Readme {...this.state} owner={owner} project={project}/>
         </TabsItem>
@@ -69,6 +72,8 @@ export default class GithubAbout extends React.Component {
           <RepoPicker {...this.state} setRepo={this._setRepo} setUserToken={this._setUserToken}/>
         </TabsItem>
       </Tabs>
+      </>
+      
     }
 
     render() {

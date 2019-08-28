@@ -1,7 +1,7 @@
 
 export default class GitHub {
   constructor(userToken, host) {
-    this.token = "abf489f34269c38278ff58ccc6f151868032f310"
+    this.token = userToken
     this.host = "https://source.datanerd.us/api/v3"
   }
 

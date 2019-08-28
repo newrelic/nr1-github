@@ -48,9 +48,8 @@ export default class Contributors extends React.Component {
   async load() {
     this.setState({ committers: null })
 
-    const { owner, project } = this.props
+    const { owner, project, github } = this.props
     const path = `repos/${owner}/${project}/commits`
-    const github = new Github()
 
     const committers = {}
 

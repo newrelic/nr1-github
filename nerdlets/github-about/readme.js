@@ -23,9 +23,8 @@ export default class ReadMe extends React.Component {
   }
 
   load() {
-    const { owner, project } = this.props
+    const { owner, project, github } = this.props
     const path = `repos/${owner}/${project}/readme`
-    const github = new Github()
     github.get(path).then(response => {
       const readme = atob(response.content)
       this.setState({ readme })

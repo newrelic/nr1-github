@@ -43,7 +43,8 @@ export default class GettingStarted extends React.Component {
           </StackItem>
         </Stack>
       <pre>
-        abf489f34269c38278ff58ccc6f151868032f310
+      // FIXME delete this token!<br/>  
+      f5c9264fea5ae4b4873f9c3d1e6e6ac00a7c26e1
       </pre>
     </div>
   }

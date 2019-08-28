@@ -40,7 +40,6 @@ export default class RepoPicker extends React.Component {
       .replace(/production/i, '')
       .replace(/staging/i, '')
       .replace(/canary/i, '')
-      .replace(/canary/i, '')
       .replace(/\(/i, ' ')
       .replace(/ EU /, '')        // NR specific?
       .replace(/\)/i, ' ')
@@ -48,12 +47,10 @@ export default class RepoPicker extends React.Component {
   }
 
   loadSuggestions() {
+    const { github } = this.props
     const cleanName = this.cleanEntityName()
     if (!cleanName) return
 
-    const github = new Github()
-
-    // console.log("Search: ", cleanName)
     const q = `in:name in:readme in:description ${cleanName}`
     const path = 'search/repositories?q=' + encodeURIComponent(q)
     github.get(path).then(suggestions => {
