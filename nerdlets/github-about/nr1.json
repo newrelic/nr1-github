@@ -1,0 +1,17 @@
+{
+  "schemaType": "NERDLET",
+  "id": "github",
+  "displayName": "3P-About",
+  "description": "Github integration to give every service its own About Page",
+  "entities": [
+    {
+      "domain": "APM",
+      "type": "APPLICATION"
+    },
+    {
+      "domain": "BROWSER",
+      "type": "APPLICATION"
+    }
+  ],
+  "actionCategory": "monitor"
+}

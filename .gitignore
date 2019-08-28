@@ -1,0 +1,6 @@
+.nos
+.idea
+dist
+node_modules
+coverage
+tmp
