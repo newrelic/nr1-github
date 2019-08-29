@@ -117,13 +117,15 @@ export default class RepoPicker extends React.Component {
   }
   renderSuggestions() {
     const { suggestions } = this.state
-    const { repoUrl, githubUrl } = this.props
+    if(!suggestions) return ""
+
+    const { repoUrl, githubUrl, entity } = this.props
     const cleanName = this.cleanEntityName()
 
     if (suggestions.length == 0) {
       return (
         <p>
-          Couldn{"'"}t find a reposity matching this entity. We
+          Couldn{"'"}t find a reposity matching {entity.name}. We
           searched on <em>"{cleanName}"</em>.
         </p>
       )
@@ -137,7 +139,7 @@ export default class RepoPicker extends React.Component {
         <h2>Select a Repository</h2>
         <p>
           We've <a href={searchUrl} target="_blank">searched github</a> for 
-          a repository matching this entity's name and have come up 
+          a repository matching <em>{entity.name}</em> and have come up 
           with these suggestions.
         </p>
         <table style={{width: "100%", marginTop: "16px"}}>
@@ -163,20 +165,6 @@ export default class RepoPicker extends React.Component {
     return <Stack directionType="vertical" alignmentType="fill">
       <StackItem>
         {this.renderSuggestions()}
-      </StackItem>
-      <StackItem>
-        {/* <Stack alignmentType="center">
-          <StackItem grow>
-            <TextField 
-              defaultValue={repoUrl}
-              onChange={(event) => this.setState({customRepo: event.target.value})}
-              label="Or provide your own repository URL" />
-          </StackItem>
-          <Button sizeType="slim" type="normal" 
-              onClick={() => setRepo(customRepo || repoUrl)}>
-            {repoUrl ? "Update" : "Set"} Repository
-          </Button>
-        </Stack> */}
       </StackItem>
     </Stack>
   }

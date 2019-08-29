@@ -30,18 +30,19 @@ export default class GithubAbout extends React.Component {
     }
 
     async _setUserToken(userToken) {
+      const {githubUrl} = this.state
       const mutation = {actionType: UserStorageMutation.ACTION_TYPE.WRITE_DOCUMENT, 
         collection: "global", 
         documentId: "userToken", 
         document: userToken}
       await UserStorageMutation.mutate(mutation)
 
-      const github = userToken && new Github(userToken, GITHUB_URL)
+      const github = userToken && githubUrl && new Github(userToken, githubUrl)
       this.setState({github})
     }
     
     async _setGithub(githubUrl) { 
-      const {entity} = this.state
+      const {entity, userToken} = this.state
 
       // strip out everything after hostname including the first "/"
       githubUrl = githubUrl.match(/https:\/\/[^\/]*/)[0]
@@ -52,8 +53,9 @@ export default class GithubAbout extends React.Component {
         documentId: "githubUrl", 
         document: githubUrl}
       
-      const result = await AccountStorageMutation.mutate(mutation)      
-      console.log("write", result)
+      await AccountStorageMutation.mutate(mutation)      
+      
+      const github = userToken && new Github(userToken, githubUrl)
       this.setState({githubUrl})
     }
 
@@ -84,11 +86,9 @@ export default class GithubAbout extends React.Component {
       const githubUrl = result.data.actor.account.nerdStorage.document
       result = await EntityStorageQuery.query({entityGuid, collection: "global", documentId: "repoUrl"})
       const repoUrl = result.data.actor.entity.nerdStorage.document
-
-
       const github = userToken && githubUrl && new Github(userToken, githubUrl)
 
-      this.setState({entity, github, githubUrl, repoUrl})
+      this.setState({entity, github, githubUrl, repoUrl, userToken})
     }
 
     renderTabs() {

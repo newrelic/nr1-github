@@ -14,7 +14,7 @@ export default class Setup extends React.PureComponent {
       <h3>Github Enterprise URL</h3>
       <p>
         First, specify the URL for your Github repository. Note if your
-        instance is on your private network, youn need to be connected to
+        instance is on your private network, yon need to be connected to
         that VPN for this to work correctly.
       </p>
       <Stack alignmentType="center">
@@ -28,10 +28,11 @@ export default class Setup extends React.PureComponent {
         </StackItem>
         <StackItem>
           <Button
+            sizeType="slim"
             onClick={() => setGithub(githubUrlValue)}
             disabled={!enabled}
             type={githubUrl ? "normal" : "primary"}>
-            {githubUrl ? "Update " : "Set "} Your Organization's Github URL
+            {githubUrl ? "Update " : "Set "} Github URL
         </Button>
         </StackItem>
       </Stack>
@@ -99,12 +100,13 @@ export default class Setup extends React.PureComponent {
   }
 
   render() {
+    const {githubUrl, github, userToken} = this.props
     return <div style={{ margin: "16px" }}>
       <Stack>
         <StackItem grow>
           <h1>Integrate with Github</h1>
           <p>
-            Ever wondered what a Service does, or who has been working on it recenlty?
+            Ever wondered what a Service does, or who has been working on it?
             Answer these questions and more with this Github integration!
           </p>
         </StackItem>
@@ -114,8 +116,8 @@ export default class Setup extends React.PureComponent {
         </StackItem>
       </Stack>
       {this.renderRepoUrlInput()}
-      {this.props.githubUrl && !this.props.github && this.renderUserTokenInput()}
-      {this.props.githubUrl && this.props.github && this.renderDeleteUserToken()}
+      {githubUrl && !userToken && this.renderUserTokenInput()}
+      {githubUrl && userToken && this.renderDeleteUserToken()}
     </div>
   }
 }
