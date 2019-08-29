@@ -34,8 +34,7 @@ export default class ReadMe extends React.Component {
     const { readme} = (this.state || {})
 
     return (
-      <div className="markdown">
-        <h1>Readme.md</h1>
+      <div className="markdown-body">
         <ReactMarkdown source={readme} escapeHtml={false} />
       </div>
     )

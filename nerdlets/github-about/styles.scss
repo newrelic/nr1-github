@@ -1,7 +1,4 @@
-ul, ol {
-  // list-style-position: inside;
-  padding-left: 2em;  
-}
+@import './github-markdown.scss';
 
 tr.repo {
   td {
@@ -17,60 +14,3 @@ tr.active  {
   }
 }
 
-
-.markdown {
-  margin-left: 10px;
-  margin-top: 6px;
-  margin-right: 10px;
-
-  pre {
-    border: 1px solid #ccc;
-    padding: 8px;
-    background: #eee;
-    word-break: break-word;
-  }
-  
-  table {
-    width: 100%;
-  }
-  
-  blockquote {
-    color: #666;
-    margin: 0;
-    padding-left: 3em;
-    border-left: 0.5em #eee solid;
-  }
-  
-  tr {
-    border-top: 1px solid #c6cbd1;
-    background: #fff;
-  }
-  
-  th,
-  td {
-    padding: 6px 13px;
-    border: 1px solid #dfe2e5;
-  }
-  
-  table tr:nth-child(2n) {
-    background: #f6f8fa;
-  }
-
-  // h1 {
-  //   font-size: 2rem;
-  //   border-bottom: #ddd solid 1px;
-  // }
-  // h2 {
-  //   font-size: 1.8rem;
-  // }
-  // h3 {
-  //   font-size: 1.5rem;
-  // }
-  // h4 {
-  //   font-size: 1.2rem;
-  // }
-  
-  h1, h2, h3, h4 {
-    margin-top: 6px;
-  }
-}

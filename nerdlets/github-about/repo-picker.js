@@ -160,7 +160,7 @@ export default class RepoPicker extends React.Component {
   render() {
     const { suggestions } = this.state
 
-    if (!suggestions) return "Loading suggestions..."
+    if (!suggestions) return <div/>
 
     return <Stack directionType="vertical" alignmentType="fill">
       <StackItem>

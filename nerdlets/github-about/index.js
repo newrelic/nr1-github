@@ -107,7 +107,11 @@ export default class GithubAbout extends React.Component {
       }
     
       return <>
-      <h2>About this Entity - Github</h2>
+      <h2>
+      <img width="36px" height="36px"
+            src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" />
+        Github</h2>
+      <a href={repoUrl} target="_blank">{repoUrl}</a>
       <Tabs>
         <TabsItem itemKey = "readme" label="Readme">
           <Readme {...this.state} owner={owner} project={project}/>
@@ -131,10 +135,8 @@ export default class GithubAbout extends React.Component {
       if(!entity) return <Spinner/>
       if(!githubUrl || !github) return <Setup {...this.state}
             setUserToken={this._setUserToken} setGithub={this._setGithub}/>
-      return (
-        repoUrl ? 
-            this.renderTabs() : 
-            <RepoPicker {...this.state} setRepo={this._setRepo} setUserToken={this._setUserToken}/>
-      )    
+            
+      if(repoUrl) return this.renderTabs()            
+      return <RepoPicker {...this.state} setRepo={this._setRepo} setUserToken={this._setUserToken}/>
     }
 }

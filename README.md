@@ -12,6 +12,14 @@ access token as a one-time setup step. New Relic will securerly store
 that access token, but the user can easily delete it from New Relic's storage
 at any time.
 
+## TODO
+- Clearly document how the license key stuff works/is secured, and 
+recommnended permissions for the license key
+- Error Handling:
+  - Bad URL for Github instance
+  - Can't connect to Github instance (usually a VPN issue)
+- Styling
+
 ## ScreenShots
 ![screenshot 1](./screenshots/screenshot-1.png)
 
