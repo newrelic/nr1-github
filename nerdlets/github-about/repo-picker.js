@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Button, BlockText, Stack, StackItem, TextField } from 'nr1'
-import Github from './github'
+import GITHUB_URL from '../../CONFIGURE_ME'
+import { Button, Stack, StackItem, TextField } from 'nr1'
 
 
 export default class RepoPicker extends React.Component {
@@ -119,7 +119,7 @@ export default class RepoPicker extends React.Component {
     const { suggestions } = this.state
     if(!suggestions) return ""
 
-    const { repoUrl, githubUrl, entity } = this.props
+    const { repoUrl, entity } = this.props
     const cleanName = this.cleanEntityName()
 
     if (suggestions.length == 0) {
@@ -132,7 +132,7 @@ export default class RepoPicker extends React.Component {
     }
     
     let hasMatch = false
-    const searchUrl = `${githubUrl}/search?q=${this.getSearchQuery()}` 
+    const searchUrl = `${GITHUB_URL}/search?q=${this.getSearchQuery()}` 
     // limit to top 5 suggestions
     return (
       <>
