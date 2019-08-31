@@ -11,6 +11,10 @@
     {
       "domain": "BROWSER",
       "type": "APPLICATION"
+    },
+    {
+      "domain": "MOBILE",
+      "type": "APPLICATION"
     }
   ],
   "actionCategory": "monitor"
