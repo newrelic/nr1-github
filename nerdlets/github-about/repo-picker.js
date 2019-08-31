@@ -98,19 +98,18 @@ export default class RepoPicker extends React.Component {
     const { setRepo, repoUrl } = this.props
     let { customRepo } = this.state
     
-
     return <tr>
       <td>
       <TextField 
-              defaultValue={hasMatch ? "" : repoUrl}
-              onChange={(event) => this.setState({customRepo: event.target.value})}
-              label="Or provide your own repository URL" />
+        defaultValue={hasMatch ? "" : repoUrl}
+        onChange={(event) => this.setState({customRepo: event.target.value})}
+        label="If you don't see it here, provide your own repository URL" />
       </td>
       <td>
-      <Button sizeType="slim" type="primary" 
-              onClick={() => setRepo(customRepo || repoUrl)}>
-            {repoUrl ? "Update" : "Set"} Repository
-          </Button>
+        <Button sizeType="slim" type="primary" 
+            onClick={() => setRepo(customRepo || repoUrl)}>
+          Set Repository
+        </Button>
       </td>
     </tr>
 
