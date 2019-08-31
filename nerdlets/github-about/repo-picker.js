@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import GITHUB_URL from '../../CONFIGURE_ME'
-import { Button, Stack, StackItem, TextField } from 'nr1'
+import { Button, Stack, StackItem, TextField, BlockText } from 'nr1'
 
 
 export default class RepoPicker extends React.Component {
@@ -71,7 +71,7 @@ export default class RepoPicker extends React.Component {
     let buttonTitle = 'Set Repository'
 
     if (isSelected) {
-      buttonType = 'plain'
+      buttonType = 'destructive'
       setRepoValue = ''
       buttonTitle = 'Clear'
     }
@@ -107,7 +107,7 @@ export default class RepoPicker extends React.Component {
               label="Or provide your own repository URL" />
       </td>
       <td>
-      <Button sizeType="slim" type="normal" 
+      <Button sizeType="slim" type="primary" 
               onClick={() => setRepo(customRepo || repoUrl)}>
             {repoUrl ? "Update" : "Set"} Repository
           </Button>
@@ -139,7 +139,7 @@ export default class RepoPicker extends React.Component {
         <h2>Select a Repository</h2>
         <p>
           We've <a href={searchUrl} target="_blank">searched github</a> for 
-          a repository matching <em>{entity.name}</em> and have come up 
+          a repository matching <strong>{entity.name}</strong> and have come up 
           with these suggestions.
         </p>
         <table style={{width: "100%", marginTop: "16px"}}>

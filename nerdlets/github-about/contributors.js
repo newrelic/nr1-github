@@ -79,9 +79,9 @@ export default class Contributors extends React.Component {
     }
 
     return (
-      <div>
+      <div style={{paddingTop: "12px"}}>
         <h2>Most Frequent Recent Committers</h2>
-        <table className="table">
+        <table>
           <thead>
             <tr>
               <th>Name</th>

@@ -25,6 +25,23 @@ export default class GithubAbout extends React.Component {
       this.state = {}
     }
 
+    async componentDidMount() {
+      const {entityGuid} = this.props.nerdletUrlState
+      
+      let result = await EntityByGuidQuery.query({entityGuid})
+      const entity = result.data.actor.entities[0]
+
+      result = await UserStorageQuery.query({collection: "global", documentId: "userToken"})
+      const userToken = result.data.actor.nerdStorage.document
+
+      result = await EntityStorageQuery.query({entityGuid, collection: "global", documentId: "repoUrl"})
+      const repoUrl = result.data.actor.entity.nerdStorage.document
+      const github = userToken && new Github(userToken)
+
+      this.setState({entity, github, repoUrl, userToken})
+    }
+
+
     async _setUserToken(userToken) {
       const github = userToken && new Github(userToken)
 
@@ -34,7 +51,7 @@ export default class GithubAbout extends React.Component {
         document: userToken}
       await UserStorageMutation.mutate(mutation)
 
-      this.setState({github})
+      this.setState({github, userToken})
     }
     
     async _setRepo(repoUrl) { 
@@ -53,22 +70,6 @@ export default class GithubAbout extends React.Component {
       this.setState({repoUrl})
     }
 
-    async componentDidMount() {
-      const {entityGuid} = this.props.nerdletUrlState
-      
-      let result = await EntityByGuidQuery.query({entityGuid})
-      const entity = result.data.actor.entities[0]
-
-      result = await UserStorageQuery.query({collection: "global", documentId: "userToken"})
-      const userToken = result.data.actor.nerdStorage.document
-      
-      result = await EntityStorageQuery.query({entityGuid, collection: "global", documentId: "repoUrl"})
-      const repoUrl = result.data.actor.entity.nerdStorage.document
-      const github = userToken && new Github(userToken)
-
-      this.setState({entity, github, repoUrl, userToken})
-    }
-
     renderTabs() {
       const {repoUrl} = this.state
       var path, owner, project
@@ -85,36 +86,46 @@ export default class GithubAbout extends React.Component {
       }
     
       return <>
-      <h2>
-      <img width="36px" height="36px"
-            src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" />
-        Github</h2>
-      <a href={repoUrl} target="_blank">{repoUrl}</a>
-      <Tabs>
-        <TabsItem itemKey = "readme" label="Readme">
-          <Readme {...this.state} owner={owner} project={project}/>
-        </TabsItem>
-        <TabsItem itemKey = "contributors" label="Contributors">
-          <Contributors {...this.state} owner={owner} project={project}/>
-        </TabsItem>
-        <TabsItem itemKey = "repository" label="Repository">
-          <RepoPicker {...this.state} setRepo={this._setRepo}/>
-        </TabsItem>
-        <TabsItem itemKey = "setup" label="Setup">
-          <Setup {...this.state} setUserToken={this._setUserToken}/>
-        </TabsItem>
-      </Tabs>
+        <div className="header">
+          <h1>
+          <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" />            
+              Github
+          </h1>
+          
+          <a href={repoUrl} target="_blank">{repoUrl}</a>
+        </div>
+        <Tabs className="tabs">
+          <TabsItem itemKey = "readme" label="README.md">
+            <Readme {...this.state} owner={owner} project={project}/>
+          </TabsItem>
+          <TabsItem itemKey = "contributors" label="Contributors">
+            <Contributors {...this.state} owner={owner} project={project}/>
+          </TabsItem>
+          <TabsItem itemKey = "repository" label="Repository">
+            <RepoPicker {...this.state} setRepo={this._setRepo}/>
+          </TabsItem>
+          <TabsItem itemKey = "setup" label="Setup">
+            <Setup {...this.state} setUserToken={this._setUserToken}/>
+          </TabsItem>
+        </Tabs>
       </>
       
     }
 
-    render() {
+    renderContent() {
       const {entity, github, repoUrl} = this.state
+
       if(!entity) return <Spinner fillContainer/>
       if(!github) return <Setup {...this.state}
             setUserToken={this._setUserToken} setGithub={this._setGithub}/>
             
       if(repoUrl) return this.renderTabs()            
       return <RepoPicker {...this.state} setRepo={this._setRepo} setUserToken={this._setUserToken}/>
+    }
+
+    render() {
+      return <div className="root">
+        {this.renderContent()}
+      </div>
     }
 }

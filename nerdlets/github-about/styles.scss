@@ -1,5 +1,34 @@
 @import './github-markdown.scss';
 
+h2 {
+  padding-bottom: 12px;
+}
+
+.root {
+  background-color: white;
+  padding: 16px;
+  min-height: 100%;
+}
+
+.header {
+  text-align: center;
+  img {
+    vertical-align: text-top;
+    width: 34px;
+    height: 34px;
+  }
+  border-bottom: 1px dashed #e3e3e3;
+  margin-bottom: 12px;
+}
+
+.tabs {
+  font-size: 18px
+}
+
+table {
+  width: 100%;
+}
+
 tr.repo {
   td {
     padding-top: 8px;
@@ -8,9 +37,11 @@ tr.repo {
 }
 
 tr.active  {
+  border: 1px solid #b3e2ff;
+  padding: -1px;
+    
   td {
-    background-color: #e3e3e3;
-    font-weight: bold;
+    background-color: #e9f4fb;
   }
 }
 
