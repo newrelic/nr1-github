@@ -191,7 +191,8 @@ export default class GithubAbout extends React.Component {
         There was an error connecting to <a href={GITHUB_URL}>{GITHUB_URL}</a>. The typical
         fix for this will be to login to your VPN.
       </p>
-      <Button type="plain" onClick={() => this.checkGithubUrl()}>
+      <Button iconType="interface_operations_refresh" type="normal" 
+            onClick={() => this.checkGithubUrl()}>
         Try Again
       </Button>
     </div>

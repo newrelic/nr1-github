@@ -102,6 +102,7 @@ export default class RepoPicker extends React.Component {
       <td>
       <TextField 
         defaultValue={hasMatch ? "" : repoUrl}
+        placeholder="Paste repository URL here"
         onChange={(event) => this.setState({customRepo: event.target.value})}
         label="If you don't see it here, provide your own repository URL" />
       </td>
