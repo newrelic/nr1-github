@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Github from './github'
+import GitHub from './github'
 
 export default class Contributors extends React.Component {
   static propTypes = {

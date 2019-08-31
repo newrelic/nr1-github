@@ -1,8 +1,8 @@
 {
   "schemaType": "NERDLET",
   "id": "github",
-  "displayName": "Github Repo",
-  "description": "Github integration to give every service its own About Page",
+  "displayName": "GitHub Repo",
+  "description": "GitHub integration to give every service its own About Page",
   "entities": [
     {
       "domain": "APM",
