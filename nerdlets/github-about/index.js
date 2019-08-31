@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import {
   EntityByGuidQuery, Spinner,
-  Tabs, TabsItem, BlockText,
+  Tabs, TabsItem, Button,
   UserStorageMutation, UserStorageQuery,
   EntityStorageMutation, EntityStorageQuery
 } from 'nr1'
@@ -13,6 +13,17 @@ import RepoPicker from './repo-picker'
 import Readme from './readme'
 import Contributors from './contributors'
 import GITHUB_URL from '../../CONFIGURE_ME'
+
+// allows us to test the github url with a short timeout
+// https://stackoverflow.com/questions/46946380/fetch-api-request-timeout
+function timeout(ms, promise) {
+  return new Promise(function(resolve, reject) {
+    setTimeout(function() {
+      reject(new Error("timeout"))
+    }, ms)
+    promise.then(resolve, reject)
+  })
+}
 
 export default class GithubAbout extends React.Component {
   static propTypes = {
@@ -32,6 +43,8 @@ export default class GithubAbout extends React.Component {
   async componentDidMount() {
     const { entityGuid } = this.props.nerdletUrlState
 
+    await this.checkGithubUrl()
+
     let result = await EntityByGuidQuery.query({ entityGuid })
     const entity = result.data.actor.entities[0]
 
@@ -43,6 +56,20 @@ export default class GithubAbout extends React.Component {
     const github = userToken && new Github(userToken)
 
     this.setState({ entity, github, repoUrl, userToken })
+  }
+
+  checkGithubUrl() {
+    if(!GITHUB_URL) return
+
+    return timeout(1000, fetch(`${GITHUB_URL}/status`, {mode: 'no-cors'}))
+      .then(() => {
+        console.log("Github Connect OK")
+        this.setState({githubAccessError: null})
+      })
+      .catch(err => {
+        console.log("Failed to connect to github", err)
+        this.setState({githubAccessError: err})
+      })    
   }
 
 
@@ -156,9 +183,26 @@ export default class GithubAbout extends React.Component {
     </div>
   }
 
+  renderGithubAccessError() {
+    return <div>
+      {this.renderHeader()}
+      <h2>Error accessing Github</h2>
+      <p>
+        There was an error connecting to <a href={GITHUB_URL}>{GITHUB_URL}</a>. The typical
+        fix for this will be to login to your VPN.
+      </p>
+      <Button type="plain" onClick={() => this.checkGithubUrl()}>
+        Try Again
+      </Button>
+    </div>
+  }
+
   render() {
+    const {githubAccessError} = this.state
     return <div className="root">
-      {GITHUB_URL ? this.renderContent() : this.renderConfigureMe()}
+      {GITHUB_URL && !githubAccessError && this.renderContent()}
+      {GITHUB_URL && githubAccessError && this.renderGithubAccessError()}
+      {!GITHUB_URL && this.renderConfigureMe()}
     </div>
   }
 }
