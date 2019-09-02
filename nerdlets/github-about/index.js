@@ -63,7 +63,6 @@ export default class GithubAbout extends React.Component {
 
     return timeout(1000, fetch(`${GITHUB_URL}/status`, {mode: 'no-cors'}))
       .then(() => {
-        console.log("Github Connect OK")
         this.setState({githubAccessError: null})
       })
       .catch(err => {
