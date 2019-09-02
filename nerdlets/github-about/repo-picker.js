@@ -34,7 +34,7 @@ export default class RepoPicker extends React.Component {
 
   cleanEntityName() {
     const { entity } = this.props
-    if (!entity) return null
+    if (!(entity && entity.name)) return null
 
     return entity.name
       .replace(/production/i, '')
