@@ -1,19 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import {
-  EntityByGuidQuery, Spinner,
-  Tabs, TabsItem, Button,
-  NerdGraphQuery,
-  UserStorageMutation, UserStorageQuery,
-  EntityStorageMutation, EntityStorageQuery
+import {  
+  Spinner, Tabs, TabsItem, Button,
+  NerdGraphQuery, UserStorageMutation, EntityStorageMutation,
 } from 'nr1'
+
+import GITHUB_URL from '../../CONFIGURE_ME'
 
 import Github from './github'
 import Setup from './setup'
 import RepoPicker from './repo-picker'
 import Readme from './readme'
 import Contributors from './contributors'
-import GITHUB_URL from '../../CONFIGURE_ME'
+import Header from './header'
+import ConfigureMe from './configure-me'
 
 // allows us to test the github url with a short timeout
 // https://stackoverflow.com/questions/46946380/fetch-api-request-timeout
@@ -107,7 +107,7 @@ export default class GithubAbout extends React.Component {
     }
 
     return <>
-      {this.renderHeader(contentProps)}
+      <Header repoUrl={repoUrl}/>
       <Tabs className="tabs">
         <TabsItem itemKey="readme" label="README.md">
           <Readme {...contentProps} owner={owner} project={project} />
@@ -126,48 +126,16 @@ export default class GithubAbout extends React.Component {
 
   }
 
-  renderHeader({repoUrl}) {
-    return <div className="header">
-    <h1>
-      <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" />
-      Github
-      </h1>
-      {repoUrl && <a href={repoUrl} target="_blank">{repoUrl}</a>}
-    </div>
-  }
-  
   renderContent(contentProps) {
-    if (!contentProps.github) return <Setup {...contentProps}
-      setUserToken={this._setUserToken} setGithub={this._setGithub} />
-
+    if (!contentProps.userToken) return <Setup setUserToken={this._setUserToken} />
     if (contentProps.repoUrl) return this.renderTabs(contentProps)
-    return <RepoPicker {...contentProps} setRepo={this._setRepo} setUserToken={this._setUserToken} />
-  }
 
-  renderConfigureMe() {
-    return <div className="root">
-      {this.renderHeader({})}
-      <h2>Integrate with Github</h2>
-      <p>
-        Ever wondered what a Service does, or who has been working on it?
-        Answer these questions and more with this Github integration!
-      </p>
-      <h2>First Things First.</h2>
-      <p>
-        Let's get you started! Set up this Nerdpack by configuring your organization'
-        Github URL. It could be the public <a href="https://github.com">
-        https://github.com</a> or it could be a private Github enterprise instance.
-      </p>
-      <p>
-        Edit the URL in <code>CONFIGURE_ME.js</code> and come back here when
-        you've saved the file.  Don't deploy this Nerdpack without proper configration!
-      </p>      
-    </div>
+    return <RepoPicker {...contentProps} setRepo={this._setRepo} setUserToken={this._setUserToken} />
   }
 
   renderGithubAccessError() {
     return <div className="root">
-      {this.renderHeader({})}
+      <Header/>
       <h2>Error accessing Github</h2>
       <p>
         There was an error connecting to <a href={GITHUB_URL}>{GITHUB_URL}</a>. The typical
@@ -184,7 +152,7 @@ export default class GithubAbout extends React.Component {
     const {entityGuid} = this.props.nerdletUrlState
     const {githubAccessError} = this.state
 
-    if(!GITHUB_URL) return this.renderConfigureMe()
+    if(!GITHUB_URL) return <ConfigureMe/>
     if(githubAccessError) return this.renderGithubAccessError()
 
     const gql = `{
