@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ReactMarkdown from 'react-markdown'
+import Github from './github'
 
 export default class ReadMe extends React.Component {
   static propTypes = {
@@ -22,7 +23,8 @@ export default class ReadMe extends React.Component {
   }
 
   load() {
-    const { owner, project, github } = this.props
+    const { owner, project, userToken } = this.props
+    const github = new Github(userToken)
     const path = `repos/${owner}/${project}/readme`
     github.get(path).then(response => {
       const readme = atob(response.content)

@@ -7,7 +7,6 @@ import {
 
 import GITHUB_URL from '../../CONFIGURE_ME'
 
-import Github from './github'
 import Setup from './setup'
 import RepoPicker from './repo-picker'
 import Readme from './readme'
@@ -42,7 +41,30 @@ export default class GithubAbout extends React.Component {
   }
 
   async componentDidMount() {
+    const {entityGuid} = this.props.nerdletUrlState
     await this.checkGithubUrl()
+
+    const query = `{
+      actor {
+        nerdStorage {
+          userToken: document(collection: "global", documentId: "userToken")
+        }
+        user {name email id}
+        entity(guid: "${entityGuid}") {
+          name domain type account { name id }
+          nerdStorage {
+            repoUrl: document(collection: "global", documentId: "repoUrl")
+          }
+        }
+      }
+    }`
+
+    const {data} = await NerdGraphQuery.query({query})
+    const userToken = JSON.parse(data.actor.nerdStorage.userToken)
+    const repoUrl = JSON.parse(data.actor.entity.nerdStorage.repoUrl)
+    const {user, entity} = data.actor
+
+    this.setState({ user, entity, userToken, repoUrl })
   }
 
   checkGithubUrl() {
@@ -66,11 +88,8 @@ export default class GithubAbout extends React.Component {
       documentId: "userToken",
       document: userToken
     }
-    await UserStorageMutation.mutate(mutation)
-
-    // we are updating data in NerdGraph, but no state is changing. Force
-    // an update because the GraphQL query will return different results.
-    this.forceUpdate()
+    UserStorageMutation.mutate(mutation)
+    this.setState({userToken})
   }
 
   async _setRepo(repoUrl) {
@@ -83,16 +102,12 @@ export default class GithubAbout extends React.Component {
       document: repoUrl
     }
 
-    await EntityStorageMutation.mutate(mutation)
+    EntityStorageMutation.mutate(mutation)
     this.setState({repoUrl})
-
-    // we are updating data in NerdGraph, but no state is changing. Force
-    // an update because the GraphQL query will return different results.
-    this.forceUpdate()
   }
 
-  renderTabs(contentProps) {
-    const { repoUrl } = contentProps
+  renderTabs() {
+    const { repoUrl } = this.state
     var path, owner, project
     try {
       const url = new URL(repoUrl)
@@ -110,27 +125,28 @@ export default class GithubAbout extends React.Component {
       <Header repoUrl={repoUrl}/>
       <Tabs className="tabs">
         <TabsItem itemKey="readme" label="README.md">
-          <Readme {...contentProps} owner={owner} project={project} />
+          <Readme {...this.state} owner={owner} project={project} />
         </TabsItem>
         <TabsItem itemKey="contributors" label="Contributors">
-          <Contributors {...contentProps} owner={owner} project={project} />
+          <Contributors {...this.state} owner={owner} project={project} />
         </TabsItem>
         <TabsItem itemKey="repository" label="Repository">
-          <RepoPicker {...contentProps} setRepo={this._setRepo} />
+          <RepoPicker {...this.state} setRepo={this._setRepo} />
         </TabsItem>
         <TabsItem itemKey="setup" label="Setup">
-          <Setup {...contentProps} setUserToken={this._setUserToken} />
+          <Setup {...this.state} setUserToken={this._setUserToken} />
         </TabsItem>
       </Tabs>
     </>
 
   }
 
-  renderContent(contentProps) {
-    if (!contentProps.userToken) return <Setup setUserToken={this._setUserToken} />
-    if (contentProps.repoUrl) return this.renderTabs(contentProps)
+  renderContent() {
+    const {userToken, repoUrl} = this.state
+    if (!userToken) return <Setup setUserToken={this._setUserToken} />
+    if (repoUrl) return this.renderTabs()
 
-    return <RepoPicker {...contentProps} setRepo={this._setRepo} setUserToken={this._setUserToken} />
+    return <RepoPicker {...this.state} setRepo={this._setRepo} setUserToken={this._setUserToken} />
   }
 
   renderGithubAccessError() {
@@ -149,45 +165,14 @@ export default class GithubAbout extends React.Component {
   }
 
   render() {
-    const {entityGuid} = this.props.nerdletUrlState
-    const {githubAccessError} = this.state
+    const {githubAccessError, user} = this.state
 
     if(!GITHUB_URL) return <ConfigureMe/>
     if(githubAccessError) return this.renderGithubAccessError()
 
-    const gql = `{
-      actor {
-        nerdStorage {
-          userToken: document(collection: "global", documentId: "userToken")
-        }
-        user {name email id}
-        entity(guid: "${entityGuid}") {
-          name domain type account { name id }
-          nerdStorage {
-            repoUrl: document(collection: "global", documentId: "repoUrl")
-          }
-        }
-      }
-    }`
-
-    return <NerdGraphQuery query={gql}>
-      {({loading, error, data}) => {
-        if(loading) return <Spinner fillContainer/>
-
-        console.log("NerdGraph", data)
-        console.log("Repo URL", data.actor.entity.nerdStorage.repoUrl)
-        
-        const {user, entity} = data.actor
-        const userToken = JSON.parse(data.actor.nerdStorage.userToken)
-        const github = userToken && new Github(userToken)
-        const repoUrl = JSON.parse(data.actor.entity.nerdStorage.repoUrl)
-        const contentProps = { user, entity, userToken, github, repoUrl }
-        
-        console.log("props", contentProps)
-        return <div className="root">
-          {this.renderContent(contentProps)}
-        </div>
-      }}
-    </NerdGraphQuery>
+    if(!user) return <Spinner fillContainer/>
+    return <div className="root">
+      {this.renderContent()}
+    </div>
   }
 }

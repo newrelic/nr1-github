@@ -1,3 +1,5 @@
+import Header from './header'
+
 export default function ConfigureMe() {
   return <div className="root">
     <Header />

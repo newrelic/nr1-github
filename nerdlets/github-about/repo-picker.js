@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import GITHUB_URL from '../../CONFIGURE_ME'
-import { Button, Stack, StackItem, TextField, BlockText } from 'nr1'
+import { Button, Stack, StackItem, TextField } from 'nr1'
+import Github from './github'
 
 
 export default class RepoPicker extends React.Component {
@@ -41,9 +42,9 @@ export default class RepoPicker extends React.Component {
       .replace(/staging/i, '')
       .replace(/canary/i, '')
       .replace(/\(/i, ' ')
-      .replace(/ EU /, '')        // NR specific?
       .replace(/\)/i, ' ')
       .replace(/-/i, ' ')
+      .replace(/ EU /, '')        // NR specific?
   }
 
   getSearchQuery() {
@@ -54,7 +55,7 @@ export default class RepoPicker extends React.Component {
   }
 
   loadSuggestions() {
-    const {github} = this.props
+    const github = new Github(this.props.userToken)
 
     const path = 'search/repositories?q=' + encodeURIComponent(this.getSearchQuery())
     github.get(path).then(suggestions => {
@@ -138,7 +139,7 @@ export default class RepoPicker extends React.Component {
       <>
         <h2>Select a Repository</h2>
         <p>
-          We've <a href={searchUrl} target="_blank">searched github</a> for 
+          We've <a href={searchUrl} target="_blank">searched GitHub</a> for 
           a repository matching <strong>{entity.name}</strong> and have come up 
           with these suggestions.
         </p>

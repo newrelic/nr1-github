@@ -6,6 +6,7 @@ import { TextField, Button, Stack, StackItem, Grid, GridItem } from 'nr1'
 export default class Setup extends React.PureComponent {
 
   renderUserTokenInput() {
+    const { userToken } = this.state || {}
     const { setUserToken } = this.props
 
     return <StackItem>
