@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import {  
+import {
   Spinner, Tabs, TabsItem, Button,
   NerdGraphQuery, UserStorageMutation, EntityStorageMutation,
 } from 'nr1'
@@ -77,7 +77,7 @@ export default class GithubAbout extends React.Component {
       .catch(err => {
         console.log("Failed to connect to github", err)
         this.setState({githubAccessError: err})
-      })    
+      })
   }
 
 
@@ -152,12 +152,12 @@ export default class GithubAbout extends React.Component {
   renderGithubAccessError() {
     return <div className="root">
       <Header/>
-      <h2>Error accessing Github</h2>
+      <h2>Error accessing GitHub</h2>
       <p>
         There was an error connecting to <a href={GITHUB_URL}>{GITHUB_URL}</a>. The typical
         fix for this will be to login to your VPN.
       </p>
-      <Button iconType="interface_operations_refresh" type="normal" 
+      <Button iconType="interface_operations_refresh" type="normal"
             onClick={() => this.checkGithubUrl()}>
         Try Again
       </Button>

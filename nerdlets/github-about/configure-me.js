@@ -3,16 +3,16 @@ import Header from './header'
 export default function ConfigureMe() {
   return <div className="root">
     <Header />
-    <h2>Integrate with Github</h2>
+    <h2>Integrate with GitHub</h2>
     <p>
       Ever wondered what a Service does, or who has been working on it?
-      Answer these questions and more with this Github integration!
+      Answer these questions and more with this GitHub integration!
   </p>
     <h2>First Things First.</h2>
     <p>
       Let's get you started! Set up this Nerdpack by configuring your organization'
-    Github URL. It could be the public <a href="https://github.com">
-        https://github.com</a> or it could be a private Github enterprise instance.
+    GitHub URL. It could be the public <a href="https://github.com">
+        https://github.com</a> or it could be a private GitHub enterprise instance.
   </p>
     <p>
       Edit the URL in <code>CONFIGURE_ME.js</code> and come back here when

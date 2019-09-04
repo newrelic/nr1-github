@@ -13,13 +13,13 @@ export default class Setup extends React.PureComponent {
       <h3>Personal Access Token</h3>
       <p>
         To get started, <a href={`${GITHUB_URL}/settings/tokens`} target="_blank">
-        generate a personal access token</a> for your Github account. You don't
+        generate a personal access token</a> for your GitHub account. You don't
         need to give the token any special access scopes.
       </p>
       <Stack alignmentType="center">
         <StackItem grow>
           <TextField autofocus
-            label="Github Token"
+            label="GitHub Token"
             placeholder="Paste your user token here"
             onChange={({ target }) => this.setState({ userToken: target.value })}
           />
@@ -29,7 +29,7 @@ export default class Setup extends React.PureComponent {
             onClick={() => setUserToken(userToken)}
             disabled={!userToken || userToken.length != 40}
             type="primary">
-            Set Your Github Token
+            Set Your GitHub Token
           </Button>
         </StackItem>
       </Stack>
@@ -46,15 +46,15 @@ export default class Setup extends React.PureComponent {
     return <StackItem>
       <h3>Personal Access Token</h3>
       <p>
-        You have provided a Github personal access token, which you
+        You have provided a GitHub personal access token, which you
         can <a href={`${GITHUB_URL}/settings/tokens`} target="_blank">
-        delete from Github</a>. You can also delete your token from 
+        delete from GitHub</a>. You can also delete your token from
         New Relic's secure storage.
       </p>
       <Stack alignmentType="center" distributionType="trailing" fill>
         <StackItem>
           <Button onClick={() => setUserToken(null)}
-            iconType="interface_operations_trash" sizeType="slim" type="destructive"> 
+            iconType="interface_operations_trash" sizeType="slim" type="destructive">
             Delete my User Token
           </Button>
         </StackItem>
@@ -68,12 +68,12 @@ export default class Setup extends React.PureComponent {
       <GridItem columnSpan={8}>
         <Stack directionType="vertical" gapType={Stack.GAP_TYPE.EXTRA_LOOSE}>
           <StackItem>
-          <h1>Integrate with Github</h1>
+          <h1>Integrate with GitHub</h1>
           <p>
             Ever wondered what a Service does, or who has been working on it?
-            Answer these questions and more with this Github integration!
+            Answer these questions and more with this GitHub integration!
           </p>
-          </StackItem>          
+          </StackItem>
           {!userToken && this.renderUserTokenInput()}
           {userToken && this.renderDeleteUserToken()}
         </Stack>
