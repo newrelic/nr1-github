@@ -8,7 +8,6 @@
         "test": "exit 0"
     },
     "nr1": {
-        "uuid": "41a2161e-4c81-4f94-8ef1-79fbfeb67bbb",
         "sdkVersion": 2
     },
     "dependencies": {
@@ -23,4 +22,5 @@
         "not ie < 11",
         "not dead"
     ]
+    "uuid": "ce24ca71-c2c1-43db-8e11-098989d678e8",
 }
