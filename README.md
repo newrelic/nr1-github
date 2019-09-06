@@ -40,8 +40,8 @@ at any time.
 Every user must provide their own GitHub personal access token to increase
 security and allow the user to see only the repositories they have access to.
 
-Personal access tokens are securely stored with New Relic One's `UserStorage`
-API's. UserStorage data is accessible only to the user account.
+Personal access tokens are stored with New Relic One's `UserStorage`
+API's. `UserStorage` data is accessible only to the user account and `Nerdpack` which created it. The data is encrypted in transmission, but is not encrypted at rest (within the underlying database). Finally, it's important to note that `UserStorage` data may be accessible to a New Relic employee via an administrative privilege in the platform.
 
 ## Getting started
 
