@@ -5,21 +5,31 @@ h2 {
 }
 
 .root {
-  background-color: white;
+  background-color: #f4f5f5;
   padding: 16px;
   min-height: 100%;
 }
 
 .header {
   text-align: center;
-  img {
-    vertical-align: text-top;
-    width: 34px;
-    height: 34px;
-  }
   padding-bottom: 6px;
-  border-bottom: 1px dotted #e3e3e3;
-  margin-bottom: 12px;
+  margin-top: 8px;
+  margin-bottom: 20px;
+
+  img {
+    width: 88px;
+    height: 23px;
+  }
+}
+
+[class*=StackItem].repo-link-stack {
+  margin-top: 16px;
+}
+
+.repo-link {
+  background-color: rgba(30,50,55, .04);
+  padding: 8px 16px;
+  border-radius: 3px;
 }
 
 .tabs {
@@ -50,3 +60,53 @@ tr.active  {
   }
 }
 
+
+[class*=Tabs].tabs {
+  width:  95%;
+  margin: 0 auto;
+  max-width: 1000px;
+  background-color: #fff;
+  /* padding: 0 32px 32px; */
+  box-sizing: border-box;
+  box-shadow: 0 1px 1px rgba(0, 100, 101, 0.1);
+}
+
+[class*=Tabs-pane] {
+  padding: 20px 32px 32px;
+}
+
+span[class*=Tab-label] {
+  font-family: 'open sans', sans-serif;
+  font-size: 14px;
+  position: relative;
+  top: 1px;
+  padding-bottom:12px;
+  z-index:10000;
+}
+
+ul[class*=Tabs-navigation] {
+  overflow-x: visible;
+  padding: 6px 0 0;
+  justify-content: center;
+  border-color: #edeeee;
+}
+
+// .nr1-98afb157-2688-4c1e-85e6-cf25b0f741ee .markdown-body {font-family: 'open sans';}
+
+// .nr1-98afb157-2688-4c1e-85e6-cf25b0f741ee .markdown-body p {
+//   line-height: 21px;
+// }
+
+// .nr1-98afb157-2688-4c1e-85e6-cf25b0f741ee .markdown-body li {
+//   font-size: 14px;
+// }
+
+// .nr1-98afb157-2688-4c1e-85e6-cf25b0f741ee .markdown-body a {
+//   color: #0079bf;
+// }
+
+// .nr1-98afb157-2688-4c1e-85e6-cf25b0f741ee .markdown-body pre code {
+//   font-family: monaco, monospace;
+//   line-height: 20px;
+//   font-size: 13px;
+// }
