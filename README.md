@@ -33,7 +33,7 @@ This project is distributed under the [Apache 2 license](LICENSE).
 ### Using GitHub Personal Access Tokens
 
 Integration with GitHub requires the user to create or use a private
-access token as a one-time setup step. New Relic will securerly store
+access token as a one-time setup step. New Relic will store
 that access token, but the user can easily delete it from New Relic's storage
 at any time.
 
