@@ -1,26 +1,37 @@
 {
-    "private": true,
-    "name": "github-about",
-    "description": "Nerdpack github-about",
-    "version": "0.1.0",
-    "scripts": {
-        "start": "nr1 nerdpack:serve",
-        "test": "exit 0"
-    },
-    "nr1": {
-        "sdkVersion": 2
-    },
-    "dependencies": {
-        "prop-types": "^15.6.2",
-        "react": "^16.6.3",
-        "react-dom": "^16.6.3",
-        "react-markdown": "^4.1.0",
-        "reactstrap": "^8.0.1"
-    },
-    "browserslist": [
-        "last 2 versions",
-        "not ie < 11",
-        "not dead"
-    ]
-    "uuid": "ce24ca71-c2c1-43db-8e11-098989d678e8",
+  "private": true,
+  "name": "nr1-github-about",
+  "description": "Nerdpack github-about",
+  "version": "0.1.0",
+  "bugs": {
+    "email": "opensource@newrelic.com"
+  },
+  "scripts": {
+    "start": "nr1 nerdpack:serve",
+    "test": "exit 0",
+    "eslint-check": "eslint nerdlets/",
+    "eslint-fix": "eslint nerdlets/ --fix"
+  },
+  "nr1": {
+    "uuid": "41a2161e-4c81-4f94-8ef1-79fbfeb67bbb",
+    "sdkVersion": 2
+  },
+  "dependencies": {
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.3.0",
+    "eslint-config-prettier": "^6.2.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "^7.14.3",
+    "prettier": "^1.18.2",
+    "prop-types": "^15.6.2",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-markdown": "^4.1.0",
+    "reactstrap": "^8.0.1"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "not ie < 11",
+    "not dead"
+  ]
 }
