@@ -1,10 +1,15 @@
+import GitHubLogo from '../../assets/github-logo.svg'
+import { Stack, StackItem } from 'nr1'
 
 export default function Header({repoUrl}) {
   return <div className="header">
-    <h1>
-      <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" />
-      GitHub
-    </h1>
-    {repoUrl && <a href={repoUrl} target="_blank">{repoUrl}</a>}
+    <Stack directionType={Stack.DIRECTION_TYPE.VERTICAL} alignmentType={Stack.ALIGNMENT_TYPE.CENTER} className="header-stack">
+      <StackItem>
+        <img src={GitHubLogo} className="github-logo"/>
+      </StackItem>
+      <StackItem className="repo-link-stack">
+        {repoUrl && <a href={repoUrl} target="_blank" className="repo-link">{repoUrl}</a>}
+      </StackItem>
+    </Stack>
   </div>
 }

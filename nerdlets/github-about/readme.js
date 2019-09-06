@@ -17,7 +17,7 @@ export default class ReadMe extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.repository != this.props.repository) {
+    if (prevProps.repoUrl != this.props.repoUrl) {
       this.load()
     }
   }
