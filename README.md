@@ -33,15 +33,15 @@ This project is distributed under the [Apache 2 license](LICENSE).
 ### Using GitHub Personal Access Tokens
 
 Integration with GitHub requires the user to create or use a private
-access token as a one-time setup step. New Relic will securerly store
+access token as a one-time setup step. New Relic will store
 that access token, but the user can easily delete it from New Relic's storage
 at any time.
 
 Every user must provide their own GitHub personal access token to increase
-security and allow the user to see only the repositories they have access to.
+security and allow the user to see only the repositories they have access to. The GitHub personal access token should be `read only` and scoped to this application only (i.e. we don't recommend re-using a personal access token).
 
-Personal access tokens are securely stored with New Relic One's `UserStorage`
-API's. UserStorage data is accessible only to the user account.
+Personal access tokens are stored with New Relic One's `UserStorage`
+API's. `UserStorage` data is accessible only to the user account and `Nerdpack` which created it. The data is encrypted in transmission, but is not encrypted at rest (within the underlying database). Finally, it's important to note that `UserStorage` data may be accessible to a New Relic employee via an administrative privilege in the platform.
 
 ## Getting started
 
