@@ -17,17 +17,19 @@
     "sdkVersion": 2
   },
   "dependencies": {
-    "babel-eslint": "^10.0.3",
-    "eslint": "^6.3.0",
-    "eslint-config-prettier": "^6.2.0",
-    "eslint-plugin-prettier": "^3.1.0",
-    "eslint-plugin-react": "^7.14.3",
-    "prettier": "^1.18.2",
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-markdown": "^4.1.0",
     "reactstrap": "^8.0.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.3.0",
+    "eslint-config-prettier": "^6.2.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "^7.14.3",
+    "prettier": "^1.18.2"
   },
   "browserslist": [
     "last 2 versions",
