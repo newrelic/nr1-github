@@ -10,13 +10,13 @@ export default function ConfigureMe() {
     </p>
     <h2>First Things First.</h2>
     <p>
-      Let's get you started! Set up this Nerdpack by configuring your organization'
+      Let's get you started! Set up this Nerdpack by configuring your organization's
       GitHub URL. It could be the public <a href="https://github.com">
       https://github.com</a> or it could be a private GitHub enterprise instance.
     </p>
     <p>
       Edit the URL in <code>CONFIGURE_ME.js</code> and come back here when
-      you've saved the file.  Don't deploy this Nerdpack without proper configration!
+      you've saved the file.  Don't deploy this Nerdpack without proper configuration!
     </p>
   </div>
 }

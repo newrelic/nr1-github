@@ -1,7 +1,7 @@
 {
   "private": true,
-  "name": "nr1-github-about",
-  "description": "Nerdpack github-about",
+  "name": "nr1-github",
+  "description": "Nerdpack nr1-github",
   "version": "0.1.0",
   "bugs": {
     "email": "opensource@newrelic.com"
