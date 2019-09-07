@@ -121,7 +121,7 @@ export default class GithubAbout extends React.Component {
       console.error("Error parsing repository URL", repoUrl, e)
     }
 
-    return <>
+    return <div className="container">
       <Header repoUrl={repoUrl}/>
       <Tabs className="tabs">
         <TabsItem itemKey="readme" label="README.md">
@@ -137,7 +137,7 @@ export default class GithubAbout extends React.Component {
           <Setup {...this.state} setUserToken={this._setUserToken} />
         </TabsItem>
       </Tabs>
-    </>
+    </div>
 
   }
 
