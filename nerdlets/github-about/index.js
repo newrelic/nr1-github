@@ -124,16 +124,16 @@ export default class GithubAbout extends React.Component {
     return <div className="container">
       <Header repoUrl={repoUrl}/>
       <Tabs className="tabs">
-        <TabsItem itemKey="readme" label="README.md">
+        <TabsItem value="readme" label="README.md">
           <Readme {...this.state} owner={owner} project={project} />
         </TabsItem>
-        <TabsItem itemKey="contributors" label="Contributors">
+        <TabsItem value="contributors" label="Contributors">
           <Contributors {...this.state} owner={owner} project={project} />
         </TabsItem>
-        <TabsItem itemKey="repository" label="Repository">
+        <TabsItem value="repository" label="Repository">
           <RepoPicker {...this.state} setRepo={this._setRepo} />
         </TabsItem>
-        <TabsItem itemKey="setup" label="Setup">
+        <TabsItem value="setup" label="Setup">
           <Setup {...this.state} setUserToken={this._setUserToken} />
         </TabsItem>
       </Tabs>
