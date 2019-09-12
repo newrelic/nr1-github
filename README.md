@@ -4,8 +4,10 @@
 
 ## Usage
 
-Integrate New Relic One with GitHub (either public or private enterprise instance)
-to bring more context to your entities.
+Troubleshooting a service is faster when you can jump straight to the GitHub
+repo to see how it works and who owns it. This integration connects your 
+services and apps in New Relic One to your GitHub repo (either public or 
+private enterprise instances).
 
 Associate any service or application with its GitHub repository as a one-time action
 and then you can quickly see that application's README file, as well as a list
