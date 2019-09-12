@@ -8,7 +8,7 @@ Integrate New Relic One with GitHub (either public or private enterprise instanc
 to bring more context to your entities.
 
 Associate any service or application with its GitHub repository as a one-time action
-and then you can quickly see that applcition's README file, as well as a list
+and then you can quickly see that application's README file, as well as a list
 of most active source code contributors.
 
 ## Screen Shots
