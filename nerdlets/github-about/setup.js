@@ -54,7 +54,7 @@ export default class Setup extends React.PureComponent {
       <Stack alignmentType="center" distributionType="trailing" fill>
         <StackItem>
           <Button onClick={() => setUserToken(null)}
-            iconType="interface_operations_trash" sizeType="slim" type="destructive">
+            iconType="interface_operations_trash" sizeType="slim" type={Button.TYPE.DESTRUCTIVE}>
             Delete my User Token
           </Button>
         </StackItem>

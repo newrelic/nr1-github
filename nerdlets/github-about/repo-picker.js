@@ -67,12 +67,12 @@ export default class RepoPicker extends React.Component {
     const { setRepo } = this.props
     const className = isSelected ? 'repo active' : 'repo'
 
-    let buttonType = 'normal'
+    let buttonType = Button.TYPE.NORMAL
     let setRepoValue = item.html_url
     let buttonTitle = 'Set Repository'
 
     if (isSelected) {
-      buttonType = 'destructive'
+      buttonType = Button.TYPE.DESTRUCTIVE
       setRepoValue = ''
       buttonTitle = 'Clear'
     }
@@ -108,7 +108,7 @@ export default class RepoPicker extends React.Component {
         label="If you don't see it here, provide your own repository URL" />
       </td>
       <td>
-        <Button sizeType="slim" type="primary" 
+        <Button sizeType={Button.SIZE_TYPE.SMALL} type={Button.TYPE.PRIMARY}
             onClick={() => setRepo(customRepo || repoUrl)}>
           Set Repository
         </Button>
