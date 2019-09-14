@@ -97,7 +97,7 @@ export default class RepoPicker extends React.Component {
         <td>
           <Button
             type={buttonType}
-            sizeType="slim"
+            sizeType={Button.SIZE_TYPE.SMALL}
             onClick={() => setRepo(setRepoValue)}
           >
             {buttonTitle}

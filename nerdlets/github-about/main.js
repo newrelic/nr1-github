@@ -66,21 +66,9 @@ export default class GithubAbout extends React.Component {
     }`;
 
     const { data } = await NerdGraphQuery.query({ query });
-    console.debug(user);
-    let userToken = null;
-    try {
-      const userTokenStr = get(data, 'actor.nerdStorage.userToken');
-      userToken = JSON.parse(userTokenStr);
-    } catch (e) {
-      console.error(e);
-    }
-    let repoUrl = null;
-    try {
-      repoUrlStr = get(data, 'actor.nerdStorage.repoUrl');
-      repoUrlStr = JSON.parse(userTokenStr);
-    } catch (e) {
-      console.error(e);
-    }
+    console.debug(data); //eslint-disable-line
+    const userToken = get(data, 'actor.nerdStorage.userToken');
+    const repoUrl = get(data, 'actor.entity.nerdStorage.repoUrl');
     const { user, entity } = data.actor;
 
     this.setState({ user, entity, userToken, repoUrl });

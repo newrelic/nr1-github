@@ -66,7 +66,7 @@ export default class Setup extends React.PureComponent {
             <Button
               onClick={() => setUserToken(null)}
               iconType="interface_operations_trash"
-              sizeType="slim"
+              sizeType={Button.SIZE_TYPE.SMALL}
               type={Button.TYPE.DESTRUCTIVE}
             >
               Delete my User Token
