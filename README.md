@@ -4,11 +4,13 @@
 
 ## Usage
 
-Integrate New Relic One with GitHub (either public or private enterprise instance)
-to bring more context to your entities.
+Troubleshooting a service is faster when you can jump straight to the GitHub
+repo to see how it works and who owns it. This integration connects your 
+services and apps in New Relic One to your GitHub repo (either public or 
+private enterprise instances).
 
 Associate any service or application with its GitHub repository as a one-time action
-and then you can quickly see that applcition's README file, as well as a list
+and then you can quickly see that application's README file, as well as a list
 of most active source code contributors.
 
 ## Screen Shots
@@ -33,15 +35,18 @@ This project is distributed under the [Apache 2 license](LICENSE).
 ### Using GitHub Personal Access Tokens
 
 Integration with GitHub requires the user to create or use a private
-access token as a one-time setup step. New Relic will store
-that access token, but the user can easily delete it from New Relic's storage
-at any time.
+access token as a one-time setup step. This GitHub personal access token
+increases security, because it ensures each user can only see repositories
+they have access to. New Relic will store that access token, but the user 
+can easily delete it from New Relic's storage at any time.
 
-Every user must provide their own GitHub personal access token to increase
-security and allow the user to see only the repositories they have access to. The GitHub personal access token should be `read only` and scoped to this application only (i.e. we don't recommend re-using a personal access token).
+We recommend creating a dedicated personal access token for this application only,
+and you should give that token `read only` permissions. See 
+[GitHub's doc on access tokens](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line)
+for full instructions.
 
 Personal access tokens are stored with New Relic One's `UserStorage`
-API's. `UserStorage` data is accessible only to the user account and `Nerdpack` which created it. The data is encrypted in transmission, but is not encrypted at rest (within the underlying database). Finally, it's important to note that `UserStorage` data may be accessible to a New Relic employee via an administrative privilege in the platform.
+APIs. `UserStorage` data is accessible only to the user account and `Nerdpack` which created it. The data is encrypted in transmission, but is not encrypted at rest (within the underlying database). Because of this, `UserStorage` data may be accessible to a New Relic employee via an administrative privilege in the platform.
 
 ## Getting started
 
