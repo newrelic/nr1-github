@@ -6,7 +6,7 @@ export default function ConfigureMe() {
       <Header />
       <h2>Integrate with GitHub</h2>
       <p>
-        Ever wondered what a Service does, or who has been working on it? Answer
+        Ever wondered what a service does, or who's been working on it? Answer
         these questions and more with this GitHub integration!
       </p>
       <h2>First Things First.</h2>
