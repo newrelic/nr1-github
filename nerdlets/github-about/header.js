@@ -5,8 +5,9 @@ export default function Header({ repoUrl }) {
   return (
     <div className="header">
       <Stack
-        directionType={Stack.DIRECTION_TYPE.HORIZONTAL}
+        verticalType={Stack.VERTICAL_TYPE.CENTER}
         className="header-stack"
+        fullWidth
       >
         <StackItem>
           <img src={GitHubLogo} className="github-logo" />

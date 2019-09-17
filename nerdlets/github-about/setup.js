@@ -80,7 +80,7 @@ export default class Setup extends React.PureComponent {
   render() {
     const { userToken } = this.props;
     return (
-      <Grid style={{ margin: '16px' }}>
+      <Grid className="container integration-container">
         <GridItem columnSpan={8}>
           <Stack directionType="vertical" gapType={Stack.GAP_TYPE.EXTRA_LOOSE}>
             <StackItem>

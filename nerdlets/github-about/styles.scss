@@ -22,7 +22,7 @@ h2 {
   }
 }
 
-.header-stack {
+[class*=wnd-Stack--horizontalLeft].header-stack {
   justify-content: space-between;
 }
 
@@ -63,7 +63,7 @@ tr.active  {
 
 .container {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   // max-width: 1000px;
   background-color: #fff;
   /* padding: 0 32px 32px; */
@@ -111,3 +111,18 @@ ul[class*=Tabs-navigation] {
 //   line-height: 20px;
 //   font-size: 13px;
 // }
+
+.getting-started-content {
+  padding: 16px 24px;
+}
+
+[class*=wnd-Grid].integration-container {
+  padding: 24px;
+  margin: 0;
+}
+
+.container .integration-container {
+  background-color: transparent;
+  padding: 0;
+  box-shadow: none;
+}
