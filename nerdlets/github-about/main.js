@@ -67,8 +67,8 @@ export default class GithubAbout extends React.Component {
 
     const { data } = await NerdGraphQuery.query({ query });
     console.debug(data); //eslint-disable-line
-    const userToken = get(data, 'actor.nerdStorage.userToken');
-    const repoUrl = get(data, 'actor.entity.nerdStorage.repoUrl');
+    const userToken = get(data, 'actor.nerdStorage.userToken.userToken');
+    const repoUrl = get(data, 'actor.entity.nerdStorage.repoUrl.repoUrl');
     const { user, entity } = data.actor;
 
     this.setState({ user, entity, userToken, repoUrl });
@@ -92,7 +92,7 @@ export default class GithubAbout extends React.Component {
       actionType: UserStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
       collection: 'global',
       documentId: 'userToken',
-      document: userToken,
+      document: { userToken },
     };
     UserStorageMutation.mutate(mutation);
     this.setState({ userToken });
@@ -105,7 +105,7 @@ export default class GithubAbout extends React.Component {
       collection: 'global',
       entityGuid,
       documentId: 'repoUrl',
-      document: repoUrl,
+      document: { repoUrl },
     };
 
     EntityStorageMutation.mutate(mutation);
