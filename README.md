@@ -5,8 +5,8 @@
 ## Usage
 
 Troubleshooting a service is faster when you can jump straight to the GitHub
-repo to see how it works and who owns it. This integration connects your 
-services and apps in New Relic One to your GitHub repo (either public or 
+repo to see how it works and who owns it. This integration connects your
+services and apps in New Relic One to your GitHub repo (either public or
 private enterprise instances).
 
 Associate any service or application with its GitHub repository as a one-time action
@@ -37,11 +37,11 @@ This project is distributed under the [Apache 2 license](LICENSE).
 Integration with GitHub requires the user to create or use a private
 access token as a one-time setup step. This GitHub personal access token
 increases security, because it ensures each user can only see repositories
-they have access to. New Relic will store that access token, but the user 
+they have access to. New Relic will store that access token, but the user
 can easily delete it from New Relic's storage at any time.
 
 We recommend creating a dedicated personal access token for this application only,
-and you should give that token `read only` permissions. See 
+and you should give that token `read only` permissions. See
 [GitHub's doc on access tokens](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line)
 for full instructions.
 
@@ -53,7 +53,7 @@ APIs. `UserStorage` data is accessible only to the user account and `Nerdpack` w
 Clone this repository and run the following scripts:
 
 ```bash
-git clone https://github.com/newrelic/nr1-github.git
+nr1 nerdpack:clone -r https://github.com/newrelic/nr1-github.git
 cd nr1-github
 nr1 nerdpack:uuid -gf
 npm install
