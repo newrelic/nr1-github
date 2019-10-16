@@ -13,7 +13,7 @@ export default class GitHub {
   }
 
   async call(httpMethod, path, payload) {
-    const url = `${GITHUB_URL}/api/v3/${path}`;
+    const url = `${GITHUB_URL}/${path}`;
     const options = {
       method: httpMethod,
       headers: {
