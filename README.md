@@ -75,7 +75,7 @@ Open a command prompt in the nerdpack's directory and run the following commands
 ```bash
 # this is to create a new uuid for the nerdpack so that you can deploy it to your account
 nr1 nerdpack:uuid -g [--profile=your_profile_name]
-# to see a list of APIkeys / profiles available in your development environment, run nr1 credentials:list
+# to see a list of APIkeys / profiles available in your development environment, run nr1 profiles:list
 nr1 nerdpack:publish [--profile=your_profile_name]
 nr1 nerdpack:deploy [-c [DEV|BETA|STABLE]] [--profile=your_profile_name]
 nr1 nerdpack:subscribe [-c [DEV|BETA|STABLE]] [--profile=your_profile_name]
