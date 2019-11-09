@@ -8,31 +8,36 @@ export default class GitHub {
   // attempt to reach the github instance. Throw an execption
   // if it's not reachable (e.g. user is not on a VPN)
   static async ping() {
-    const request = { mode: 'no-cors', 'content-type': 'application/json' };
-    fetch(`${GITHUB_URL}/status.json`, request);
+    const request = { mode: 'no-cors', 'Content-Type': 'application/json' };
+    fetch(`${GITHUB_URL.trim()}/status`, request);
   }
 
   async call(httpMethod, path, payload) {
-    const url = `${GITHUB_URL}/api/v3/${path}`;
+    const GHURL = GITHUB_URL.trim();
+    const url = GHURL.indexOf('api.github.com') == -1 ? `${GHURL}/api/v3/${path}` : `${GHURL}/${path}`;
     const options = {
       method: httpMethod,
+      //mode: 'no-cors',
       headers: {
-        'content-type': 'application/json',
-        Authorization: `token ${this.token}`,
+        'Accept': 'application/json',
+        //'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json',
+        'Authorization': `token ${this.token}`,
       },
     };
     if (payload) {
       options.body = JSON.stringify(payload);
     }
     const response = await fetch(url, options);
-    return response.json();
+    //console.debug(response);
+    return await response.json();
   }
 
   async get(path) {
-    return await this.call('get', path);
+    return await this.call('GET', path);
   }
 
   async post(path, payload) {
-    return await this.call('post', path, payload);
+    return await this.call('POST', path, payload);
   }
 }

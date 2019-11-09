@@ -13,7 +13,7 @@ export default class Setup extends React.PureComponent {
         <h3>Personal Access Token</h3>
         <p>
           To get started,{' '}
-          <a href={`${GITHUB_URL}/settings/tokens`} target="_blank">
+          <a href={`${GITHUB_URL.trim()}/settings/tokens`} target="_blank">
             generate a personal access token
           </a>{' '}
           for your GitHub account. You don't need to give the token any special
@@ -56,7 +56,7 @@ export default class Setup extends React.PureComponent {
         <h3>Personal Access Token</h3>
         <p>
           You have provided a GitHub personal access token, which you can{' '}
-          <a href={`${GITHUB_URL}/settings/tokens`} target="_blank">
+          <a href={`${GITHUB_URL.trim()}/settings/tokens`} target="_blank">
             delete from GitHub
           </a>
           . You can also delete your token from New Relic's secure storage.

@@ -66,7 +66,7 @@ export default class GithubAbout extends React.Component {
     }`;
 
     const { data } = await NerdGraphQuery.query({ query });
-    console.debug(data); //eslint-disable-line
+    //console.debug(data); //eslint-disable-line
     const userToken = get(data, 'actor.nerdStorage.userToken.userToken');
     const repoUrl = get(data, 'actor.entity.nerdStorage.repoUrl.repoUrl');
     const { user, entity } = data.actor;
@@ -77,7 +77,7 @@ export default class GithubAbout extends React.Component {
   checkGithubUrl() {
     if (!GITHUB_URL) return;
 
-    return timeout(1000, fetch(`${GITHUB_URL}/status`, { mode: 'no-cors' }))
+    return timeout(1000, fetch(`${GITHUB_URL.trim()}/status`, { mode: 'no-cors' }))
       .then(() => {
         this.setState({ githubAccessError: null });
       })
@@ -168,7 +168,7 @@ export default class GithubAbout extends React.Component {
           <Header />
           <h2>Error accessing GitHub</h2>
           <p>
-            There was an error connecting to <a href={GITHUB_URL}>{GITHUB_URL}</a>
+            There was an error connecting to <a href={GITHUB_URL.trim()}>{GITHUB_URL.trim()}</a>
             . The typical fix for this will be to login to your VPN.
           </p>
           <Button

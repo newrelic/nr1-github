@@ -152,7 +152,7 @@ export default class RepoPicker extends React.Component {
     }
 
     let hasMatch = false;
-    const searchUrl = `${GITHUB_URL}/search?q=${this.getSearchQuery()}`;
+    const searchUrl = `${GITHUB_URL.trim()}/search?q=${this.getSearchQuery()}`;
     // limit to top 5 suggestions
     return (
       <>
