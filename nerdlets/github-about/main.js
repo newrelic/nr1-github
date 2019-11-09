@@ -76,8 +76,8 @@ export default class GithubAbout extends React.Component {
 
   checkGithubUrl() {
     if (!GITHUB_URL) return;
-
-    return timeout(1000, fetch(`${GITHUB_URL.trim()}/status`, { mode: 'no-cors' }))
+    const GHURL = GITHUB_URL.trim();
+    return timeout(1000, fetch(`${GHURL}/status`, { mode: 'no-cors' }))
       .then(() => {
         this.setState({ githubAccessError: null });
       })
@@ -162,13 +162,14 @@ export default class GithubAbout extends React.Component {
   }
 
   renderGithubAccessError() {
+    const GHURL = GITHUB_URL.trim()
     return (
       <div className="root">
         <div className="container">
           <Header />
           <h2>Error accessing GitHub</h2>
           <p>
-            There was an error connecting to <a href={GITHUB_URL.trim()}>{GITHUB_URL.trim()}</a>
+            There was an error connecting to <a href={GHURL}>{GHURL}</a>
             . The typical fix for this will be to login to your VPN.
           </p>
           <Button
