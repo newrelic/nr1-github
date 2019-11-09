@@ -8,8 +8,9 @@ export default class GitHub {
   // attempt to reach the github instance. Throw an execption
   // if it's not reachable (e.g. user is not on a VPN)
   static async ping() {
+    const GHURL = GITHUB_URL.trim();
     const request = { mode: 'no-cors', 'Content-Type': 'application/json' };
-    fetch(`${GITHUB_URL.trim()}/status`, request);
+    fetch(`${GHURL}/status`, request);
   }
 
   async call(httpMethod, path, payload) {
