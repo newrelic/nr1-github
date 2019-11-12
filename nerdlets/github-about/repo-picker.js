@@ -152,7 +152,8 @@ export default class RepoPicker extends React.Component {
     }
 
     let hasMatch = false;
-    const searchUrl = `${GITHUB_URL}/search?q=${this.getSearchQuery()}`;
+    const GHURL = GITHUB_URL.indexOf('api.github.com') == -1 ? GITHUB_URL.trim() : 'https://github.com'
+    const searchUrl = `${GHURL}/search?q=${this.getSearchQuery()}`;
     // limit to top 5 suggestions
     return (
       <>
