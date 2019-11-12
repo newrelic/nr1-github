@@ -4,8 +4,9 @@ module.exports = {
         "es6": true
     },
     "extends": [
-        "prettier",
-        "prettier/react",
+        'plugin:@newrelic/eslint-plugin-newrelic/react',
+        'plugin:@newrelic/eslint-plugin-newrelic/jest',
+        'plugin:@newrelic/eslint-plugin-newrelic/prettier'
     ],
     "globals": {
         "Atomics": "readonly",
