@@ -15,7 +15,7 @@
 
 
 # 2.1 vs. 2.0 - https://discuss.circleci.com/t/circleci-2-1-config-overview/26057
-#
+# 
 # Spec now includes:
 #   orbs
 #   commands
@@ -25,9 +25,9 @@
 # Version 2.1 moves towards a single version at the top of the file vs. under workflow
 version: 2.1
 
-#
+# 
 # Configs
-#
+# 
 
 # The private ENV variable in CircleCI where we've stored the API key for deployment
 nr1-profile-env-name: &nr1-profile-env-name
@@ -40,11 +40,11 @@ nr1-nerdpack-uuid: &nr1-nerdpack-uuid
 
 # Channel we deploy to on pushes to master
 nr1-deploy-channel: &nr1-deploy-channel
-  STABLE
+  BETA
 
 # Channel we subscribe to on pushes to master
 nr1-subscribe-channel: &nr1-subscribe-channel
-  STABLE
+  BETA
 
 # Semantic release configs
 github-semantic-bot: &github-semantic-bot
@@ -53,12 +53,17 @@ github-semantic-bot: &github-semantic-bot
   GIT_COMMITTER_NAME: "@semantic-release-bot"
   GIT_COMMITTER_EMAIL: "opensource+nr1-github@newrelic.com"
 
+# Third Party generation configs
+third-party-bot: &third-party-bot
+  THIRD_PARTY_GIT_AUTHOR_NAME: "devfreddy"
+  THIRD_PARTY_GIT_AUTHOR_EMAIL: "mfrederick@newrelic.com"
+
 # Fingerprint for a Github repository write access deploy key
 # Required for
   # - commiting the incremented package.json version back to the repository
   # - auto-generated change logs from semantic-release
 deploy-key-fingerprint: &deploy-key-fingerprint
-  60:41:ba:cb:be:dd:a5:6a:af:5a:3e:6e:cf:e3:4d:41
+  49:7c:2d:20:aa:a1:58:53:40:45:30:a5:87:89:8b:09
 
 # Source code caching
 source-cache-key: &source-cache-key
@@ -78,9 +83,9 @@ npm-cache-keys: &npm-cache-keys
   - *npm-cache-key
   - *npm-backup-cache-key
 
-#
+# 
 # Orbs
-#
+# 
 orbs:
   snyk: snyk/snyk@0.0.8
 
@@ -106,10 +111,10 @@ executors:
     docker:
       - image: circleci/node:10-browsers
 
-#
+# 
 # Commands
-#
-commands:
+# 
+commands: 
   # Download and cache source code
   command-checkout-source:
     steps:
@@ -147,12 +152,17 @@ commands:
     steps:
       - run: npm install
 
-      - snyk/scan
-
       - save_cache:
           key: *npm-cache-key
           paths:
             - node_modules
+  
+  # Run separately from command-npm-install because we don't want to run this on pull requests. It requires a Snyk API token which is privately stored in ENV variables
+  # To expose we would have to open up _all_ env variables by turning on "Pass secrets to builds from forked pull requests" which we do NOT want to do
+  # Snyk is installed in our Github org and will scan the pull requests via that method
+  command-snyk-scan:
+    steps:
+      - snyk/scan
 
   command-restore-npm:
     steps:
@@ -171,7 +181,7 @@ commands:
       - run:
           name: "Install json cli tool"
           command: |
-            npm install -g json
+            sudo npm install -g json
 
   # TO DO - Cache or add to base docker image pre-installed
   command-install-nr1-cli:
@@ -188,8 +198,8 @@ commands:
       - run:
           name: "Install OSS CLI"
           command: |
-            npm install -g @newrelic/osscli
-
+            sudo npm install -g @newrelic/newrelic-oss-cli
+            
   # TO DO - Replace command-validate-nerdpack-schema and command-validate-opensource-files with the oss-cli
   # This will allow us to make changes at-will vs. updating dozens of config.yml's
   command-validate-nerdpack-schema:
@@ -233,7 +243,7 @@ commands:
                 echo "Found "${rootDir}$FILE
               fi
             done
-
+  
   command-deploy:
     steps:
       - run:
@@ -247,7 +257,7 @@ commands:
       - run:
           name: "Setting target UUID"
           command: |
-            json -I -f package.json -e 'this.nr1.uuid="${NR1_NERDPACK_UUID}"'
+            json -I -f package.json -e "this.nr1.uuid='${NR1_NERDPACK_UUID}'"
 
       - run:
           name: "Build"
@@ -273,11 +283,11 @@ commands:
           environment:
             NR1_SUBSCRIBE_CHANNEL: *nr1-subscribe-channel
 
-#
+# 
 # Jobs
-#
+# 
 jobs:
-  job-checkout-and-build:
+  job-checkout-and-build:    
     executor: node10browsers
 
     steps:
@@ -299,7 +309,7 @@ jobs:
       - command-install-nr1-cli
       - command-validate-nerdpack-schema
       - command-validate-opensource-files
-
+  
   # Requires project to be setup and configured with eslint-plugin-newrelic
   job-lint:
     executor: node10browsers
@@ -332,7 +342,7 @@ jobs:
       - command-restore-npm
       # We don't have tests yet, but we should
       - run: npm test
-
+  
   # TO DO - utilize our future oss-cli or a script to callout to github to generate a release utilizing the version in package.json
   job-generate-release:
     executor: node10browsers
@@ -342,10 +352,15 @@ jobs:
 
     steps:
       - command-restore-source
+
       # Necessary so github.com is a known host for when semantic-release interacts with git
       # TO DO - Replace with a smaller slice of the checkout command
       - command-checkout-source
       - command-restore-npm
+
+      # Double-check dependencies with snyk before we release and deploy
+      - command-snyk-scan
+
       - command-setup-ci-keys
 
       # https://semantic-release.gitbook.io/semantic-release/usage/plugins
@@ -355,9 +370,60 @@ jobs:
           command: |
             npx semantic-release
 
-  # TO DO - Profile keys (private env variables) & actual commands including adding --profile etc.
+  job-generate-third-party-notices:
+    executor: node10browsers
+
+    environment:
+      <<: *third-party-bot
+
+    steps:
+      - command-restore-source
+
+      # Necessary so github.com is a known host
+      # TO DO - Replace with a smaller slice of the checkout command or cache .ssh folder
+      - command-checkout-source
+
+      - command-restore-npm
+      - command-install-oss-cli
+      
+      - add_ssh_keys:
+          fingerprints:
+            - *deploy-key-fingerprint
+
+      - run:
+          name: Generate Third Party Notices
+          command: |
+            # latest commit
+            LATEST_COMMIT=$(git rev-parse HEAD)
+
+            # latest commit where package.json was changed
+            LAST_CHANGED_COMMIT=$(git log -1 --format=format:%H --full-diff package.json)
+
+            if [ $LAST_CHANGED_COMMIT = $LATEST_COMMIT ]; then
+              git config user.email "${THIRD_PARTY_GIT_AUTHOR_EMAIL}"
+              git config user.name "${THIRD_PARTY_GIT_AUTHOR_NAME}"
+
+              oss third-party manifest
+              oss third-party notices
+
+              git add third_party_manifest.json
+              git add THIRD_PARTY_NOTICES.md
+
+              # Removed [skip ci] because we need to re-trigger the release workflow for semantic-release which exits early when we check-in this file
+              # The local branch master is behind the remote one, therefore a new version won't be published
+              # https://github.com/semantic-release/semantic-release/issues/1208
+              git commit -m 'chore: update third-party manifest and notices'
+              git push origin ${CIRCLE_BRANCH}
+
+            else
+              echo "No change in package.json, not regenerating third-party notices"
+            fi
+
   job-deploy:
     executor: node10browsers
+
+    environment:
+      NR1_NERDPACK_UUID: *nr1-nerdpack-uuid
 
     steps:
       - command-restore-source
@@ -366,14 +432,20 @@ jobs:
       - command-install-nr1-cli
       - command-deploy
 
-    environment:
-      NR1_NERDPACK_UUID: *nr1-nerdpack-uuid
-
 workflows:
   # A merge or commit to the master branch
   release:
     jobs:
       - job-checkout-and-build:
+          filters:
+            branches:
+              only:
+                - master
+
+      - job-generate-third-party-notices:
+          requires:
+            - job-checkout-and-build
+
           filters:
             branches:
               only:
@@ -417,7 +489,7 @@ workflows:
             branches:
               ignore:
                 - master
-
+      
       - job-lint:
           requires:
             - job-checkout-and-build
