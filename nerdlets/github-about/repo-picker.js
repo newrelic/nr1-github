@@ -8,16 +8,16 @@ import Header from './header';
 
 export default class RepoPicker extends React.Component {
   static propTypes = {
-    repository: PropTypes.string,
-    onSetRepo: PropTypes.func,
+    userToken: PropTypes.string,
+    setRepo: PropTypes.func.isRequired,
     entity: PropTypes.object,
-    savedBy: PropTypes.object,
+    repoUrl: PropTypes.string
   };
 
   constructor(props) {
     super(props);
 
-    this.state = { value: props.repository || '', suggestions: null };
+    this.state = { suggestions: null };
   }
 
   componentDidMount() {
@@ -28,7 +28,7 @@ export default class RepoPicker extends React.Component {
     const prevEntityId = prevProps.entity && prevProps.entity.id;
     const enitityId = this.props.entity && this.props.entity.id;
 
-    if (prevEntityId != enitityId && this.props.entity) {
+    if (prevEntityId !== enitityId && this.props.entity) {
       this.loadSuggestions();
     }
   }
@@ -57,8 +57,9 @@ export default class RepoPicker extends React.Component {
   loadSuggestions() {
     const github = new Github(this.props.userToken);
 
-    const path =
-      'search/repositories?q=' + encodeURIComponent(this.getSearchQuery());
+    const path = `search/repositories?q=${encodeURIComponent(
+      this.getSearchQuery()
+    )}`;
     github.get(path).then(suggestions => {
       this.setState({ suggestions: suggestions.items });
     });
@@ -90,7 +91,7 @@ export default class RepoPicker extends React.Component {
           </a>
           <br />
           <small>
-            <a target="_blank" href={item.html_url}>
+            <a target="_blank" href={item.html_url} rel="noopener noreferrer">
               {item.html_url}
             </a>
           </small>
@@ -110,7 +111,7 @@ export default class RepoPicker extends React.Component {
 
   renderCustomUrlRow(hasMatch) {
     const { setRepo, repoUrl } = this.props;
-    let { customRepo } = this.state;
+    const { customRepo } = this.state;
 
     return (
       <tr>
@@ -136,55 +137,61 @@ export default class RepoPicker extends React.Component {
       </tr>
     );
   }
+
   renderSuggestions() {
     const { suggestions } = this.state;
     const { repoUrl, entity } = this.props;
-    if (!suggestions || suggestions.length == 0 || !entity || !entity.name) {
+    if (!suggestions || suggestions.length === 0 || !entity || !entity.name) {
       return (
-        <React.Fragment>
+        <>
           <Header />
           <table style={{ width: '100%', marginTop: '16px' }}>
-          <tbody>
-            <tr>
-              <td colspan="2">
-                <p>
-                  We couldn't find a reposity to recommend that matches your entity.
-                </p>
-              </td>
-            </tr>
-            {this.renderCustomUrlRow()}
-          </tbody>
+            <tbody>
+              <tr>
+                <td colSpan="2">
+                  <p>
+                    We couldn't find a reposity to recommend that matches your
+                    entity.
+                  </p>
+                </td>
+              </tr>
+              {this.renderCustomUrlRow()}
+            </tbody>
           </table>
-        </React.Fragment>
+        </>
       );
     }
 
     let hasMatch = false;
-    const GHURL = GITHUB_URL.indexOf('api.github.com') == -1 ? GITHUB_URL.trim() : 'https://github.com'
+    const GHURL =
+      GITHUB_URL.indexOf('api.github.com') === -1
+        ? GITHUB_URL.trim()
+        : 'https://github.com';
     const searchUrl = `${GHURL}/search?q=${this.getSearchQuery()}`;
     // limit to top 5 suggestions
     return (
-      <React.Fragment>
+      <>
         <Header />
         <h2>Select a Repository</h2>
         <p>
           We've&#160;
-          <a href={searchUrl} target="_blank">
+          <a href={searchUrl} target="_blank" rel="noopener noreferrer">
             searched GitHub
-          </a>&#160;
-          for a repository matching <strong>{entity.name}</strong> and have come up with these suggestions.
+          </a>
+          &#160; for a repository matching <strong>{entity.name}</strong> and
+          have come up with these suggestions.
         </p>
         <table style={{ width: '100%', marginTop: '16px' }}>
           <tbody>
             {suggestions.slice(0, 8).map(item => {
-              const isSelected = item.html_url == repoUrl;
+              const isSelected = item.html_url === repoUrl;
               hasMatch = hasMatch || isSelected;
               return this.renderSuggestion(item, isSelected);
             })}
             {this.renderCustomUrlRow(hasMatch)}
           </tbody>
         </table>
-      </React.Fragment>
+      </>
     );
   }
 

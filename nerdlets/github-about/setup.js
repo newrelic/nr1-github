@@ -1,19 +1,32 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import GITHUB_URL from '../../CONFIGURE_ME';
 import { TextField, Button, Stack, StackItem, Grid, GridItem } from 'nr1';
 
 export default class Setup extends React.PureComponent {
+  static propTypes = {
+    setUserToken: PropTypes.func.isRequired,
+    userToken: PropTypes.string
+  };
+
   renderUserTokenInput() {
     const { userToken } = this.state || {};
     const { setUserToken } = this.props;
-    const GHURL = GITHUB_URL.indexOf('api.github.com') == -1 ? GITHUB_URL.trim() : 'https://github.com'
+    const GHURL =
+      GITHUB_URL.indexOf('api.github.com') === -1
+        ? GITHUB_URL.trim()
+        : 'https://github.com';
     return (
       <StackItem>
         <h3>Personal Access Token</h3>
         <p>
           To get started,{' '}
-          <a href={`${GHURL}/settings/tokens`} target="_blank">
+          <a
+            href={`${GHURL}/settings/tokens`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             generate a personal access token
           </a>{' '}
           for your GitHub account. You don't need to give the token any special
@@ -25,15 +38,15 @@ export default class Setup extends React.PureComponent {
               autofocus
               label="GitHub Token"
               placeholder="Paste your user token here"
-              onChange={({ target }) =>
-                this.setState({ userToken: target.value })
-              }
+              onChange={({ target }) => {
+                this.setState({ userToken: target.value }); // eslint-disable-line react/no-unused-state
+              }}
             />
           </StackItem>
           <StackItem>
             <Button
               onClick={() => setUserToken(userToken)}
-              disabled={!userToken || userToken.length != 40}
+              disabled={!userToken || userToken.length !== 40}
               type="primary"
             >
               Set Your GitHub Token
@@ -51,13 +64,20 @@ export default class Setup extends React.PureComponent {
 
   renderDeleteUserToken() {
     const { setUserToken } = this.props;
-    const GHURL = GITHUB_URL.indexOf('api.github.com') == -1 ? GITHUB_URL.trim() : 'https://github.com'
+    const GHURL =
+      GITHUB_URL.indexOf('api.github.com') === -1
+        ? GITHUB_URL.trim()
+        : 'https://github.com';
     return (
       <StackItem>
         <h3>Personal Access Token</h3>
         <p>
           You have provided a GitHub personal access token, which you can{' '}
-          <a href={`${GHURL}/settings/tokens`} target="_blank">
+          <a
+            href={`${GHURL}/settings/tokens`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             delete from GitHub
           </a>
           . You can also delete your token from New Relic's secure storage.

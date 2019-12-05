@@ -1,3 +1,5 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import GitHubLogo from '../../assets/github-logo.svg';
 import { Stack, StackItem } from 'nr1';
 
@@ -14,7 +16,12 @@ export default function Header({ repoUrl }) {
         </StackItem>
         <StackItem className="repo-link-stack">
           {repoUrl && (
-            <a href={repoUrl} target="_blank" className="repo-link">
+            <a
+              href={repoUrl}
+              target="_blank"
+              className="repo-link"
+              rel="noopener noreferrer"
+            >
               {repoUrl}
             </a>
           )}
@@ -23,3 +30,7 @@ export default function Header({ repoUrl }) {
     </div>
   );
 }
+
+Header.propTypes = {
+  repoUrl: PropTypes.string
+};
