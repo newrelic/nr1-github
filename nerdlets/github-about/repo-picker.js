@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import GITHUB_URL from '../../CONFIGURE_ME';
-import { Button, Stack, StackItem, TextField } from 'nr1';
+import { Button, Stack, StackItem, TextField, Spinner } from 'nr1';
 import Github from './github';
+import Header from './header';
 
 export default class RepoPicker extends React.Component {
   static propTypes = {
@@ -120,7 +121,7 @@ export default class RepoPicker extends React.Component {
             onChange={event =>
               this.setState({ customRepo: event.target.value })
             }
-            label="If you don't see it here, provide your own repository URL"
+            label="Provide your own repository URL"
           />
         </td>
         <td>
@@ -137,17 +138,24 @@ export default class RepoPicker extends React.Component {
   }
   renderSuggestions() {
     const { suggestions } = this.state;
-    if (!suggestions) return '';
-
     const { repoUrl, entity } = this.props;
-    const cleanName = this.cleanEntityName();
-
-    if (suggestions.length == 0) {
+    if (!suggestions || suggestions.length == 0 || !entity || !entity.name) {
       return (
-        <p>
-          Couldn{"'"}t find a reposity matching {entity.name}. We searched on{' '}
-          <em>"{cleanName}"</em>.
-        </p>
+        <React.Fragment>
+          <Header />
+          <table style={{ width: '100%', marginTop: '16px' }}>
+          <tbody>
+            <tr>
+              <td colspan="2">
+                <p>
+                  We couldn't find a reposity to recommend that matches your entity.
+                </p>
+              </td>
+            </tr>
+            {this.renderCustomUrlRow()}
+          </tbody>
+          </table>
+        </React.Fragment>
       );
     }
 
@@ -156,15 +164,15 @@ export default class RepoPicker extends React.Component {
     const searchUrl = `${GHURL}/search?q=${this.getSearchQuery()}`;
     // limit to top 5 suggestions
     return (
-      <>
+      <React.Fragment>
+        <Header />
         <h2>Select a Repository</h2>
         <p>
-          We've{' '}
+          We've&#160;
           <a href={searchUrl} target="_blank">
             searched GitHub
-          </a>{' '}
-          for a repository matching <strong>{entity.name}</strong> and have come
-          up with these suggestions.
+          </a>&#160;
+          for a repository matching <strong>{entity.name}</strong> and have come up with these suggestions.
         </p>
         <table style={{ width: '100%', marginTop: '16px' }}>
           <tbody>
@@ -176,14 +184,14 @@ export default class RepoPicker extends React.Component {
             {this.renderCustomUrlRow(hasMatch)}
           </tbody>
         </table>
-      </>
+      </React.Fragment>
     );
   }
 
   render() {
     const { suggestions } = this.state;
 
-    if (!suggestions) return <div />;
+    if (!suggestions) return <Spinner fillContainer />;
 
     return (
       <Stack directionType="vertical" alignmentType="fill">
