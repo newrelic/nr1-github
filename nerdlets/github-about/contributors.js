@@ -4,10 +4,10 @@ import Github from './github';
 
 export default class Contributors extends React.Component {
   static propTypes = {
-    nr1: PropTypes.object,
+    userToken: PropTypes.string.isRequired,
     project: PropTypes.string,
     owner: PropTypes.string,
-    repository: PropTypes.string,
+    repository: PropTypes.string
   };
 
   componentDidMount() {
@@ -15,7 +15,7 @@ export default class Contributors extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.repository != this.props.repository) {
+    if (prevProps.repository !== this.props.repository) {
       this.load();
     }
   }
@@ -34,10 +34,10 @@ export default class Contributors extends React.Component {
             email: commitAuthor.email,
             mostRecentCommit: commitAuthor.date,
             name: commitAuthor.name,
-            commitCount: 0,
+            commitCount: 0
           };
         }
-        if (author.type == 'User') {
+        if (author.type === 'User') {
           const committer = committers[login];
           committer.commitCount += 1;
         }
@@ -55,27 +55,47 @@ export default class Contributors extends React.Component {
     const committers = {};
 
     let query = '';
-    for (let i = 0; i < 5; i++) {
-      let commitBatch = await github.get(path + query);
-      if (i > 0 && commitBatch) {
-        commitBatch = commitBatch.slice(1);
+    let commitBatch = null;
+    try {
+      for (let i = 0; i < 5; i++) {
+        commitBatch = await github.get(path + query);
+        // console.log(commitBatch);
+        if (i > 0 && commitBatch) {
+          commitBatch = commitBatch.slice(1);
+        }
+
+        if (commitBatch && commitBatch.length > 0) {
+          // subsequent batches include the last commit from the previous batch
+          this.processBatch(commitBatch, committers);
+          const lastCommit = commitBatch[commitBatch.length - 1];
+          query = `?sha=${lastCommit.sha}`;
+        }
       }
 
-      if (commitBatch && commitBatch.length > 0) {
-        // subsequent batches include the last commit from the previous batch
-        this.processBatch(commitBatch, committers);
-        const lastCommit = commitBatch[commitBatch.length - 1];
-        query = '?sha=' + lastCommit.sha;
-      }
+      const committerList = Object.values(committers).sort(
+        (x, y) => y.commitCount - x.commitCount
+      );
+      this.setState({ committers: committerList });
+    } catch (e) {
+      this.setState({
+        error:
+          commitBatch && commitBatch.message
+            ? commitBatch.message
+            : 'unknown error'
+      });
+      console.error(e); // eslint-disable-line no-console
     }
-
-    const committerList = Object.values(committers).sort(
-      (x, y) => y.commitCount - x.commitCount
-    );
-    this.setState({ committers: committerList });
   }
 
   render() {
+    if (this.state && this.state.error) {
+      return (
+        <>
+          <h2>An error occurred:</h2>
+          <p>{this.state.error}</p>
+        </>
+      );
+    }
     if (!this.state || !this.state.committers) {
       return 'Loading Committers...';
     }

@@ -7,7 +7,7 @@ import {
   Button,
   NerdGraphQuery,
   UserStorageMutation,
-  EntityStorageMutation,
+  EntityStorageMutation
 } from 'nr1';
 import { get } from 'lodash';
 
@@ -34,7 +34,7 @@ function timeout(ms, promise) {
 export default class GithubAbout extends React.Component {
   static propTypes = {
     nerdletUrlState: PropTypes.object,
-    launcherUrlState: PropTypes.object,
+    launcherUrlState: PropTypes.object
   };
 
   constructor(props) {
@@ -66,7 +66,7 @@ export default class GithubAbout extends React.Component {
     }`;
 
     const { data } = await NerdGraphQuery.query({ query });
-    //console.debug(data); //eslint-disable-line
+    // console.debug([query, data]); //eslint-disable-line
     const userToken = get(data, 'actor.nerdStorage.userToken.userToken');
     const repoUrl = get(data, 'actor.entity.nerdStorage.repoUrl.repoUrl');
     const { user, entity } = data.actor;
@@ -82,7 +82,7 @@ export default class GithubAbout extends React.Component {
         this.setState({ githubAccessError: null });
       })
       .catch(err => {
-        console.log('Failed to connect to github', err);
+        console.log('Failed to connect to github', err); // eslint-disable-line no-console
         this.setState({ githubAccessError: err });
       });
   }
@@ -92,7 +92,7 @@ export default class GithubAbout extends React.Component {
       actionType: UserStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
       collection: 'global',
       documentId: 'userToken',
-      document: { userToken },
+      document: { userToken }
     };
     UserStorageMutation.mutate(mutation);
     this.setState({ userToken });
@@ -105,7 +105,7 @@ export default class GithubAbout extends React.Component {
       collection: 'global',
       entityGuid,
       documentId: 'repoUrl',
-      document: { repoUrl },
+      document: { repoUrl }
     };
 
     EntityStorageMutation.mutate(mutation);
@@ -114,7 +114,9 @@ export default class GithubAbout extends React.Component {
 
   renderTabs() {
     const { repoUrl } = this.state;
-    var path, owner, project;
+    let path;
+    let owner;
+    let project;
     try {
       const url = new URL(repoUrl);
       path = url.pathname.slice(1);
@@ -122,10 +124,10 @@ export default class GithubAbout extends React.Component {
       owner = split[0];
       project = split[1];
     } catch (e) {
-      // eslint-disable-next-line
-      console.error("Error parsing repository URL", repoUrl, e)
+      // eslint-disable-next-line no-console
+      console.error('Error parsing repository URL', repoUrl, e);
     }
-
+    // console.log([repoUrl, path, owner, project]);
     return (
       <div className="container">
         <Header repoUrl={repoUrl} />
@@ -162,15 +164,15 @@ export default class GithubAbout extends React.Component {
   }
 
   renderGithubAccessError() {
-    const GHURL = GITHUB_URL.trim()
+    const GHURL = GITHUB_URL.trim();
     return (
       <div className="root">
         <div className="container">
           <Header />
           <h2>Error accessing GitHub</h2>
           <p>
-            There was an error connecting to <a href={GHURL}>{GHURL}</a>
-            . The typical fix for this will be to login to your VPN.
+            There was an error connecting to <a href={GHURL}>{GHURL}</a>. The
+            typical fix for this will be to login to your VPN.
           </p>
           <Button
             iconType="interface_operations_refresh"

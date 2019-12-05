@@ -15,30 +15,33 @@ export default class GitHub {
 
   async call(httpMethod, path, payload) {
     const GHURL = GITHUB_URL.trim();
-    const url = GHURL.indexOf('api.github.com') == -1 ? `${GHURL}/api/v3/${path}` : `${GHURL}/${path}`;
+    const url =
+      GHURL.indexOf('api.github.com') === -1
+        ? `${GHURL}/api/v3/${path}`
+        : `${GHURL}/${path}`;
     const options = {
       method: httpMethod,
-      //mode: 'no-cors',
+      // mode: 'no-cors',
       headers: {
-        'Accept': 'application/json',
-        //'Access-Control-Allow-Origin': '*',
+        Accept: 'application/json',
+        // 'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
-        'Authorization': `token ${this.token}`,
-      },
+        Authorization: `token ${this.token}`
+      }
     };
     if (payload) {
       options.body = JSON.stringify(payload);
     }
     const response = await fetch(url, options);
-    //console.debug(response);
-    return await response.json();
+    // console.debug(response);
+    return response.json();
   }
 
   async get(path) {
-    return await this.call('GET', path);
+    return this.call('GET', path);
   }
 
   async post(path, payload) {
-    return await this.call('POST', path, payload);
+    return this.call('POST', path, payload);
   }
 }

@@ -6,10 +6,10 @@ import Github from './github';
 
 export default class ReadMe extends React.Component {
   static propTypes = {
-    nr1: PropTypes.object,
     owner: PropTypes.string,
-    project: PropTypes.string,
-    repository: PropTypes.string,
+    userToken: PropTypes.string,
+    repoUrl: PropTypes.string,
+    project: PropTypes.string
   };
 
   componentDidMount() {
@@ -17,7 +17,7 @@ export default class ReadMe extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.repoUrl != this.props.repoUrl) {
+    if (prevProps.repoUrl !== this.props.repoUrl) {
       this.load();
     }
   }
@@ -28,7 +28,7 @@ export default class ReadMe extends React.Component {
     const path = `repos/${owner}/${project}/readme`;
     github.get(path).then(response => {
       const readme = atob(response.content);
-      this.setState({ readme });
+      this.setState({ readme }); // eslint-disable-line react/no-unused-state
     });
   }
 
