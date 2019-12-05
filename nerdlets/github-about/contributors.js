@@ -55,27 +55,43 @@ export default class Contributors extends React.Component {
     const committers = {};
 
     let query = '';
-    for (let i = 0; i < 5; i++) {
-      let commitBatch = await github.get(path + query);
-      if (i > 0 && commitBatch) {
-        commitBatch = commitBatch.slice(1);
+    let commitBatch = null;
+    try {
+      for (let i = 0; i < 5; i++) {
+        commitBatch= await github.get(path + query);
+        if (commitBatch && commitBatch.message) {
+
+        }
+        //console.log(commitBatch);
+        if (i > 0 && commitBatch) {
+          commitBatch = commitBatch.slice(1);
+        }
+
+        if (commitBatch && commitBatch.length > 0) {
+          // subsequent batches include the last commit from the previous batch
+          this.processBatch(commitBatch, committers);
+          const lastCommit = commitBatch[commitBatch.length - 1];
+          query = `?sha=${lastCommit.sha}`;
+        }
       }
 
-      if (commitBatch && commitBatch.length > 0) {
-        // subsequent batches include the last commit from the previous batch
-        this.processBatch(commitBatch, committers);
-        const lastCommit = commitBatch[commitBatch.length - 1];
-        query = `?sha=${lastCommit.sha}`;
-      }
+      const committerList = Object.values(committers).sort(
+        (x, y) => y.commitCount - x.commitCount
+      );
+      this.setState({ committers: committerList });
+    } catch (e) {
+      this.setState({ error: commitBatch && commitBatch.message ? commitBatch.message : "unknown error" });
+      console.error(e); //eslint-disable-line no-console
     }
-
-    const committerList = Object.values(committers).sort(
-      (x, y) => y.commitCount - x.commitCount
-    );
-    this.setState({ committers: committerList });
   }
 
   render() {
+    if (this.state && this.state.error) {
+      return <React.Fragment>
+        <h2>An error occurred:</h2>
+        <p>{this.state.error}</p>
+      </React.Fragment>
+    }
     if (!this.state || !this.state.committers) {
       return 'Loading Committers...';
     }

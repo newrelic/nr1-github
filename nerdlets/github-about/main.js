@@ -127,7 +127,7 @@ export default class GithubAbout extends React.Component {
       // eslint-disable-next-line no-console
       console.error('Error parsing repository URL', repoUrl, e);
     }
-
+    //console.log([repoUrl, path, owner, project]);
     return (
       <div className="container">
         <Header repoUrl={repoUrl} />
