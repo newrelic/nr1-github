@@ -1,3 +1,11 @@
+## [0.3.1](https://github.com/newrelic/nr1-github/compare/v0.3.0...v0.3.1) (2019-12-05)
+
+
+### Bug Fixes
+
+* closes [#20](https://github.com/newrelic/nr1-github/issues/20). Bump version. ([355d709](https://github.com/newrelic/nr1-github/commit/355d709d3a5232fbec19196b5de1aa47ff341cd9))
+* when the repo does not return contributor data, handle the exception case. ([a47cd95](https://github.com/newrelic/nr1-github/commit/a47cd95c05eab9e75418dc867b8d3459b906b82a))
+
 # [0.3.0](https://github.com/newrelic/nr1-github/compare/v0.2.2...v0.3.0) (2019-11-14)
 
 
