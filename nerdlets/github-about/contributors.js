@@ -58,11 +58,8 @@ export default class Contributors extends React.Component {
     let commitBatch = null;
     try {
       for (let i = 0; i < 5; i++) {
-        commitBatch= await github.get(path + query);
-        if (commitBatch && commitBatch.message) {
-
-        }
-        //console.log(commitBatch);
+        commitBatch = await github.get(path + query);
+        // console.log(commitBatch);
         if (i > 0 && commitBatch) {
           commitBatch = commitBatch.slice(1);
         }
@@ -80,17 +77,24 @@ export default class Contributors extends React.Component {
       );
       this.setState({ committers: committerList });
     } catch (e) {
-      this.setState({ error: commitBatch && commitBatch.message ? commitBatch.message : "unknown error" });
-      console.error(e); //eslint-disable-line no-console
+      this.setState({
+        error:
+          commitBatch && commitBatch.message
+            ? commitBatch.message
+            : 'unknown error'
+      });
+      console.error(e); // eslint-disable-line no-console
     }
   }
 
   render() {
     if (this.state && this.state.error) {
-      return <React.Fragment>
-        <h2>An error occurred:</h2>
-        <p>{this.state.error}</p>
-      </React.Fragment>
+      return (
+        <>
+          <h2>An error occurred:</h2>
+          <p>{this.state.error}</p>
+        </>
+      );
     }
     if (!this.state || !this.state.committers) {
       return 'Loading Committers...';
