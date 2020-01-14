@@ -4,18 +4,30 @@ import Github from './github';
 
 export default class Contributors extends React.Component {
   static propTypes = {
+    githubUrl: PropTypes.string,
+    isSetup: PropTypes.bool,
     userToken: PropTypes.string.isRequired,
     project: PropTypes.string,
     owner: PropTypes.string,
     repository: PropTypes.string
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      error: null
+    };
+  }
+
   componentDidMount() {
     this.load();
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.repository !== this.props.repository) {
+    if (
+      prevProps.repository !== this.props.repository ||
+      (!prevProps.isSetup && this.props.isSetup)
+    ) {
       this.load();
     }
   }
@@ -47,10 +59,21 @@ export default class Contributors extends React.Component {
 
   async load() {
     this.setState({ committers: null });
+    const { githubUrl, isSetup, owner, project, userToken } = this.props;
 
-    const { owner, project, userToken } = this.props;
-    const github = new Github(userToken);
+    if (!isSetup) {
+      return;
+    }
+
+    const github = new Github({ userToken, githubUrl });
     const path = `repos/${owner}/${project}/commits`;
+
+    // Bad url
+    if (path.indexOf('//') > 0) {
+      const error = new Error(`Bad repository url: ${path}`);
+      this.setState({ error: error.message });
+      return;
+    }
 
     const committers = {};
 
@@ -88,15 +111,18 @@ export default class Contributors extends React.Component {
   }
 
   render() {
-    if (this.state && this.state.error) {
+    const { error, committers } = this.state;
+
+    if (error) {
       return (
         <>
           <h2>An error occurred:</h2>
-          <p>{this.state.error}</p>
+          <p>{error}</p>
         </>
       );
     }
-    if (!this.state || !this.state.committers) {
+
+    if (!committers) {
       return 'Loading Committers...';
     }
 
@@ -113,7 +139,7 @@ export default class Contributors extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.committers.map(committer => {
+            {committers.map(committer => {
               return (
                 <tr key={committer.login}>
                   <td>{committer.name}</td>

@@ -14,8 +14,8 @@ export default function Header({ repoUrl }) {
         <StackItem>
           <img src={GitHubLogo} className="github-logo" />
         </StackItem>
-        <StackItem className="repo-link-stack">
-          {repoUrl && (
+        {repoUrl && (
+          <StackItem className="repo-link-stack">
             <a
               href={repoUrl}
               target="_blank"
@@ -24,8 +24,8 @@ export default function Header({ repoUrl }) {
             >
               {repoUrl}
             </a>
-          )}
-        </StackItem>
+          </StackItem>
+        )}
       </Stack>
     </div>
   );

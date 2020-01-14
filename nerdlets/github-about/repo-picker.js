@@ -8,6 +8,8 @@ import Header from './header';
 
 export default class RepoPicker extends React.Component {
   static propTypes = {
+    githubUrl: PropTypes.string,
+    isSetup: PropTypes.bool,
     userToken: PropTypes.string,
     setRepo: PropTypes.func.isRequired,
     entity: PropTypes.object,
@@ -17,7 +19,10 @@ export default class RepoPicker extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { suggestions: null };
+    this.state = {
+      suggestions: null,
+      error: null
+    };
   }
 
   componentDidMount() {
@@ -28,7 +33,10 @@ export default class RepoPicker extends React.Component {
     const prevEntityId = prevProps.entity && prevProps.entity.id;
     const enitityId = this.props.entity && this.props.entity.id;
 
-    if (prevEntityId !== enitityId && this.props.entity) {
+    if (
+      (prevEntityId !== enitityId && this.props.entity) ||
+      (!prevProps.isSetup && this.props.isSetup)
+    ) {
       this.loadSuggestions();
     }
   }
@@ -55,13 +63,23 @@ export default class RepoPicker extends React.Component {
   }
 
   loadSuggestions() {
-    const github = new Github(this.props.userToken);
+    const { isSetup, userToken, githubUrl } = this.props;
+
+    if (!isSetup) {
+      return;
+    }
+
+    const github = new Github({ userToken, githubUrl });
 
     const path = `search/repositories?q=${encodeURIComponent(
       this.getSearchQuery()
     )}`;
+
     github.get(path).then(suggestions => {
-      this.setState({ suggestions: suggestions.items });
+      if (suggestions.items && suggestions.items.length > 0) {
+        this.setState({ suggestions: suggestions.items });
+      }
+      this.setState({ error: 'Error fetching suggestions' });
     });
   }
 
@@ -140,7 +158,12 @@ export default class RepoPicker extends React.Component {
 
   renderSuggestions() {
     const { suggestions } = this.state;
-    const { repoUrl, entity } = this.props;
+    const { isSetup, repoUrl, entity } = this.props;
+
+    if (!isSetup) {
+      return;
+    }
+
     if (!suggestions || suggestions.length === 0 || !entity || !entity.name) {
       return (
         <>
@@ -196,9 +219,20 @@ export default class RepoPicker extends React.Component {
   }
 
   render() {
-    const { suggestions } = this.state;
+    const { error, suggestions } = this.state;
 
-    if (!suggestions) return <Spinner fillContainer />;
+    console.debug(error);
+
+    if (!suggestions && error === null) return <Spinner fillContainer />;
+
+    if (error) {
+      return (
+        <>
+          <h2>An error occurred:</h2>
+          <p>{error}</p>
+        </>
+      );
+    }
 
     return (
       <Stack directionType="vertical" alignmentType="fill">
