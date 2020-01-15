@@ -9,7 +9,7 @@ export default class Contributors extends React.Component {
     userToken: PropTypes.string,
     project: PropTypes.string,
     owner: PropTypes.string,
-    repository: PropTypes.string
+    repoUrl: PropTypes.string
   };
 
   constructor(props) {
@@ -25,7 +25,7 @@ export default class Contributors extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (
-      prevProps.repository !== this.props.repository ||
+      prevProps.repoUrl !== this.props.repoUrl ||
       (!prevProps.isSetup && this.props.isSetup)
     ) {
       this.load();
