@@ -56,7 +56,11 @@ export default class Setup extends React.PureComponent {
           for your GitHub account. You don't need to give the token any special
           access scopes.
         </p>
-        <Stack fullWidth verticalType={Stack.VERTICAL_TYPE.BOTTOM} className="integration-input-container">
+        <Stack
+          fullWidth
+          verticalType={Stack.VERTICAL_TYPE.BOTTOM}
+          className="integration-input-container"
+        >
           <StackItem grow>
             <TextField
               autofocus
@@ -139,7 +143,11 @@ export default class Setup extends React.PureComponent {
               <a href="https://github.com">https://github.com</a> or it could be
               a private GitHub enterprise instance.
             </p>
-            <Stack fullWidth verticalType={Stack.VERTICAL_TYPE.BOTTOM} className="integration-input-container">
+            <Stack
+              fullWidth
+              verticalType={Stack.VERTICAL_TYPE.BOTTOM}
+              className="integration-input-container"
+            >
               <StackItem grow>
                 <TextField
                   autofocus
