@@ -55,7 +55,7 @@ export default class ReadMe extends React.Component {
 
     github.get(path).then(response => {
       const readme = atob(response.content);
-      this.setState({ readme });
+      this.setState({ error: null, readme });
     });
   }
 

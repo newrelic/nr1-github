@@ -98,7 +98,7 @@ export default class Contributors extends React.Component {
       const committerList = Object.values(committers).sort(
         (x, y) => y.commitCount - x.commitCount
       );
-      this.setState({ committers: committerList });
+      this.setState({ error: null, committers: committerList });
     } catch (e) {
       this.setState({
         error:
