@@ -42,7 +42,7 @@ export default class Setup extends React.PureComponent {
     const { setUserToken } = this.props;
     const GHURL = this._getGithubUrl();
     return (
-      <StackItem>
+      <StackItem className="integration-step-container">
         <h2>2. Personal Access Token</h2>
         <p>
           To get started,{' '}
@@ -56,7 +56,7 @@ export default class Setup extends React.PureComponent {
           for your GitHub account. You don't need to give the token any special
           access scopes.
         </p>
-        <Stack alignmentType="center">
+        <Stack fullWidth verticalType={Stack.VERTICAL_TYPE.BOTTOM} className="integration-input-container">
           <StackItem grow>
             <TextField
               autofocus
@@ -77,11 +77,11 @@ export default class Setup extends React.PureComponent {
             </Button>
           </StackItem>
         </Stack>
-        <p>
+        <small>
           <strong>Remember</strong> if using a private github repository, be
           sure you are connected to your organization's private network to
           access it.
-        </p>
+        </small>
       </StackItem>
     );
   }
@@ -131,7 +131,7 @@ export default class Setup extends React.PureComponent {
           Answer these questions and more with this GitHub integration!
         </p>
         <Stack alignmentType="center">
-          <StackItem>
+          <StackItem className="integration-step-container">
             <h2>1. First Things First.</h2>
             <p>
               Let's get you started! Set up this Nerdpack by configuring your
@@ -139,24 +139,28 @@ export default class Setup extends React.PureComponent {
               <a href="https://github.com">https://github.com</a> or it could be
               a private GitHub enterprise instance.
             </p>
-            <TextField
-              autofocus
-              label="GitHub Url"
-              placeholder="Provide your Github instance URL"
-              onChange={({ target }) => {
-                this.setState({ githubUrl: target.value });
-              }}
-              value={githubUrl}
-            />
-          </StackItem>
-          <StackItem>
-            <Button
-              onClick={() => setGithubUrl(githubUrl)}
-              disabled={!githubUrl}
-              type="primary"
-            >
-              Set Your GitHub URL
-            </Button>
+            <Stack fullWidth verticalType={Stack.VERTICAL_TYPE.BOTTOM} className="integration-input-container">
+              <StackItem grow>
+                <TextField
+                  autofocus
+                  label="GitHub Url"
+                  placeholder="Provide your Github instance URL"
+                  onChange={({ target }) => {
+                    this.setState({ githubUrl: target.value });
+                  }}
+                  value={githubUrl}
+                />
+              </StackItem>
+              <StackItem>
+                <Button
+                  onClick={() => setGithubUrl(githubUrl)}
+                  disabled={!githubUrl}
+                  type="primary"
+                >
+                  Set Your GitHub URL
+                </Button>
+              </StackItem>
+            </Stack>
           </StackItem>
         </Stack>
       </StackItem>

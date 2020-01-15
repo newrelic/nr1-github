@@ -126,3 +126,42 @@ ul[class*=Tabs-navigation] {
   padding: 0;
   box-shadow: none;
 }
+
+.integration-container {
+  h1, h2, h3, h4, h5 {
+    padding: 4px 0;
+    font-weight: 600;
+    color: #000d0d;
+  }
+
+  h2 {
+    font-size: 18px;
+    padding-bottom: 2px;
+  }
+
+  p {
+    font-size: 14px;
+    line-height: 22px;
+    color: #464e4e;
+    padding-bottom: 8px;
+  }
+
+  small {
+    display: block;
+    padding-top:8px;
+    font-size: 12px;
+    opacity: .5;
+    font-style: italic;
+  }
+}
+
+.integration-step-container {
+  margin-bottom: 2px;
+}
+
+.integration-input-container {
+  background-color:#f4f5f5;
+  padding: 8px 16px 16px;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
