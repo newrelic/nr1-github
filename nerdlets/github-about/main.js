@@ -48,6 +48,7 @@ export default class GithubAbout extends React.Component {
 
     this.state = {
       entity: null,
+      entityNotFound: null,
       accountId: null,
       githubUrl: null,
       visibleTab: null
@@ -96,7 +97,12 @@ export default class GithubAbout extends React.Component {
     const repoUrl = get(data, 'actor.entity.nerdStorage.repoUrl.repoUrl');
     const { user, entity } = data.actor;
 
-    this.setState({ user, entity, userToken, repoUrl });
+    if (entity === null) {
+      this.setState({ entityNotFound: true });
+      return;
+    }
+
+    this.setState({ user, entity, entityNotFound: null, userToken, repoUrl });
   }
 
   handleTabClick(tabName) {
@@ -302,11 +308,26 @@ export default class GithubAbout extends React.Component {
     );
   }
 
+  renderEntityNotFound() {
+    return (
+      <div className="root">
+        <div className="container">
+          <Header />
+          <h2>Entity not found for this Account</h2>
+        </div>
+      </div>
+    );
+  }
+
   render() {
-    const { githubAccessError, user } = this.state;
+    const { entityNotFound, githubAccessError, user } = this.state;
 
     if (githubAccessError) {
       return this.renderGithubAccessError();
+    }
+
+    if (entityNotFound) {
+      return this.renderEntityNotFound();
     }
 
     if (!user) {
