@@ -214,7 +214,8 @@ export default class GithubAbout extends React.Component {
 
   renderTabs() {
     const { entity, githubUrl, repoUrl, userToken, visibleTab } = this.state;
-    const isSetup = userToken !== null && githubUrl !== null;
+    const isSetup =
+      userToken !== null && userToken !== undefined && githubUrl !== null;
     const hasRepoUrl = repoUrl !== null && repoUrl !== '';
     const isDisabled = !isSetup || !hasRepoUrl;
     const { owner, project } = this.parseRepoUrl(repoUrl);
