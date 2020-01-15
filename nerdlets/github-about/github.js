@@ -38,6 +38,7 @@ export default class GitHub {
       const response = await fetch(url, options);
       return response.json();
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.debug(e);
       return e;
     }

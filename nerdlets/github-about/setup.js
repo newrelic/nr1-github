@@ -1,3 +1,4 @@
+/* eslint-disable react/no-did-update-set-state */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -6,53 +7,40 @@ import { TextField, Button, Stack, StackItem, Grid, GridItem } from 'nr1';
 export default class Setup extends React.PureComponent {
   static propTypes = {
     githubUrl: PropTypes.string,
+    setGithubUrl: PropTypes.func.isRequired,
     setUserToken: PropTypes.func.isRequired,
-    userToken: PropTypes.string,
-    onUpdate: PropTypes.func
+    userToken: PropTypes.string
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      accountSettings: {
-        githubUrl: props.githubUrl || ''
-      }
+      userToken: props.userToken || '',
+      githubUrl: props.githubUrl || ''
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.onUpdate = props.onUpdate.bind(this);
   }
 
-  handleChange({ field, value }) {
-    this.setState(previousState => {
-      const updatedSettings = {
-        ...previousState.accountSettings
-      };
-      updatedSettings[field] = value;
-
-      return {
-        ...previousState,
-        accountSettings: updatedSettings
-      };
-    });
+  componentDidUpdate(prevProps) {
+    const { githubUrl, userToken } = this.props;
+    if (prevProps.githubUrl !== githubUrl) {
+      this.setState({ githubUrl });
+    }
+    if (prevProps.userToken !== userToken) {
+      this.setState({ userToken });
+    }
   }
 
-  handleSubmit(e) {
-    const { onUpdate } = this.props;
-    const { accountSettings } = this.state;
-
-    e.preventDefault();
-    onUpdate({ accountSettings });
+  _getGithubUrl() {
+    const { githubUrl } = this.state;
+    return githubUrl && githubUrl.indexOf('api.github.com') === -1
+      ? githubUrl.trim()
+      : 'https://github.com';
   }
 
   renderUserTokenInput() {
-    const { userToken } = this.state || {};
-    const { githubUrl, setUserToken } = this.props;
-    const GHURL =
-      githubUrl.indexOf('api.github.com') === -1
-        ? githubUrl.trim()
-        : 'https://github.com';
+    const { userToken } = this.state;
+    const { setUserToken } = this.props;
+    const GHURL = this._getGithubUrl();
     return (
       <StackItem>
         <h2>2. Personal Access Token</h2>
@@ -75,7 +63,7 @@ export default class Setup extends React.PureComponent {
               label="GitHub Token"
               placeholder="Paste your user token here"
               onChange={({ target }) => {
-                this.setState({ userToken: target.value }); // eslint-disable-line react/no-unused-state
+                this.setState({ userToken: target.value });
               }}
             />
           </StackItem>
@@ -99,11 +87,8 @@ export default class Setup extends React.PureComponent {
   }
 
   renderDeleteUserToken() {
-    const { setUserToken, githubUrl } = this.props;
-    const GHURL =
-      githubUrl.indexOf('api.github.com') === -1
-        ? githubUrl.trim()
-        : 'https://github.com';
+    const { setUserToken } = this.props;
+    const GHURL = this._getGithubUrl();
     return (
       <StackItem>
         <h2>2. Personal Access Token</h2>
@@ -134,52 +119,57 @@ export default class Setup extends React.PureComponent {
     );
   }
 
+  renderGithubUrlInput() {
+    const { setGithubUrl } = this.props;
+    const { githubUrl } = this.state;
+
+    return (
+      <StackItem>
+        <h1>Integrate with GitHub</h1>
+        <p>
+          Ever wondered what a Service does, or who has been working on it?
+          Answer these questions and more with this GitHub integration!
+        </p>
+        <Stack alignmentType="center">
+          <StackItem>
+            <h2>1. First Things First.</h2>
+            <p>
+              Let's get you started! Set up this Nerdpack by configuring your
+              organization's GitHub URL. It could be the public{' '}
+              <a href="https://github.com">https://github.com</a> or it could be
+              a private GitHub enterprise instance.
+            </p>
+            <TextField
+              autofocus
+              label="GitHub Url"
+              placeholder="Provide your Github instance URL"
+              onChange={({ target }) => {
+                this.setState({ githubUrl: target.value });
+              }}
+              value={githubUrl}
+            />
+          </StackItem>
+          <StackItem>
+            <Button
+              onClick={() => setGithubUrl(githubUrl)}
+              disabled={!githubUrl}
+              type="primary"
+            >
+              Set Your GitHub URL
+            </Button>
+          </StackItem>
+        </Stack>
+      </StackItem>
+    );
+  }
+
   render() {
     const { userToken } = this.props;
     return (
       <Grid className="container integration-container">
         <GridItem columnSpan={8}>
           <Stack directionType="vertical" gapType={Stack.GAP_TYPE.EXTRA_LOOSE}>
-            <StackItem>
-              <h1>Integrate with GitHub</h1>
-              <p>
-                Ever wondered what a Service does, or who has been working on
-                it? Answer these questions and more with this GitHub
-                integration!
-              </p>
-              <Stack alignmentType="center">
-                <StackItem grow>
-                  <h2>1. First Things First.</h2>
-                  <p>
-                    Let's get you started! Set up this Nerdpack by configuring
-                    your organization's GitHub URL. It could be the public{' '}
-                    <a href="https://github.com">https://github.com</a> or it
-                    could be a private GitHub enterprise instance.
-                  </p>
-                  <TextField
-                    autofocus
-                    label="GitHub Url"
-                    placeholder="Provide your Github instance URL"
-                    onChange={e =>
-                      this.handleChange({
-                        field: 'githubUrl',
-                        value: e.target.value
-                      })
-                    }
-                  />
-                </StackItem>
-                <StackItem>
-                  <Button
-                    onClick={() => this.handleSubmit()}
-                    disabled={!userToken || userToken.length !== 40}
-                    type="primary"
-                  >
-                    Set Your GitHub URL
-                  </Button>
-                </StackItem>
-              </Stack>
-            </StackItem>
-
+            {this.renderGithubUrlInput()}
             {!userToken && this.renderUserTokenInput()}
             {userToken && this.renderDeleteUserToken()}
           </Stack>

@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import GITHUB_URL from '../../CONFIGURE_ME';
 import { Button, Stack, StackItem, TextField, Spinner } from 'nr1';
 import Github from './github';
 import Header from './header';
@@ -78,6 +76,7 @@ export default class RepoPicker extends React.Component {
     github.get(path).then(suggestions => {
       if (suggestions.items && suggestions.items.length > 0) {
         this.setState({ suggestions: suggestions.items });
+        return;
       }
       this.setState({ error: 'Error fetching suggestions' });
     });
@@ -158,7 +157,7 @@ export default class RepoPicker extends React.Component {
 
   renderSuggestions() {
     const { suggestions } = this.state;
-    const { isSetup, repoUrl, entity } = this.props;
+    const { isSetup, repoUrl, entity, githubUrl } = this.props;
 
     if (!isSetup) {
       return;
@@ -187,8 +186,8 @@ export default class RepoPicker extends React.Component {
 
     let hasMatch = false;
     const GHURL =
-      GITHUB_URL.indexOf('api.github.com') === -1
-        ? GITHUB_URL.trim()
+      githubUrl && githubUrl.indexOf('api.github.com') === -1
+        ? githubUrl.trim()
         : 'https://github.com';
     const searchUrl = `${GHURL}/search?q=${this.getSearchQuery()}`;
     // limit to top 5 suggestions
@@ -221,7 +220,7 @@ export default class RepoPicker extends React.Component {
   render() {
     const { error, suggestions } = this.state;
 
-    console.debug(error);
+    // console.debug(error);
 
     if (!suggestions && error === null) return <Spinner fillContainer />;
 

@@ -6,7 +6,7 @@ export default class Contributors extends React.Component {
   static propTypes = {
     githubUrl: PropTypes.string,
     isSetup: PropTypes.bool,
-    userToken: PropTypes.string.isRequired,
+    userToken: PropTypes.string,
     project: PropTypes.string,
     owner: PropTypes.string,
     repository: PropTypes.string

@@ -21,7 +21,6 @@ import RepoPicker from './repo-picker';
 import Readme from './readme';
 import Contributors from './contributors';
 import Header from './header';
-import ConfigureMe from './configure-me';
 
 // allows us to test the github url with a short timeout
 // https://stackoverflow.com/questions/46946380/fetch-api-request-timeout
@@ -36,8 +35,7 @@ function timeout(ms, promise) {
 
 export default class GithubAbout extends React.Component {
   static propTypes = {
-    nerdletUrlState: PropTypes.object,
-    launcherUrlState: PropTypes.object
+    nerdletUrlState: PropTypes.object
   };
 
   constructor(props) {
@@ -45,23 +43,22 @@ export default class GithubAbout extends React.Component {
 
     this._setUserToken = this._setUserToken.bind(this);
     this._setRepo = this._setRepo.bind(this);
-    this.handleTabClick = this.handleTabClick.bind(this);
     this._setGithubUrl = this._setGithubUrl.bind(this);
-    this.handleSettingsUpdate = this.handleSettingsUpdate.bind(this);
+    this.handleTabClick = this.handleTabClick.bind(this);
 
     this.state = {
       entity: null,
       accountId: null,
       githubUrl: null,
-      visibleTab: 'readme'
+      visibleTab: null
     };
   }
 
   async componentDidMount() {
     await this.fetchAccountFromEntity();
+    await this.fetchEntityData();
     await this._getGithubUrl();
     await this.checkGithubUrl();
-    await this.fetchEntityData();
   }
 
   async fetchAccountFromEntity() {
@@ -93,9 +90,8 @@ export default class GithubAbout extends React.Component {
         }
       }
     }`;
-    // await this._getGithubUrl();
+
     const { data } = await NerdGraphQuery.query({ query });
-    // console.debug([query, data]); //eslint-disable-line
     const userToken = get(data, 'actor.nerdStorage.userToken.userToken');
     const repoUrl = get(data, 'actor.entity.nerdStorage.repoUrl.repoUrl');
     const { user, entity } = data.actor;
@@ -107,12 +103,6 @@ export default class GithubAbout extends React.Component {
     this.setState({ visibleTab: tabName });
   }
 
-  async handleSettingsUpdate({ accountSettings }) {
-    const { githubUrl } = accountSettings;
-    await this._setGithubUrl(githubUrl);
-    this.setState({ githubUrl }, this.checkGithubUrl());
-  }
-
   async checkGithubUrl() {
     const { githubUrl } = this.state;
 
@@ -121,6 +111,7 @@ export default class GithubAbout extends React.Component {
     }
 
     const GHURL = githubUrl.trim();
+
     return timeout(1000, fetch(`${GHURL}/status`, { mode: 'no-cors' }))
       .then(() => {
         this.setState({ githubAccessError: null });
@@ -163,6 +154,7 @@ export default class GithubAbout extends React.Component {
     };
     await AccountStorageMutation.mutate(mutation);
     this.setState({ githubUrl });
+    await this.checkGithubUrl();
   }
 
   async _setUserToken(userToken) {
@@ -215,94 +207,75 @@ export default class GithubAbout extends React.Component {
   }
 
   renderTabs() {
-    const { githubUrl, repoUrl, userToken, visibleTab } = this.state;
+    const { entity, githubUrl, repoUrl, userToken, visibleTab } = this.state;
     const isSetup = userToken !== null && githubUrl !== null;
-    const { url, owner, project } = this.parseRepoUrl(repoUrl);
+    const hasRepoUrl = repoUrl !== null && repoUrl !== '';
+    const isDisabled = !isSetup || !hasRepoUrl;
+    const { owner, project } = this.parseRepoUrl(repoUrl);
+
+    const getTab = function() {
+      if (!isSetup) {
+        return 'setup';
+      }
+
+      if (isSetup && !visibleTab && !hasRepoUrl) {
+        return 'repository';
+      }
+
+      return visibleTab || 'readme';
+    };
 
     // console.log([repoUrl, owner, project]);
     return (
       <div className="container">
-        <Header repoUrl={url} />
-        <Tabs
-          className="tabs"
-          onChange={this.handleTabClick}
-          value={visibleTab}
-        >
-          <TabsItem value="readme" label="README.md" disabled={!isSetup}>
-            {isSetup && (
-              <Readme
-                isSetup={isSetup}
-                githubUrl={githubUrl}
-                {...this.state}
-                owner={owner}
-                project={project}
-              />
-            )}
+        <Header repoUrl={repoUrl} />
+        <Tabs className="tabs" onChange={this.handleTabClick} value={getTab()}>
+          <TabsItem value="readme" label="README.md" disabled={isDisabled}>
+            <Readme
+              isSetup={isSetup}
+              githubUrl={githubUrl}
+              repoUrl={repoUrl}
+              owner={owner}
+              project={project}
+              userToken={userToken}
+            />
           </TabsItem>
           <TabsItem
             value="contributors"
             label="Contributors"
-            disabled={!isSetup}
+            disabled={isDisabled}
           >
             <Contributors
               isSetup={isSetup}
               githubUrl={githubUrl}
-              {...this.state}
+              repoUrl={repoUrl}
               owner={owner}
               project={project}
+              userToken={userToken}
             />
           </TabsItem>
           <TabsItem value="repository" label="Repository" disabled={!isSetup}>
             <RepoPicker
               isSetup={isSetup}
               githubUrl={githubUrl}
-              {...this.state}
+              repoUrl={repoUrl}
               setRepo={this._setRepo}
+              userToken={userToken}
+              entity={entity}
             />
           </TabsItem>
           <TabsItem value="setup" label="Setup">
             <Setup
               githubUrl={githubUrl}
-              onUpdate={this.handleSettingsUpdate}
+              setGithubUrl={this._setGithubUrl}
               setUserToken={this._setUserToken}
+              userToken={userToken}
+              onError={this.onSetupErrors}
             />
-
-            {/* <Setup {...this.state} setUserToken={this._setUserToken} />
-            <ConfigureMe
-              githubUrl={githubUrl}
-              onUpdate={this.handleSettingsUpdate}
-            /> */}
-          </TabsItem>{' '}
+          </TabsItem>
         </Tabs>
       </div>
     );
-  }
-
-  renderContent() {
-    // const { githubUrl, repoUrl, userToken } = this.state;
-    // const isSetup = userToken && githubUrl;
-    // if (!githubUrl) {
-    //   return (
-    //     <ConfigureMe
-    //       githubUrl={githubUrl}
-    //       onUpdate={this.handleSettingsUpdate}
-    //     />
-    //   );
-    // }
-    // if (!userToken) {
-    //   return <Setup githubUrl={githubUrl} setUserToken={this._setUserToken} />;
-    // }
-    // return this.renderTabs();
-    // if (!isSetup) {
-    //   return this.renderTabs();
-    // }
-    // return (
-    //   <RepoPicker
-    //     {...this.state}
-    //     setRepo={this._setRepo}
-    //     setUserToken={this._setUserToken}
-    //   />
-    // );
   }
 
   renderGithubAccessError() {
