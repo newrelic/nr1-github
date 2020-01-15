@@ -16,7 +16,8 @@ export default class Setup extends React.PureComponent {
     super(props);
     this.state = {
       userToken: props.userToken || '',
-      githubUrl: props.githubUrl || ''
+      githubUrl: props.githubUrl || '',
+      isGithubEnterprise: true
     };
   }
 
@@ -24,6 +25,9 @@ export default class Setup extends React.PureComponent {
     const { githubUrl, userToken } = this.props;
     if (prevProps.githubUrl !== githubUrl) {
       this.setState({ githubUrl });
+      if (githubUrl.indexOf('api.github.com') >= 0) {
+        this.setState({ isGithubEnterprise: false });
+      }
     }
     if (prevProps.userToken !== userToken) {
       this.setState({ userToken });
@@ -125,7 +129,7 @@ export default class Setup extends React.PureComponent {
 
   renderGithubUrlInput() {
     const { setGithubUrl } = this.props;
-    const { githubUrl } = this.state;
+    const { isGithubEnterprise, githubUrl } = this.state;
 
     return (
       <StackItem>
@@ -143,6 +147,43 @@ export default class Setup extends React.PureComponent {
               <a href="https://github.com">https://github.com</a> or it could be
               a private GitHub enterprise instance.
             </p>
+            <Stack
+              gapType={Stack.GAP_TYPE.SMALL}
+              className="integration-github-type-selection"
+            >
+              <StackItem>
+                <Button
+                  sizeType={Button.SIZE_TYPE.LARGE}
+                  type={
+                    !isGithubEnterprise
+                      ? Button.TYPE.PRIMARY
+                      : Button.TYPE.NEUTRAL
+                  }
+                  onClick={() => {
+                    setGithubUrl('https://api.github.com');
+                    this.setState({ isGithubEnterprise: false });
+                  }}
+                >
+                  Public Github
+                </Button>
+              </StackItem>
+              <StackItem>
+                <Button
+                  sizeType={Button.SIZE_TYPE.LARGE}
+                  type={
+                    isGithubEnterprise
+                      ? Button.TYPE.PRIMARY
+                      : Button.TYPE.NEUTRAL
+                  }
+                  onClick={() => {
+                    setGithubUrl('');
+                    this.setState({ isGithubEnterprise: true });
+                  }}
+                >
+                  Github Enterprise
+                </Button>
+              </StackItem>
+            </Stack>
             <Stack
               fullWidth
               verticalType={Stack.VERTICAL_TYPE.BOTTOM}
@@ -162,8 +203,8 @@ export default class Setup extends React.PureComponent {
               <StackItem>
                 <Button
                   onClick={() => setGithubUrl(githubUrl)}
-                  disabled={!githubUrl}
-                  type="primary"
+                  disabled={!isGithubEnterprise || !githubUrl}
+                  type={Button.TYPE.PRIMARY}
                 >
                   Set Your GitHub URL
                 </Button>
