@@ -216,7 +216,8 @@ export default class GithubAbout extends React.Component {
     const { entity, githubUrl, repoUrl, userToken, visibleTab } = this.state;
     const isSetup =
       userToken !== null && userToken !== undefined && githubUrl !== null;
-    const hasRepoUrl = repoUrl !== null && repoUrl !== '';
+    const hasRepoUrl =
+      repoUrl !== null && repoUrl !== '' && repoUrl !== undefined;
     const isDisabled = !isSetup || !hasRepoUrl;
     const { owner, project } = this.parseRepoUrl(repoUrl);
 
