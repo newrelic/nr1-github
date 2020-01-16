@@ -1,3 +1,10 @@
+# [0.4.0](https://github.com/newrelic/nr1-github/compare/v0.3.1...v0.4.0) (2020-01-16)
+
+
+### Features
+
+* Account based GitHub URL configuration ([#23](https://github.com/newrelic/nr1-github/issues/23)) ([7e7d9d1](https://github.com/newrelic/nr1-github/commit/7e7d9d191dc1a9c4724024c51f6d22881f496c4c))
+
 ## [0.3.1](https://github.com/newrelic/nr1-github/compare/v0.3.0...v0.3.1) (2019-12-05)
 
 
