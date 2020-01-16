@@ -1,24 +1,24 @@
-import GITHUB_URL from '../../CONFIGURE_ME';
-
 export default class GitHub {
-  constructor(userToken) {
+  constructor({ userToken, githubUrl }) {
     this.token = userToken;
+    this.githubUrl = githubUrl;
   }
 
   // attempt to reach the github instance. Throw an execption
   // if it's not reachable (e.g. user is not on a VPN)
   static async ping() {
-    const GHURL = GITHUB_URL.trim();
+    const GHURL = this.githubUrl.trim();
     const request = { mode: 'no-cors', 'Content-Type': 'application/json' };
     fetch(`${GHURL}/status`, request);
   }
 
   async call(httpMethod, path, payload) {
-    const GHURL = GITHUB_URL.trim();
+    const GHURL = this.githubUrl.trim();
     const url =
-      GHURL.indexOf('api.github.com') === -1
-        ? `${GHURL}/api/v3/${path}`
-        : `${GHURL}/${path}`;
+      GHURL.indexOf('api.github.com') > 0
+        ? `${GHURL}/${path}` // github.com
+        : `${GHURL}/api/v3/${path}`; // GHE
+
     const options = {
       method: httpMethod,
       // mode: 'no-cors',
@@ -29,12 +29,19 @@ export default class GitHub {
         Authorization: `token ${this.token}`
       }
     };
+
     if (payload) {
       options.body = JSON.stringify(payload);
     }
-    const response = await fetch(url, options);
-    // console.debug(response);
-    return response.json();
+
+    try {
+      const response = await fetch(url, options);
+      return response.json();
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.debug(e);
+      return e;
+    }
   }
 
   async get(path) {
