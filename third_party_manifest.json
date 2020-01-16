@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "Tue Sep 17 2019 10:22:07 GMT-0400 (Eastern Daylight Time)",
+  "lastUpdated": "Thu Jan 16 2020 03:30:30 GMT+0000 (Coordinated Universal Time)",
   "projectName": "nr1-github",
   "projectUrl": "https://github.com/newrelic/nr1-github",
   "includeDev": true,
@@ -65,6 +65,44 @@
     }
   },
   "devDependencies": {
+    "@newrelic/eslint-plugin-newrelic@0.3.0": {
+      "name": "@newrelic/eslint-plugin-newrelic",
+      "version": "0.3.0",
+      "range": "^0.3.0",
+      "licenses": "Apache-2.0",
+      "repoUrl": "https://github.com/NewRelic/eslint-plugin-newrelic",
+      "versionedRepoUrl": "https://github.com/NewRelic/eslint-plugin-newrelic/tree/v0.3.0",
+      "licenseFile": "node_modules/@newrelic/eslint-plugin-newrelic/LICENSE",
+      "licenseUrl": "https://github.com/NewRelic/eslint-plugin-newrelic/blob/v0.3.0/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "New Relic"
+    },
+    "@semantic-release/changelog@3.0.5": {
+      "name": "@semantic-release/changelog",
+      "version": "3.0.5",
+      "range": "^3.0.5",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/semantic-release/changelog",
+      "versionedRepoUrl": "https://github.com/semantic-release/changelog/tree/v3.0.5",
+      "licenseFile": "node_modules/@semantic-release/changelog/LICENSE",
+      "licenseUrl": "https://github.com/semantic-release/changelog/blob/v3.0.5/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "Pierre Vanduynslager",
+      "url": "https://github.com/pvdlg"
+    },
+    "@semantic-release/git@7.0.18": {
+      "name": "@semantic-release/git",
+      "version": "7.0.18",
+      "range": "^7.0.18",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/semantic-release/git",
+      "versionedRepoUrl": "https://github.com/semantic-release/git/tree/v7.0.18",
+      "licenseFile": "node_modules/@semantic-release/git/LICENSE",
+      "licenseUrl": "https://github.com/semantic-release/git/blob/v7.0.18/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "Pierre Vanduynslager",
+      "url": "https://github.com/pvdlg"
+    },
     "babel-eslint@10.0.3": {
       "name": "babel-eslint",
       "version": "10.0.3",
@@ -78,65 +116,90 @@
       "publisher": "Sebastian McKenzie",
       "email": "sebmck@gmail.com"
     },
-    "eslint-config-prettier@6.2.0": {
+    "babel-runtime@6.26.0": {
+      "name": "babel-runtime",
+      "version": "6.26.0",
+      "range": "^6.26.0",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/babel/babel/tree/master/packages/babel-runtime",
+      "versionedRepoUrl": "https://github.com/babel/babel/tree/master/packages/babel-runtime/tree/v6.26.0",
+      "licenseFile": "node_modules/babel-runtime/README.md",
+      "licenseUrl": "https://github.com/babel/babel/tree/master/packages/babel-runtime/blob/v6.26.0/README.md",
+      "licenseTextSource": "spdx",
+      "publisher": "Sebastian McKenzie",
+      "email": "sebmck@gmail.com"
+    },
+    "eslint-config-prettier@6.5.0": {
       "name": "eslint-config-prettier",
-      "version": "6.2.0",
-      "range": "^6.2.0",
+      "version": "6.5.0",
+      "range": "^6.5.0",
       "licenses": "MIT",
       "repoUrl": "https://github.com/prettier/eslint-config-prettier",
-      "versionedRepoUrl": "https://github.com/prettier/eslint-config-prettier/tree/v6.2.0",
+      "versionedRepoUrl": "https://github.com/prettier/eslint-config-prettier/tree/v6.5.0",
       "licenseFile": "node_modules/eslint-config-prettier/LICENSE",
-      "licenseUrl": "https://github.com/prettier/eslint-config-prettier/blob/v6.2.0/LICENSE",
+      "licenseUrl": "https://github.com/prettier/eslint-config-prettier/blob/v6.5.0/LICENSE",
       "licenseTextSource": "file",
       "publisher": "Simon Lydell"
     },
-    "eslint-plugin-prettier@3.1.0": {
+    "eslint-plugin-prettier@3.1.1": {
       "name": "eslint-plugin-prettier",
-      "version": "3.1.0",
-      "range": "^3.1.0",
+      "version": "3.1.1",
+      "range": "^3.1.1",
       "licenses": "MIT",
       "repoUrl": "https://github.com/prettier/eslint-plugin-prettier",
-      "versionedRepoUrl": "https://github.com/prettier/eslint-plugin-prettier/tree/v3.1.0",
+      "versionedRepoUrl": "https://github.com/prettier/eslint-plugin-prettier/tree/v3.1.1",
       "licenseFile": "node_modules/eslint-plugin-prettier/LICENSE.md",
-      "licenseUrl": "https://github.com/prettier/eslint-plugin-prettier/blob/v3.1.0/LICENSE.md",
+      "licenseUrl": "https://github.com/prettier/eslint-plugin-prettier/blob/v3.1.1/LICENSE.md",
       "licenseTextSource": "file",
       "publisher": "Teddy Katz"
     },
-    "eslint-plugin-react@7.14.3": {
+    "eslint-plugin-react@7.16.0": {
       "name": "eslint-plugin-react",
-      "version": "7.14.3",
-      "range": "^7.14.3",
+      "version": "7.16.0",
+      "range": "^7.16.0",
       "licenses": "MIT",
       "repoUrl": "https://github.com/yannickcr/eslint-plugin-react",
-      "versionedRepoUrl": "https://github.com/yannickcr/eslint-plugin-react/tree/v7.14.3",
+      "versionedRepoUrl": "https://github.com/yannickcr/eslint-plugin-react/tree/v7.16.0",
       "licenseFile": "node_modules/eslint-plugin-react/LICENSE",
-      "licenseUrl": "https://github.com/yannickcr/eslint-plugin-react/blob/v7.14.3/LICENSE",
+      "licenseUrl": "https://github.com/yannickcr/eslint-plugin-react/blob/v7.16.0/LICENSE",
       "licenseTextSource": "file",
       "publisher": "Yannick Croissant",
       "email": "yannick.croissant+npm@gmail.com"
     },
-    "eslint@6.3.0": {
+    "eslint@6.6.0": {
       "name": "eslint",
-      "version": "6.3.0",
-      "range": "^6.3.0",
+      "version": "6.6.0",
+      "range": "^6.6.0",
       "licenses": "MIT",
       "repoUrl": "https://github.com/eslint/eslint",
-      "versionedRepoUrl": "https://github.com/eslint/eslint/tree/v6.3.0",
+      "versionedRepoUrl": "https://github.com/eslint/eslint/tree/v6.6.0",
       "licenseFile": "node_modules/eslint/LICENSE",
-      "licenseUrl": "https://github.com/eslint/eslint/blob/v6.3.0/LICENSE",
+      "licenseUrl": "https://github.com/eslint/eslint/blob/v6.6.0/LICENSE",
       "licenseTextSource": "file",
       "publisher": "Nicholas C. Zakas",
       "email": "nicholas+npm@nczconsulting.com"
     },
-    "prettier@1.18.2": {
+    "file-loader@4.2.0": {
+      "name": "file-loader",
+      "version": "4.2.0",
+      "range": "^4.2.0",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/webpack-contrib/file-loader",
+      "versionedRepoUrl": "https://github.com/webpack-contrib/file-loader/tree/v4.2.0",
+      "licenseFile": "node_modules/file-loader/LICENSE",
+      "licenseUrl": "https://github.com/webpack-contrib/file-loader/blob/v4.2.0/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "Tobias Koppers @sokra"
+    },
+    "prettier@1.19.1": {
       "name": "prettier",
-      "version": "1.18.2",
-      "range": "^1.18.2",
+      "version": "1.19.1",
+      "range": "^1.19.1",
       "licenses": "MIT",
       "repoUrl": "https://github.com/prettier/prettier",
-      "versionedRepoUrl": "https://github.com/prettier/prettier/tree/v1.18.2",
+      "versionedRepoUrl": "https://github.com/prettier/prettier/tree/v1.19.1",
       "licenseFile": "node_modules/prettier/LICENSE",
-      "licenseUrl": "https://github.com/prettier/prettier/blob/v1.18.2/LICENSE",
+      "licenseUrl": "https://github.com/prettier/prettier/blob/v1.19.1/LICENSE",
       "licenseTextSource": "file",
       "publisher": "James Long"
     }
