@@ -13,9 +13,5 @@
       "url": "https://discuss.newrelic.com/t/github-nerdpack/82932"
     }
   },
-  "whatsNew": "
-  \n- Fix: Update stats query to use correct timestamp value
-  \n- Feat: Use transaction count for sparkline rather then events returned count
-  \n- Fix: Improve performance and use timestamp as tracker
-  "
+  "whatsNew": "\n- Feat: Account based Github Url config\n- Feat: Smart tabs and consolidated configuration screen\n- Fix: Entity not on this account explanation\n- Fix: Error state persists even after successful fetch\n- Feat: Buttons for Github instance type"
 }
