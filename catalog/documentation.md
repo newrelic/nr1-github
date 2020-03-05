@@ -14,13 +14,13 @@ This information is easily accessible in context when looking at individual serv
 
 ## Screen Shots
 
-![screenshot 1](catalog/screenshots/nr1-github-01.png)
+![screenshot 1](https://github.com/newrelic/nr1-github/blob/master/catalog/screenshots/nr1-github-01.png)
 
-![screenshot 2](catalog/screenshots/nr1-github-02.png)
+![screenshot 2](https://github.com/newrelic/nr1-github/blob/master/catalog/screenshots/nr1-github-02.png)
 
-![screenshot 3](catalog/screenshots/nr1-github-03.png)
+![screenshot 3](https://github.com/newrelic/nr1-github/blob/master/catalog/screenshots/nr1-github-03.png)
 
-![screenshot 4](catalog/screenshots/nr1-github-04.png)
+![screenshot 4](https://github.com/newrelic/nr1-github/blob/master/catalog/screenshots/nr1-github-04.png)
 
 ## Open Source License
 
