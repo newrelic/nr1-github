@@ -12,10 +12,6 @@
     "eslint-check": "eslint nerdlets/",
     "eslint-fix": "eslint nerdlets/ --fix"
   },
-  "nr1": {
-    "uuid": "2615fd8b-e216-4038-86f0-35bfc919d4d6",
-    "sdkVersion": 2
-  },
   "dependencies": {
     "lodash": "^4.17.15",
     "prop-types": "^15.6.2",

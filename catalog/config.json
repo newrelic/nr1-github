@@ -1,0 +1,17 @@
+{
+  "tagline": "Create more context to your entities by having access to the GitHub repository, contributors and README.",
+  "repository": "https://github.com/newrelic/nr1-github.git",
+  "details": "GitHub Integration connects services and applications in New Relic One to an associated GitHub repository.\n\nThe GitHub Integration application will display quick access to the repository, a list of the most active source code contributors and the README.\n\nThis information is easily accessible in context when looking at individual services or applications.",
+  "support": {
+    "issues": {
+      "url": "https://github.com/newrelic/nr1-github/issues"
+    },
+    "email": {
+      "address": "opensource+nr1-github@newrelic.com"
+    },
+    "community": {
+      "url": "https://discuss.newrelic.com/t/github-nerdpack/82932"
+    }
+  },
+  "whatsNew": "\n- Feat: Account based Github Url config\n- Feat: Smart tabs and consolidated configuration screen\n- Fix: Entity not on this account explanation\n- Fix: Error state persists even after successful fetch\n- Feat: Buttons for Github instance type"
+}
