@@ -1,3 +1,10 @@
+# [0.5.0](https://github.com/newrelic/nr1-github/compare/v0.4.0...v0.5.0) (2020-03-06)
+
+
+### Features
+
+* add catalog icon ([601eddb](https://github.com/newrelic/nr1-github/commit/601eddb62d76c8d2adf77070dfaf3be234b852c7))
+
 # [0.4.0](https://github.com/newrelic/nr1-github/compare/v0.3.1...v0.4.0) (2020-01-16)
 
 
