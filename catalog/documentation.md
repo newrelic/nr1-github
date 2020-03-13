@@ -1,9 +1,3 @@
-[![New Relic One Catalog Project header](https://github.com/newrelic/open-source-office/raw/master/examples/categories/images/New_Relic_One_Catalog_Project.png)](https://github.com/newrelic/open-source-office/blob/master/examples/categories/index.md#nr1-catalog)
-
-# nr1-github
-
-![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/newrelic/nr1-github?include_prereleases&sort=semver) ![AppVeyor](https://img.shields.io/appveyor/ci/newrelic/nr1-github) [![Snyk](https://snyk.io/test/github/newrelic/nr1-github/badge.svg)](https://snyk.io/test/github/newrelic/nr1-github)
-
 ## Usage
 
 GitHub Integration connects services and applications in New Relic One to an associated GitHub repository.
@@ -11,16 +5,6 @@ GitHub Integration connects services and applications in New Relic One to an ass
 The GitHub Integration application will display quick access to the repository, a list of the most active source code contributors and the README.
 
 This information is easily accessible in context when looking at individual services or applications.
-
-## Screen Shots
-
-![screenshot 1](https://github.com/newrelic/nr1-github/blob/master/catalog/screenshots/nr1-github-01.png)
-
-![screenshot 2](https://github.com/newrelic/nr1-github/blob/master/catalog/screenshots/nr1-github-02.png)
-
-![screenshot 3](https://github.com/newrelic/nr1-github/blob/master/catalog/screenshots/nr1-github-03.png)
-
-![screenshot 4](https://github.com/newrelic/nr1-github/blob/master/catalog/screenshots/nr1-github-04.png)
 
 ## Open Source License
 
