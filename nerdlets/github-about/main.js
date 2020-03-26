@@ -260,7 +260,6 @@ export default class GithubAbout extends React.Component {
 
     const getTab = function() {
       if (!isSetup) {
-        console.log('Setup screen');
         return 'setup';
       }
 

@@ -166,7 +166,6 @@ export default class Setup extends React.PureComponent {
   }
 
   renderGithubUrlInput() {
-    const { setActiveTab } = this.props;
     const { isGithubEnterprise, githubUrl, isValidUrl } = this.state;
 
     return (
