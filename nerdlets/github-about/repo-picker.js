@@ -10,12 +10,15 @@ export default class RepoPicker extends React.Component {
     isSetup: PropTypes.bool,
     userToken: PropTypes.string,
     setRepo: PropTypes.func.isRequired,
+    deleteGithubUrl: PropTypes.func.isRequired,
     entity: PropTypes.object,
     repoUrl: PropTypes.string
   };
 
   constructor(props) {
     super(props);
+
+    this.loadSuggestions = this.loadSuggestions.bind(this);
 
     this.state = {
       suggestions: null,
@@ -33,7 +36,8 @@ export default class RepoPicker extends React.Component {
 
     if (
       (prevEntityId !== enitityId && this.props.entity) ||
-      (!prevProps.isSetup && this.props.isSetup)
+      (!prevProps.isSetup && this.props.isSetup) ||
+      this.props.githubUrl !== prevProps.githubUrl
     ) {
       this.loadSuggestions();
     }
@@ -67,18 +71,24 @@ export default class RepoPicker extends React.Component {
       return;
     }
 
+    this.setState({ error: null });
     const github = new Github({ userToken, githubUrl });
 
     const path = `search/repositories?q=${encodeURIComponent(
       this.getSearchQuery()
     )}`;
 
-    github.get(path).then(suggestions => {
-      if (suggestions.items && suggestions.items.length > 0) {
-        this.setState({ suggestions: suggestions.items });
+    github.get(path).then(response => {
+      if (response instanceof Error) {
+        this.setState({ error: response.message });
         return;
       }
-      this.setState({ error: 'Error fetching suggestions' });
+
+      const suggestions =
+        response && response.items && response.items.length > 0
+          ? response.items
+          : [];
+      this.setState({ suggestions: suggestions });
     });
   }
 
@@ -160,7 +170,7 @@ export default class RepoPicker extends React.Component {
     const { isSetup, repoUrl, entity, githubUrl } = this.props;
 
     if (!isSetup) {
-      return;
+      return <></>;
     }
 
     if (!suggestions || suggestions.length === 0 || !entity || !entity.name) {
@@ -218,9 +228,8 @@ export default class RepoPicker extends React.Component {
   }
 
   render() {
+    const { deleteGithubUrl } = this.props;
     const { error, suggestions } = this.state;
-
-    // console.debug(error);
 
     if (!suggestions && error === null) return <Spinner fillContainer />;
 
@@ -229,6 +238,25 @@ export default class RepoPicker extends React.Component {
         <>
           <h2>An error occurred:</h2>
           <p>{error}</p>
+          <Stack>
+            <StackItem>
+              <Button
+                iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__REFRESH}
+                type="normal"
+                onClick={this.loadSuggestions}
+              >
+                Try Again
+              </Button>
+            </StackItem>
+            <StackItem>
+              <Button
+                iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__REFRESH}
+                onClick={deleteGithubUrl}
+              >
+                Reset Url
+              </Button>
+            </StackItem>
+          </Stack>
         </>
       );
     }

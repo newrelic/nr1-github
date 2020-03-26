@@ -3,13 +3,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { TextField, Button, Stack, StackItem, Grid, GridItem } from 'nr1';
+import isUrl from 'is-url';
+
+const PUBLIC_GITHUB_API = 'https://api.github.com';
 
 export default class Setup extends React.PureComponent {
   static propTypes = {
     githubUrl: PropTypes.string,
     setGithubUrl: PropTypes.func.isRequired,
     setUserToken: PropTypes.func.isRequired,
-    userToken: PropTypes.string
+    userToken: PropTypes.string,
+    setActiveTab: PropTypes.func
   };
 
   constructor(props) {
@@ -17,16 +21,27 @@ export default class Setup extends React.PureComponent {
     this.state = {
       userToken: props.userToken || '',
       githubUrl: props.githubUrl || '',
-      isGithubEnterprise: true
+      isGithubEnterprise: true,
+      isValidUrl: true
     };
+
+    this.handleSetGithubUrl = this.handleSetGithubUrl.bind(this);
   }
 
   componentDidUpdate(prevProps) {
     const { githubUrl, userToken } = this.props;
     if (prevProps.githubUrl !== githubUrl) {
       this.setState({ githubUrl });
-      if (githubUrl.indexOf('api.github.com') >= 0) {
-        this.setState({ isGithubEnterprise: false });
+
+      if (githubUrl !== null) {
+        // When resetting url, also reset isGithubEnterprise
+        if (githubUrl === '') {
+          this.setState({ isGithubEnterprise: true });
+        }
+
+        if (githubUrl.indexOf('api.github.com') >= 0) {
+          this.setState({ isGithubEnterprise: false });
+        }
       }
     }
     if (prevProps.userToken !== userToken) {
@@ -36,9 +51,32 @@ export default class Setup extends React.PureComponent {
 
   _getGithubUrl() {
     const { githubUrl } = this.state;
-    return githubUrl && githubUrl.indexOf('api.github.com') === -1
-      ? githubUrl.trim()
-      : 'https://github.com';
+
+    if (githubUrl && githubUrl.indexOf('api.github.com')) {
+      return 'https://github.com';
+    }
+
+    return githubUrl;
+  }
+
+  handleSetGithubUrl() {
+    const { githubUrl } = this.state;
+    const { setGithubUrl, setActiveTab } = this.props;
+
+    if (githubUrl === '') {
+      return;
+    }
+
+    const isValidUrl = isUrl(githubUrl);
+    if (!isValidUrl) {
+      this.setState({ isValidUrl: false });
+      return;
+    }
+    this.setState({
+      isValidUrl: true
+    });
+    setGithubUrl(githubUrl);
+    setActiveTab('repository');
   }
 
   renderUserTokenInput() {
@@ -128,8 +166,8 @@ export default class Setup extends React.PureComponent {
   }
 
   renderGithubUrlInput() {
-    const { setGithubUrl } = this.props;
-    const { isGithubEnterprise, githubUrl } = this.state;
+    const { setActiveTab } = this.props;
+    const { isGithubEnterprise, githubUrl, isValidUrl } = this.state;
 
     return (
       <StackItem>
@@ -160,8 +198,13 @@ export default class Setup extends React.PureComponent {
                       : Button.TYPE.NEUTRAL
                   }
                   onClick={() => {
-                    setGithubUrl('https://api.github.com');
-                    this.setState({ isGithubEnterprise: false });
+                    this.setState(
+                      {
+                        githubUrl: PUBLIC_GITHUB_API,
+                        isGithubEnterprise: false
+                      },
+                      this.handleSetGithubUrl
+                    );
                   }}
                 >
                   Public Github
@@ -176,8 +219,10 @@ export default class Setup extends React.PureComponent {
                       : Button.TYPE.NEUTRAL
                   }
                   onClick={() => {
-                    setGithubUrl('');
-                    this.setState({ isGithubEnterprise: true });
+                    this.setState(
+                      { githubUrl: '', isGithubEnterprise: true },
+                      this.handleSetGithubUrl
+                    );
                   }}
                 >
                   Github Enterprise
@@ -186,7 +231,7 @@ export default class Setup extends React.PureComponent {
             </Stack>
             <Stack
               fullWidth
-              verticalType={Stack.VERTICAL_TYPE.BOTTOM}
+              verticalType={Stack.VERTICAL_TYPE.CENTER}
               className="integration-input-container"
             >
               <StackItem grow>
@@ -199,10 +244,13 @@ export default class Setup extends React.PureComponent {
                   }}
                   value={githubUrl}
                 />
+                {!isValidUrl && (
+                  <span>URL is invalid, please provide a valid url</span>
+                )}
               </StackItem>
               <StackItem>
                 <Button
-                  onClick={() => setGithubUrl(githubUrl)}
+                  onClick={this.handleSetGithubUrl}
                   disabled={!isGithubEnterprise || !githubUrl}
                   type={Button.TYPE.PRIMARY}
                 >
