@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "Fri Mar 06 2020 14:43:14 GMT+0000 (Coordinated Universal Time)",
+  "lastUpdated": "Fri Mar 27 2020 16:03:12 GMT+0000 (Coordinated Universal Time)",
   "projectName": "nr1-github",
   "projectUrl": "https://github.com/newrelic/nr1-github",
   "includeDev": true,
@@ -128,43 +128,6 @@
       "licenseTextSource": "spdx",
       "publisher": "Sebastian McKenzie",
       "email": "sebmck@gmail.com"
-    },
-    "eslint-config-prettier@6.5.0": {
-      "name": "eslint-config-prettier",
-      "version": "6.5.0",
-      "range": "^6.5.0",
-      "licenses": "MIT",
-      "repoUrl": "https://github.com/prettier/eslint-config-prettier",
-      "versionedRepoUrl": "https://github.com/prettier/eslint-config-prettier/tree/v6.5.0",
-      "licenseFile": "node_modules/eslint-config-prettier/LICENSE",
-      "licenseUrl": "https://github.com/prettier/eslint-config-prettier/blob/v6.5.0/LICENSE",
-      "licenseTextSource": "file",
-      "publisher": "Simon Lydell"
-    },
-    "eslint-plugin-prettier@3.1.1": {
-      "name": "eslint-plugin-prettier",
-      "version": "3.1.1",
-      "range": "^3.1.1",
-      "licenses": "MIT",
-      "repoUrl": "https://github.com/prettier/eslint-plugin-prettier",
-      "versionedRepoUrl": "https://github.com/prettier/eslint-plugin-prettier/tree/v3.1.1",
-      "licenseFile": "node_modules/eslint-plugin-prettier/LICENSE.md",
-      "licenseUrl": "https://github.com/prettier/eslint-plugin-prettier/blob/v3.1.1/LICENSE.md",
-      "licenseTextSource": "file",
-      "publisher": "Teddy Katz"
-    },
-    "eslint-plugin-react@7.16.0": {
-      "name": "eslint-plugin-react",
-      "version": "7.16.0",
-      "range": "^7.16.0",
-      "licenses": "MIT",
-      "repoUrl": "https://github.com/yannickcr/eslint-plugin-react",
-      "versionedRepoUrl": "https://github.com/yannickcr/eslint-plugin-react/tree/v7.16.0",
-      "licenseFile": "node_modules/eslint-plugin-react/LICENSE",
-      "licenseUrl": "https://github.com/yannickcr/eslint-plugin-react/blob/v7.16.0/LICENSE",
-      "licenseTextSource": "file",
-      "publisher": "Yannick Croissant",
-      "email": "yannick.croissant+npm@gmail.com"
     },
     "eslint@6.6.0": {
       "name": "eslint",
