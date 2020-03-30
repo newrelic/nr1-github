@@ -12,7 +12,7 @@ import {
   EntityStorageMutation,
   EntityByGuidQuery
 } from 'nr1';
-import { get } from 'lodash';
+import get from 'lodash.get';
 
 import GITHUB_URL from '../../CONFIGURE_ME';
 
