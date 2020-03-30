@@ -9,8 +9,7 @@ import {
   Button,
   NerdGraphQuery,
   UserStorageMutation,
-  EntityStorageMutation,
-  EntityByGuidQuery
+  EntityStorageMutation
 } from 'nr1';
 import get from 'lodash.get';
 
@@ -89,7 +88,14 @@ export default class GithubAbout extends React.Component {
       return;
     }
 
-    this.setState({ user, accountId, entity, entityNotFound: null, userToken, repoUrl });
+    this.setState({
+      user,
+      accountId,
+      entity,
+      entityNotFound: null,
+      userToken,
+      repoUrl
+    });
   }
 
   handleTabClick(tabName) {
