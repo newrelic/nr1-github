@@ -226,10 +226,23 @@ export default class RepoPicker extends React.Component {
 
     if (error) {
       return (
-        <>
-          <h2>An error occurred:</h2>
-          <p>{error}</p>
-        </>
+        <Stack
+          directionType={Stack.DIRECTION_TYPE.VERTICAL}
+          horizontalType={Stack.HORIZONTAL_TYPE.FILL}
+          fullWidth
+        >
+          <StackItem fullWidth>
+            <div className="error-alert alert">
+              <strong className="alert-label">Error:</strong>
+              <span className="alert-content">
+                {error}
+                {error === 'Error fetching suggestions' &&
+                  '. Provide your own repository URL below:'}
+              </span>
+            </div>
+          </StackItem>
+          <StackItem>{this.renderCustomUrlRow()}</StackItem>
+        </Stack>
       );
     }
 
