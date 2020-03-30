@@ -4,7 +4,7 @@
   "description": "Nerdpack nr1-github",
   "version": "0.5.0",
   "bugs": {
-    "email": "opensource@newrelic.com"
+    "email": "opensource+nr1-github@newrelic.com"
   },
   "scripts": {
     "start": "nr1 nerdpack:serve",
