@@ -6,11 +6,7 @@ export default class Wrapper extends React.PureComponent {
   render() {
     return (
       <NerdletStateContext.Consumer>
-        {nerdletUrlState => (
-         <GithubAbout
-          nerdletUrlState={nerdletUrlState}
-         />
-         )}
+        {nerdletUrlState => <GithubAbout nerdletUrlState={nerdletUrlState} />}
       </NerdletStateContext.Consumer>
     );
   }
