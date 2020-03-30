@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
+  AccountStorageMutation,
+  AccountStorageQuery,
   Spinner,
   Tabs,
   TabsItem,
   Button,
   NerdGraphQuery,
   UserStorageMutation,
-  EntityStorageMutation
+  EntityStorageMutation,
+  EntityByGuidQuery
 } from 'nr1';
 import { get } from 'lodash';
 
@@ -18,7 +21,6 @@ import RepoPicker from './repo-picker';
 import Readme from './readme';
 import Contributors from './contributors';
 import Header from './header';
-import ConfigureMe from './configure-me';
 
 // allows us to test the github url with a short timeout
 // https://stackoverflow.com/questions/46946380/fetch-api-request-timeout
@@ -33,8 +35,7 @@ function timeout(ms, promise) {
 
 export default class GithubAbout extends React.Component {
   static propTypes = {
-    nerdletUrlState: PropTypes.object,
-    launcherUrlState: PropTypes.object
+    nerdletUrlState: PropTypes.object
   };
 
   constructor(props) {
@@ -42,14 +43,40 @@ export default class GithubAbout extends React.Component {
 
     this._setUserToken = this._setUserToken.bind(this);
     this._setRepo = this._setRepo.bind(this);
+    this._setGithubUrl = this._setGithubUrl.bind(this);
+    this.handleTabClick = this.handleTabClick.bind(this);
 
-    this.state = {};
+    this.state = {
+      entity: null,
+      entityNotFound: null,
+      accountId: null,
+      githubUrl: null,
+      visibleTab: null
+    };
   }
 
   async componentDidMount() {
-    const { entityGuid } = this.props.nerdletUrlState;
+    await this.fetchAccountFromEntity();
+    await this.fetchEntityData();
+    await this._getGithubUrl();
     await this.checkGithubUrl();
+  }
 
+  async fetchAccountFromEntity() {
+    const { entityGuid } = this.props.nerdletUrlState;
+    const response = await EntityByGuidQuery.query({ entityGuid });
+    const { data } = response;
+    const { entities = [] } = data;
+
+    if (entities.length > 0) {
+      const entity = entities[0];
+
+      this.setState({ accountId: entity.accountId });
+    }
+  }
+
+  async fetchEntityData() {
+    const { entityGuid } = this.props.nerdletUrlState;
     const query = `{
       actor {
         nerdStorage {
@@ -66,17 +93,31 @@ export default class GithubAbout extends React.Component {
     }`;
 
     const { data } = await NerdGraphQuery.query({ query });
-    // console.debug([query, data]); //eslint-disable-line
     const userToken = get(data, 'actor.nerdStorage.userToken.userToken');
     const repoUrl = get(data, 'actor.entity.nerdStorage.repoUrl.repoUrl');
     const { user, entity } = data.actor;
 
-    this.setState({ user, entity, userToken, repoUrl });
+    if (entity === null) {
+      this.setState({ entityNotFound: true });
+      return;
+    }
+
+    this.setState({ user, entity, entityNotFound: null, userToken, repoUrl });
   }
 
-  checkGithubUrl() {
-    if (!GITHUB_URL) return;
-    const GHURL = GITHUB_URL.trim();
+  handleTabClick(tabName) {
+    this.setState({ visibleTab: tabName });
+  }
+
+  async checkGithubUrl() {
+    const { githubUrl } = this.state;
+
+    if (!githubUrl) {
+      return;
+    }
+
+    const GHURL = githubUrl.trim();
+
     return timeout(1000, fetch(`${GHURL}/status`, { mode: 'no-cors' }))
       .then(() => {
         this.setState({ githubAccessError: null });
@@ -87,6 +128,41 @@ export default class GithubAbout extends React.Component {
       });
   }
 
+  async _getGithubUrl() {
+    const { accountId } = this.state;
+
+    const query = {
+      accountId,
+      collection: 'global',
+      documentId: 'githubUrl'
+    };
+    const result = await AccountStorageQuery.query(query);
+    const { githubUrl } = result.data || false;
+
+    if (githubUrl) {
+      this.setState({ githubUrl });
+    }
+
+    if (!githubUrl && GITHUB_URL) {
+      this.setState({ githubUrl: GITHUB_URL });
+    }
+  }
+
+  async _setGithubUrl(githubUrl) {
+    const { accountId } = this.state;
+
+    const mutation = {
+      accountId,
+      actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+      collection: 'global',
+      documentId: 'githubUrl',
+      document: { githubUrl }
+    };
+    await AccountStorageMutation.mutate(mutation);
+    this.setState({ githubUrl });
+    await this.checkGithubUrl();
+  }
+
   async _setUserToken(userToken) {
     const mutation = {
       actionType: UserStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
@@ -94,7 +170,7 @@ export default class GithubAbout extends React.Component {
       documentId: 'userToken',
       document: { userToken }
     };
-    UserStorageMutation.mutate(mutation);
+    await UserStorageMutation.mutate(mutation);
     this.setState({ userToken });
   }
 
@@ -108,17 +184,22 @@ export default class GithubAbout extends React.Component {
       document: { repoUrl }
     };
 
-    EntityStorageMutation.mutate(mutation);
+    await EntityStorageMutation.mutate(mutation);
     this.setState({ repoUrl });
   }
 
-  renderTabs() {
-    const { repoUrl } = this.state;
-    let path;
-    let owner;
-    let project;
+  parseRepoUrl(repoUrl) {
+    let path = '';
+    let owner = '';
+    let project = '';
+    let url;
+
+    if (!repoUrl) {
+      return { url, owner, project };
+    }
+
     try {
-      const url = new URL(repoUrl);
+      url = new URL(repoUrl);
       path = url.pathname.slice(1);
       const split = path.split('/');
       owner = split[0];
@@ -127,44 +208,87 @@ export default class GithubAbout extends React.Component {
       // eslint-disable-next-line no-console
       console.error('Error parsing repository URL', repoUrl, e);
     }
-    // console.log([repoUrl, path, owner, project]);
+
+    return { url, owner, project };
+  }
+
+  renderTabs() {
+    const { entity, githubUrl, repoUrl, userToken, visibleTab } = this.state;
+    const isSetup =
+      userToken !== null && userToken !== undefined && githubUrl !== null;
+    const hasRepoUrl =
+      repoUrl !== null && repoUrl !== '' && repoUrl !== undefined;
+    const isDisabled = !isSetup || !hasRepoUrl;
+    const { owner, project } = this.parseRepoUrl(repoUrl);
+
+    const getTab = function() {
+      if (!isSetup) {
+        return 'setup';
+      }
+
+      if (isSetup && !visibleTab && !hasRepoUrl) {
+        return 'repository';
+      }
+
+      return visibleTab || 'readme';
+    };
+
+    // console.log([repoUrl, owner, project]);
     return (
       <div className="container">
         <Header repoUrl={repoUrl} />
-        <Tabs className="tabs">
-          <TabsItem value="readme" label="README.md">
-            <Readme {...this.state} owner={owner} project={project} />
+        <Tabs className="tabs" onChange={this.handleTabClick} value={getTab()}>
+          <TabsItem value="readme" label="README.md" disabled={isDisabled}>
+            <Readme
+              isSetup={isSetup}
+              githubUrl={githubUrl}
+              repoUrl={repoUrl}
+              owner={owner}
+              project={project}
+              userToken={userToken}
+            />
           </TabsItem>
-          <TabsItem value="contributors" label="Contributors">
-            <Contributors {...this.state} owner={owner} project={project} />
+          <TabsItem
+            value="contributors"
+            label="Contributors"
+            disabled={isDisabled}
+          >
+            <Contributors
+              isSetup={isSetup}
+              githubUrl={githubUrl}
+              repoUrl={repoUrl}
+              owner={owner}
+              project={project}
+              userToken={userToken}
+            />
           </TabsItem>
-          <TabsItem value="repository" label="Repository">
-            <RepoPicker {...this.state} setRepo={this._setRepo} />
+          <TabsItem value="repository" label="Repository" disabled={!isSetup}>
+            <RepoPicker
+              isSetup={isSetup}
+              githubUrl={githubUrl}
+              repoUrl={repoUrl}
+              setRepo={this._setRepo}
+              userToken={userToken}
+              entity={entity}
+            />
           </TabsItem>
           <TabsItem value="setup" label="Setup">
-            <Setup {...this.state} setUserToken={this._setUserToken} />
+            <Setup
+              githubUrl={githubUrl}
+              setGithubUrl={this._setGithubUrl}
+              setUserToken={this._setUserToken}
+              userToken={userToken}
+              onError={this.onSetupErrors}
+            />
           </TabsItem>
         </Tabs>
       </div>
     );
   }
 
-  renderContent() {
-    const { userToken, repoUrl } = this.state;
-    if (!userToken) return <Setup setUserToken={this._setUserToken} />;
-    if (repoUrl) return this.renderTabs();
-
-    return (
-      <RepoPicker
-        {...this.state}
-        setRepo={this._setRepo}
-        setUserToken={this._setUserToken}
-      />
-    );
-  }
-
   renderGithubAccessError() {
-    const GHURL = GITHUB_URL.trim();
+    const { githubUrl } = this.state;
+    const GHURL = githubUrl.trim();
     return (
       <div className="root">
         <div className="container">
@@ -186,13 +310,32 @@ export default class GithubAbout extends React.Component {
     );
   }
 
+  renderEntityNotFound() {
+    return (
+      <div className="root">
+        <div className="container">
+          <Header />
+          <h2>Entity not found for this Account</h2>
+        </div>
+      </div>
+    );
+  }
+
   render() {
-    const { githubAccessError, user } = this.state;
+    const { entityNotFound, githubAccessError, user } = this.state;
 
-    if (!GITHUB_URL) return <ConfigureMe />;
-    if (githubAccessError) return this.renderGithubAccessError();
+    if (githubAccessError) {
+      return this.renderGithubAccessError();
+    }
 
-    if (!user) return <Spinner fillContainer />;
-    return <div className="root">{this.renderContent()}</div>;
+    if (entityNotFound) {
+      return this.renderEntityNotFound();
+    }
+
+    if (!user) {
+      return <Spinner fillContainer />;
+    }
+
+    return <div className="root">{this.renderTabs()}</div>;
   }
 }
