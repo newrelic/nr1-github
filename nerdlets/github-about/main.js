@@ -32,7 +32,7 @@ function timeout(ms, promise) {
   });
 }
 
-export default class GithubAbout extends React.Component {
+export default class GithubAbout extends React.PureComponent {
   static propTypes = {
     nerdletUrlState: PropTypes.object
   };
