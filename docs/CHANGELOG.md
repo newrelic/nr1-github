@@ -1,3 +1,15 @@
+## [0.5.1](https://github.com/newrelic/nr1-github/compare/v0.5.0...v0.5.1) (2020-03-31)
+
+
+### Bug Fixes
+
+* eslint fixes. ([13700c7](https://github.com/newrelic/nr1-github/commit/13700c70b3acdc36ad907983d4813bfa17654c5f))
+* eslint fixes. ([64ab7c7](https://github.com/newrelic/nr1-github/commit/64ab7c7b0b657c897028bb76f7ec5d5fc22e2379))
+* Improve GraphQL efficiency. Closes newrelic/nr1-github[#7](https://github.com/newrelic/nr1-github/issues/7) ([1af4390](https://github.com/newrelic/nr1-github/commit/1af43903acc0e66c55f99ed62bb3f97cd01c8e5b))
+* Move Component to PureComponent per catalog requirements. ([215e61c](https://github.com/newrelic/nr1-github/commit/215e61ce162a4732dccd4549cdfeec42eb8b681b))
+* remove unneeded state contexts. ([e6be149](https://github.com/newrelic/nr1-github/commit/e6be14977de59a540a77eb0f1626e7dc1f44d2f2))
+* smaller library w/ lodash.get ([6ef1d57](https://github.com/newrelic/nr1-github/commit/6ef1d574b5b77e8d11e91e3ee60c4108405239c9))
+
 # [0.5.0](https://github.com/newrelic/nr1-github/compare/v0.4.0...v0.5.0) (2020-03-06)
 
 
