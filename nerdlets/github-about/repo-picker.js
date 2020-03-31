@@ -4,7 +4,7 @@ import { Button, Stack, StackItem, TextField, Spinner } from 'nr1';
 import Github from './github';
 import Header from './header';
 
-export default class RepoPicker extends React.Component {
+export default class RepoPicker extends React.PureComponent {
   static propTypes = {
     githubUrl: PropTypes.string,
     isSetup: PropTypes.bool,

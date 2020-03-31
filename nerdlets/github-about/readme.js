@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 import Github from './github';
 
-export default class ReadMe extends React.Component {
+export default class ReadMe extends React.PureComponent {
   static propTypes = {
     githubUrl: PropTypes.string,
     isSetup: PropTypes.bool,
