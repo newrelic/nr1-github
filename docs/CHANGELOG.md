@@ -1,3 +1,10 @@
+# [0.6.0](https://github.com/newrelic/nr1-github/compare/v0.5.1...v0.6.0) (2020-04-01)
+
+
+### Features
+
+* check github url, expose api errors, allow for retry/reset etc. ([#33](https://github.com/newrelic/nr1-github/issues/33)) ([f36b456](https://github.com/newrelic/nr1-github/commit/f36b456ddcad79c5448c4353dcdd3235ea75e812))
+
 ## [0.5.1](https://github.com/newrelic/nr1-github/compare/v0.5.0...v0.5.1) (2020-03-31)
 
 
