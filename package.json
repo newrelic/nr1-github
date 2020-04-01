@@ -13,6 +13,7 @@
     "eslint-fix": "eslint nerdlets/ --fix"
   },
   "dependencies": {
+    "is-url": "^1.2.4",
     "lodash.get": "^4.4.2",
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
