@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Github from './github';
 
-export default class Contributors extends React.Component {
+export default class Contributors extends React.PureComponent {
   static propTypes = {
     githubUrl: PropTypes.string,
     isSetup: PropTypes.bool,

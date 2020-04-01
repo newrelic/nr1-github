@@ -14,7 +14,7 @@ import {
   Stack,
   StackItem
 } from 'nr1';
-import { get } from 'lodash';
+import get from 'lodash.get';
 
 import GITHUB_URL from '../../CONFIGURE_ME';
 
@@ -37,7 +37,7 @@ function timeout(ms, promise) {
   });
 }
 
-export default class GithubAbout extends React.Component {
+export default class GithubAbout extends React.PureComponent {
   static propTypes = {
     nerdletUrlState: PropTypes.object
   };
@@ -64,23 +64,9 @@ export default class GithubAbout extends React.Component {
   }
 
   async componentDidMount() {
-    await this.fetchAccountFromEntity();
     await this.fetchEntityData();
     await this._getGithubUrl();
     await this.checkGithubUrl();
-  }
-
-  async fetchAccountFromEntity() {
-    const { entityGuid } = this.props.nerdletUrlState;
-    const response = await EntityByGuidQuery.query({ entityGuid });
-    const { data } = response;
-    const { entities = [] } = data;
-
-    if (entities.length > 0) {
-      const entity = entities[0];
-
-      this.setState({ accountId: entity.accountId });
-    }
   }
 
   async fetchEntityData() {
@@ -101,6 +87,7 @@ export default class GithubAbout extends React.Component {
     }`;
 
     const { data } = await NerdGraphQuery.query({ query });
+    const accountId = get(data, 'actor.entity.account.id');
     const userToken = get(data, 'actor.nerdStorage.userToken.userToken');
     const repoUrl = get(data, 'actor.entity.nerdStorage.repoUrl.repoUrl');
     const { user, entity } = data.actor;
@@ -110,7 +97,14 @@ export default class GithubAbout extends React.Component {
       return;
     }
 
-    this.setState({ user, entity, entityNotFound: null, userToken, repoUrl });
+    this.setState({
+      user,
+      accountId,
+      entity,
+      entityNotFound: null,
+      userToken,
+      repoUrl
+    });
   }
 
   handleTabClick(tabName) {

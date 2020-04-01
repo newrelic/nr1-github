@@ -2,9 +2,9 @@
   "private": true,
   "name": "nr1-github",
   "description": "Nerdpack nr1-github",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "bugs": {
-    "email": "opensource@newrelic.com"
+    "email": "opensource+nr1-github@newrelic.com"
   },
   "scripts": {
     "start": "nr1 nerdpack:serve",
@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "is-url": "^1.2.4",
-    "lodash": "^4.17.15",
+    "lodash.get": "^4.4.2",
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
@@ -24,13 +24,7 @@
     "@newrelic/eslint-plugin-newrelic": "^0.3.0",
     "@semantic-release/changelog": "^3.0.5",
     "@semantic-release/git": "^7.0.18",
-    "babel-eslint": "^10.0.3",
-    "babel-runtime": "^6.26.0",
-    "eslint": "^6.6.0",
-    "eslint-config-prettier": "^6.5.0",
-    "eslint-plugin-prettier": "^3.1.1",
-    "eslint-plugin-react": "^7.16.0",
-    "file-loader": "^4.2.0",
+    "eslint": "^6.8.0",
     "prettier": "^1.19.1"
   },
   "browserslist": [

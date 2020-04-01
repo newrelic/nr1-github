@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Header from './header';
 
-export default class ConfigureMe extends React.Component {
+export default class ConfigureMe extends React.PureComponent {
   static propTypes = {
     githubUrl: PropTypes.string,
     onUpdate: PropTypes.func
