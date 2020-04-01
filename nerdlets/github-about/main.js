@@ -10,7 +10,6 @@ import {
   NerdGraphQuery,
   UserStorageMutation,
   EntityStorageMutation,
-  EntityByGuidQuery,
   Stack,
   StackItem
 } from 'nr1';
