@@ -21,6 +21,7 @@ import Setup from './setup';
 import RepoPicker from './repo-picker';
 import Readme from './readme';
 import Contributors from './contributors';
+import PullRequests from './pull-requests';
 import Header from './header';
 
 import { formatGithubUrl } from '../shared/utils';
@@ -62,7 +63,17 @@ export default class GithubAbout extends React.PureComponent {
     };
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.load();
+  }
+
+  componentDidUpate({ nerdletUrlState }) {
+    if (nerdletUrlState.entityGuid !== this.props.nerdletUrlState.entityGuid) {
+      this.load();
+    }
+  }
+
+  async load() {
     await this.fetchEntityData();
     await this._getGithubUrl();
     await this.checkGithubUrl();
@@ -260,6 +271,7 @@ export default class GithubAbout extends React.PureComponent {
         return 'repository';
       }
 
+      // return 'pull-requests'
       return visibleTab || 'readme';
     };
 
@@ -284,6 +296,20 @@ export default class GithubAbout extends React.PureComponent {
             disabled={isDisabled}
           >
             <Contributors
+              isSetup={isSetup}
+              githubUrl={githubUrl}
+              repoUrl={repoUrl}
+              owner={owner}
+              project={project}
+              userToken={userToken}
+            />
+          </TabsItem>
+          <TabsItem
+            value="pull-requests"
+            label="Pull Requests"
+            disabled={isDisabled}
+          >
+            <PullRequests
               isSetup={isSetup}
               githubUrl={githubUrl}
               repoUrl={repoUrl}
