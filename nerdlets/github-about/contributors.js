@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Github from './github';
+import humanizeDuration from 'humanize-duration';
 
 export default class Contributors extends React.PureComponent {
   static propTypes = {
@@ -135,17 +136,25 @@ export default class Contributors extends React.PureComponent {
               <th>Name</th>
               <th>Email</th>
               <th>Commits</th>
-              <th>Most Recent</th>
+              <th className="right">Most Recent</th>
             </tr>
           </thead>
           <tbody>
             {committers.map(committer => {
+              const duration =
+                new Date() - new Date(committer.mostRecentCommit);
+              const durationStr = humanizeDuration(duration, {
+                largest: 2,
+                units: ['y', 'mo', 'w', 'd', 'h', 'm'],
+                round: true
+              });
+
               return (
                 <tr key={committer.login}>
                   <td>{committer.name}</td>
                   <td>{committer.email}</td>
                   <td>{committer.commitCount}</td>
-                  <td>{committer.mostRecentCommit}</td>
+                  <td className="right">{durationStr} ago</td>
                 </tr>
               );
             })}
