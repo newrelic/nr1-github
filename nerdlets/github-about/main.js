@@ -67,7 +67,7 @@ export default class GithubAbout extends React.PureComponent {
     this.load();
   }
 
-  componentDidUpate({ nerdletUrlState }) {
+  componentDidUpdate({ nerdletUrlState }) {
     if (nerdletUrlState.entityGuid !== this.props.nerdletUrlState.entityGuid) {
       this.load();
     }
