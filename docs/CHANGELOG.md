@@ -1,3 +1,10 @@
+## [0.6.1](https://github.com/newrelic/nr1-github/compare/v0.6.0...v0.6.1) (2020-05-16)
+
+
+### Bug Fixes
+
+* method name correction ([b9e9499](https://github.com/newrelic/nr1-github/commit/b9e94995e6679fefe02a09692b7233c8cce0c1b1))
+
 # [0.6.0](https://github.com/newrelic/nr1-github/compare/v0.5.1...v0.6.0) (2020-04-01)
 
 
