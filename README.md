@@ -22,6 +22,8 @@ This information is easily accessible in context when looking at individual serv
 
 ![screenshot 4](catalog/screenshots/nr1-github-04.png)
 
+![screenshot 5](catalog/screenshots/nr1-github-05.png)
+
 ## Open Source License
 
 This project is distributed under the [Apache 2 license](LICENSE).
