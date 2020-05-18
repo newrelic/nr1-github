@@ -9,7 +9,9 @@ import {
   Button,
   NerdGraphQuery,
   UserStorageMutation,
-  EntityStorageMutation
+  EntityStorageMutation,
+  Stack,
+  StackItem
 } from 'nr1';
 import get from 'lodash.get';
 
@@ -19,7 +21,10 @@ import Setup from './setup';
 import RepoPicker from './repo-picker';
 import Readme from './readme';
 import Contributors from './contributors';
+import PullRequests from './pull-requests';
 import Header from './header';
+
+import { formatGithubUrl } from '../shared/utils';
 
 // allows us to test the github url with a short timeout
 // https://stackoverflow.com/questions/46946380/fetch-api-request-timeout
@@ -42,19 +47,33 @@ export default class GithubAbout extends React.PureComponent {
 
     this._setUserToken = this._setUserToken.bind(this);
     this._setRepo = this._setRepo.bind(this);
+    this._deleteGithubUrl = this._deleteGithubUrl.bind(this);
+    this.checkGithubUrl = this.checkGithubUrl.bind(this);
     this._setGithubUrl = this._setGithubUrl.bind(this);
     this.handleTabClick = this.handleTabClick.bind(this);
+    this._setActiveTab = this._setActiveTab.bind(this);
 
     this.state = {
       entity: null,
       entityNotFound: null,
       accountId: null,
       githubUrl: null,
-      visibleTab: null
+      visibleTab: null,
+      githubAccessError: null
     };
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.load();
+  }
+
+  componentDidUpdate({ nerdletUrlState }) {
+    if (nerdletUrlState.entityGuid !== this.props.nerdletUrlState.entityGuid) {
+      this.load();
+    }
+  }
+
+  async load() {
     await this.fetchEntityData();
     await this._getGithubUrl();
     await this.checkGithubUrl();
@@ -109,7 +128,7 @@ export default class GithubAbout extends React.PureComponent {
       return;
     }
 
-    const GHURL = githubUrl.trim();
+    const GHURL = formatGithubUrl(githubUrl);
 
     return timeout(1000, fetch(`${GHURL}/status`, { mode: 'no-cors' }))
       .then(() => {
@@ -143,6 +162,13 @@ export default class GithubAbout extends React.PureComponent {
 
   async _setGithubUrl(githubUrl) {
     const { accountId } = this.state;
+    githubUrl = formatGithubUrl(githubUrl);
+
+    // console.log(githubUrl);
+    if (githubUrl === '') {
+      this.setState({ githubUrl });
+      return;
+    }
 
     const mutation = {
       accountId,
@@ -152,8 +178,20 @@ export default class GithubAbout extends React.PureComponent {
       document: { githubUrl }
     };
     await AccountStorageMutation.mutate(mutation);
-    this.setState({ githubUrl });
-    await this.checkGithubUrl();
+    this.setState({ githubUrl, githubAccessError: null }, this.checkGithubUrl);
+  }
+
+  async _deleteGithubUrl() {
+    const { accountId } = this.state;
+
+    const mutation = {
+      accountId,
+      actionType: AccountStorageMutation.ACTION_TYPE.DELETE_DOCUMENT,
+      collection: 'global',
+      documentId: 'githubUrl'
+    };
+    await AccountStorageMutation.mutate(mutation);
+    this.setState({ githubUrl: '', githubAccessError: null });
   }
 
   async _setUserToken(userToken) {
@@ -168,6 +206,8 @@ export default class GithubAbout extends React.PureComponent {
   }
 
   async _setRepo(repoUrl) {
+    repoUrl = formatGithubUrl(repoUrl);
+
     const { entityGuid } = this.props.nerdletUrlState;
     const mutation = {
       actionType: EntityStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
@@ -205,10 +245,18 @@ export default class GithubAbout extends React.PureComponent {
     return { url, owner, project };
   }
 
+  _setActiveTab(tab) {
+    this.setState({ visibleTab: tab });
+  }
+
   renderTabs() {
     const { entity, githubUrl, repoUrl, userToken, visibleTab } = this.state;
     const isSetup =
-      userToken !== null && userToken !== undefined && githubUrl !== null;
+      userToken !== null &&
+      userToken !== undefined &&
+      githubUrl !== null &&
+      githubUrl !== '';
+
     const hasRepoUrl =
       repoUrl !== null && repoUrl !== '' && repoUrl !== undefined;
     const isDisabled = !isSetup || !hasRepoUrl;
@@ -223,6 +271,7 @@ export default class GithubAbout extends React.PureComponent {
         return 'repository';
       }
 
+      // return 'pull-requests'
       return visibleTab || 'readme';
     };
 
@@ -255,12 +304,27 @@ export default class GithubAbout extends React.PureComponent {
               userToken={userToken}
             />
           </TabsItem>
+          <TabsItem
+            value="pull-requests"
+            label="Pull Requests"
+            disabled={isDisabled}
+          >
+            <PullRequests
+              isSetup={isSetup}
+              githubUrl={githubUrl}
+              repoUrl={repoUrl}
+              owner={owner}
+              project={project}
+              userToken={userToken}
+            />
+          </TabsItem>
           <TabsItem value="repository" label="Repository" disabled={!isSetup}>
             <RepoPicker
               isSetup={isSetup}
               githubUrl={githubUrl}
               repoUrl={repoUrl}
               setRepo={this._setRepo}
+              deleteGithubUrl={this._deleteGithubUrl}
               userToken={userToken}
               entity={entity}
             />
@@ -272,6 +336,7 @@ export default class GithubAbout extends React.PureComponent {
               setUserToken={this._setUserToken}
               userToken={userToken}
               onError={this.onSetupErrors}
+              setActiveTab={this._setActiveTab}
             />
           </TabsItem>
         </Tabs>
@@ -285,19 +350,33 @@ export default class GithubAbout extends React.PureComponent {
     return (
       <div className="root">
         <div className="container">
-          <Header />
-          <h2>Error accessing GitHub</h2>
-          <p>
-            There was an error connecting to <a href={GHURL}>{GHURL}</a>. The
-            typical fix for this will be to login to your VPN.
-          </p>
-          <Button
-            iconType="interface_operations_refresh"
-            type="normal"
-            onClick={() => this.checkGithubUrl()}
-          >
-            Try Again
-          </Button>
+          <div className="gh-access-error-container">
+            <Header />
+            <h2>Error accessing GitHub</h2>
+            <p>
+              There was an error connecting to <a href={GHURL}>{GHURL}</a>. The
+              typical fix for this will be to login to your VPN.
+            </p>
+            <Stack>
+              <StackItem>
+                <Button
+                  iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__REFRESH}
+                  type="normal"
+                  onClick={() => this.checkGithubUrl()}
+                >
+                  Try Again
+                </Button>
+              </StackItem>
+              <StackItem>
+                <Button
+                  iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__REFRESH}
+                  onClick={() => this._deleteGithubUrl()}
+                >
+                  Reset Url
+                </Button>
+              </StackItem>
+            </Stack>
+          </div>
         </div>
       </div>
     );

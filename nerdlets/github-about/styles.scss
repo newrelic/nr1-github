@@ -61,6 +61,29 @@ tr.active  {
 }
 
 
+.pr {
+  width: 12px;
+  height: 12px;
+  border-radius: 12px;
+  margin-right: 12px;
+  margin-top: 1px;
+  border: 3px solid;
+}
+
+.pr-red {
+  background-color: #f3d3d7;
+  border: 3px solid red;
+}
+.pr-yellow {
+  background-color: rgb(253, 222, 163);
+  border-color: orange;
+}
+.pr-green {
+  background-color: rgb(168, 243, 168);
+  border-color: green;
+}
+
+
 .container {
   width: 100%;
   min-height: 100%;
@@ -168,4 +191,28 @@ ul[class*=Tabs-navigation] {
 
 .integration-github-type-selection {
   margin-bottom: 10px;
+}
+
+.error-alert.alert {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 12px;
+  border: 1px solid #f3d3d7;
+  background-color: #f9ebed;
+  text-align: center;
+  border-radius: 3px;
+  color: #c10c20;
+
+  .alert-content {
+    margin-left: 4px;
+    font-size: 14px;
+  }
+}
+
+.gh-access-error-container {
+  padding: 20px 32px 32px;
+}
+
+.right {
+  text-align: right;
 }

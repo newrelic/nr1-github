@@ -521,7 +521,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ### eslint
 
-This product includes source derived from [eslint](https://github.com/eslint/eslint) ([v6.6.0](https://github.com/eslint/eslint/tree/v6.6.0)), distributed under the [MIT License](https://github.com/eslint/eslint/blob/v6.6.0/LICENSE):
+This product includes source derived from [eslint](https://github.com/eslint/eslint) ([v6.8.0](https://github.com/eslint/eslint/tree/v6.8.0)), distributed under the [MIT License](https://github.com/eslint/eslint/blob/v6.8.0/LICENSE):
 
 ```
 Copyright JS Foundation and other contributors, https://js.foundation
