@@ -56,7 +56,7 @@ export default class PullRequests extends React.PureComponent {
     let pullRequests = null;
     try {
       pullRequests = await github.get(path);
-      this.setState({ pullRequests });
+      this.setState({ pullRequests, error: null });
     } catch (e) {
       const error =
         pullRequests && pullRequests.message
