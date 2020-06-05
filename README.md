@@ -2,7 +2,7 @@
 
 # New Relic One GitHub Integration (nr1-github)
 
-![CI](https://github.com/newrelic/nr1-flex-manager/workflows/CI/badge.svg) ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/newrelic/nr1-github?include_prereleases&sort=semver) [![Snyk](https://snyk.io/test/github/newrelic/nr1-github/badge.svg)](https://snyk.io/test/github/newrelic/nr1-github)
+![CI](https://github.com/newrelic/nr1-github/workflows/CI/badge.svg) ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/newrelic/nr1-github?include_prereleases&sort=semver) [![Snyk](https://snyk.io/test/github/newrelic/nr1-github/badge.svg)](https://snyk.io/test/github/newrelic/nr1-github)
 
 ## Usage
 
