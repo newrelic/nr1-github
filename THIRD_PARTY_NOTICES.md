@@ -14,7 +14,9 @@ code, the source code can be found at [https://github.com/newrelic/nr1-github](h
 
 **[dependencies](#dependencies)**
 
-* [lodash](#lodash)
+* [humanize-duration](#humanize-duration)
+* [is-url](#is-url)
+* [lodash.get](#lodashget)
 * [prop-types](#prop-types)
 * [react-dom](#react-dom)
 * [react-markdown](#react-markdown)
@@ -25,21 +27,76 @@ code, the source code can be found at [https://github.com/newrelic/nr1-github](h
 * [@newrelic/eslint-plugin-newrelic](#newreliceslint-plugin-newrelic)
 * [@semantic-release/changelog](#semantic-releasechangelog)
 * [@semantic-release/git](#semantic-releasegit)
-* [babel-eslint](#babel-eslint)
-* [babel-runtime](#babel-runtime)
 * [eslint](#eslint)
-* [file-loader](#file-loader)
 * [prettier](#prettier)
 
 
 ## dependencies
 
-### lodash
+### humanize-duration
 
-This product includes source derived from [lodash](https://github.com/lodash/lodash) ([v4.17.15](https://github.com/lodash/lodash/tree/v4.17.15)), distributed under the [MIT License](https://github.com/lodash/lodash/blob/v4.17.15/LICENSE):
+This product includes source derived from [humanize-duration](https://github.com/EvanHahn/HumanizeDuration.js) ([v3.22.0](https://github.com/EvanHahn/HumanizeDuration.js/tree/v3.22.0)), distributed under the [Unlicense License](https://github.com/EvanHahn/HumanizeDuration.js/blob/v3.22.0/LICENSE.txt):
 
 ```
-Copyright OpenJS Foundation and other contributors <https://openjsf.org/>
+This is free and unencumbered software released into the public domain.
+
+Anyone is free to copy, modify, publish, use, compile, sell, or
+distribute this software, either in source code form or as a compiled
+binary, for any purpose, commercial or non-commercial, and by any
+means.
+
+In jurisdictions that recognize copyright laws, the author or authors
+of this software dedicate any and all copyright interest in the
+software to the public domain. We make this dedication for the benefit
+of the public at large and to the detriment of our heirs and
+successors. We intend this dedication to be an overt act of
+relinquishment in perpetuity of all present and future rights to this
+software under copyright law.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+
+For more information, please refer to <http://unlicense.org/>
+```
+
+### is-url
+
+This product includes source derived from [is-url](https://github.com/segmentio/is-url) ([v1.2.4](https://github.com/segmentio/is-url/tree/v1.2.4)), distributed under the [MIT License](https://github.com/segmentio/is-url/blob/v1.2.4/LICENSE-MIT):
+
+```
+MIT LICENSE
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+```
+
+### lodash.get
+
+This product includes source derived from [lodash.get](https://github.com/lodash/lodash) ([v4.4.2](https://github.com/lodash/lodash/tree/v4.4.2)), distributed under the [MIT License](https://github.com/lodash/lodash/blob/v4.4.2/LICENSE):
+
+```
+Copyright jQuery Foundation and other contributors <https://jquery.org/>
 
 Based on Underscore.js, copyright Jeremy Ashkenas,
 DocumentCloud and Investigative Reporters & Editors <http://underscorejs.org/>
@@ -120,7 +177,7 @@ SOFTWARE.
 
 ### react-dom
 
-This product includes source derived from [react-dom](https://github.com/facebook/react) ([v16.9.0](https://github.com/facebook/react/tree/v16.9.0)), distributed under the [MIT License](https://github.com/facebook/react/blob/v16.9.0/LICENSE):
+This product includes source derived from [react-dom](https://github.com/facebook/react) ([v16.13.1](https://github.com/facebook/react/tree/v16.13.1)), distributed under the [MIT License](https://github.com/facebook/react/blob/v16.13.1/LICENSE):
 
 ```
 MIT License
@@ -149,7 +206,7 @@ SOFTWARE.
 
 ### react-markdown
 
-This product includes source derived from [react-markdown](https://github.com/rexxars/react-markdown) ([v4.2.2](https://github.com/rexxars/react-markdown/tree/v4.2.2)), distributed under the [MIT License](https://github.com/rexxars/react-markdown/blob/v4.2.2/LICENSE):
+This product includes source derived from [react-markdown](https://github.com/rexxars/react-markdown) ([v4.3.1](https://github.com/rexxars/react-markdown/tree/v4.3.1)), distributed under the [MIT License](https://github.com/rexxars/react-markdown/blob/v4.3.1/LICENSE):
 
 ```
 The MIT License (MIT)
@@ -178,7 +235,7 @@ SOFTWARE.
 
 ### react
 
-This product includes source derived from [react](https://github.com/facebook/react) ([v16.9.0](https://github.com/facebook/react/tree/v16.9.0)), distributed under the [MIT License](https://github.com/facebook/react/blob/v16.9.0/LICENSE):
+This product includes source derived from [react](https://github.com/facebook/react) ([v16.13.1](https://github.com/facebook/react/tree/v16.13.1)), distributed under the [MIT License](https://github.com/facebook/react/blob/v16.13.1/LICENSE):
 
 ```
 MIT License
@@ -419,7 +476,7 @@ This product includes source derived from [@newrelic/eslint-plugin-newrelic](htt
 
 ### @semantic-release/changelog
 
-This product includes source derived from [@semantic-release/changelog](https://github.com/semantic-release/changelog) ([v3.0.5](https://github.com/semantic-release/changelog/tree/v3.0.5)), distributed under the [MIT License](https://github.com/semantic-release/changelog/blob/v3.0.5/LICENSE):
+This product includes source derived from [@semantic-release/changelog](https://github.com/semantic-release/changelog) ([v3.0.6](https://github.com/semantic-release/changelog/tree/v3.0.6)), distributed under the [MIT License](https://github.com/semantic-release/changelog/blob/v3.0.6/LICENSE):
 
 ```
 MIT License
@@ -475,50 +532,6 @@ SOFTWARE.
 
 ```
 
-### babel-eslint
-
-This product includes source derived from [babel-eslint](https://github.com/babel/babel-eslint) ([v10.0.3](https://github.com/babel/babel-eslint/tree/v10.0.3)), distributed under the [MIT License](https://github.com/babel/babel-eslint/blob/v10.0.3/LICENSE):
-
-```
-Copyright (c) 2014-2016 Sebastian McKenzie <sebmck@gmail.com>
-
-MIT License
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-```
-
-### babel-runtime
-
-This product includes source derived from [babel-runtime](https://github.com/babel/babel/tree/master/packages/babel-runtime) ([v6.26.0](https://github.com/babel/babel/tree/master/packages/babel-runtime/tree/v6.26.0)), distributed under the [MIT License](https://github.com/babel/babel/tree/master/packages/babel-runtime/blob/v6.26.0/README.md):
-
-```
-MIT License Copyright (c) <year> <copyright holders>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice (including the next paragraph) shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-```
-
 ### eslint
 
 This product includes source derived from [eslint](https://github.com/eslint/eslint) ([v6.8.0](https://github.com/eslint/eslint/tree/v6.8.0)), distributed under the [MIT License](https://github.com/eslint/eslint/blob/v6.8.0/LICENSE):
@@ -543,34 +556,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-
-```
-
-### file-loader
-
-This product includes source derived from [file-loader](https://github.com/webpack-contrib/file-loader) ([v4.2.0](https://github.com/webpack-contrib/file-loader/tree/v4.2.0)), distributed under the [MIT License](https://github.com/webpack-contrib/file-loader/blob/v4.2.0/LICENSE):
-
-```
-Copyright JS Foundation and other contributors
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-'Software'), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ```
 
