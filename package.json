@@ -13,7 +13,7 @@
     "eslint-fix": "eslint nerdlets/ --fix"
   },
   "dependencies": {
-    "humanize-duration": "^3.22.0",
+    "humanize-duration": "^3.23.0",
     "is-url": "^1.2.4",
     "lodash.get": "^4.4.2",
     "prop-types": "^15.6.2",
