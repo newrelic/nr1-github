@@ -1,3 +1,17 @@
+## [0.6.3](https://github.com/newrelic/nr1-github/compare/v0.6.2...v0.6.3) (2020-05-18)
+
+
+### Bug Fixes
+
+* updated screenshots for catalog ([f9b9530](https://github.com/newrelic/nr1-github/commit/f9b95303a813275a39b64c6140e30226accffcf0))
+
+## [0.6.2](https://github.com/newrelic/nr1-github/compare/v0.6.1...v0.6.2) (2020-05-18)
+
+
+### Bug Fixes
+
+* **pull_requests:** Closes [#40](https://github.com/newrelic/nr1-github/issues/40) ([f541afe](https://github.com/newrelic/nr1-github/commit/f541afe4c28804f53b0d3a49431bcfeba4e68c33))
+
 ## [0.6.1](https://github.com/newrelic/nr1-github/compare/v0.6.0...v0.6.1) (2020-05-16)
 
 

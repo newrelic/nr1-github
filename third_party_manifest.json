@@ -1,21 +1,47 @@
 {
-  "lastUpdated": "Mon Mar 30 2020 15:26:32 GMT+0000 (Coordinated Universal Time)",
+  "lastUpdated": "Fri Jun 05 2020 14:52:27 GMT+0000 (Coordinated Universal Time)",
   "projectName": "nr1-github",
   "projectUrl": "https://github.com/newrelic/nr1-github",
   "includeDev": true,
   "dependencies": {
-    "lodash@4.17.15": {
-      "name": "lodash",
-      "version": "4.17.15",
-      "range": "^4.17.15",
+    "humanize-duration@3.22.0": {
+      "name": "humanize-duration",
+      "version": "3.22.0",
+      "range": "^3.22.0",
+      "licenses": "Unlicense",
+      "repoUrl": "https://github.com/EvanHahn/HumanizeDuration.js",
+      "versionedRepoUrl": "https://github.com/EvanHahn/HumanizeDuration.js/tree/v3.22.0",
+      "licenseFile": "node_modules/humanize-duration/LICENSE.txt",
+      "licenseUrl": "https://github.com/EvanHahn/HumanizeDuration.js/blob/v3.22.0/LICENSE.txt",
+      "licenseTextSource": "file",
+      "publisher": "Evan Hahn",
+      "email": "me@evanhahn.com",
+      "url": "https://evanhahn.com"
+    },
+    "is-url@1.2.4": {
+      "name": "is-url",
+      "version": "1.2.4",
+      "range": "^1.2.4",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/segmentio/is-url",
+      "versionedRepoUrl": "https://github.com/segmentio/is-url/tree/v1.2.4",
+      "licenseFile": "node_modules/is-url/LICENSE-MIT",
+      "licenseUrl": "https://github.com/segmentio/is-url/blob/v1.2.4/LICENSE-MIT",
+      "licenseTextSource": "file"
+    },
+    "lodash.get@4.4.2": {
+      "name": "lodash.get",
+      "version": "4.4.2",
+      "range": "^4.4.2",
       "licenses": "MIT",
       "repoUrl": "https://github.com/lodash/lodash",
-      "versionedRepoUrl": "https://github.com/lodash/lodash/tree/v4.17.15",
-      "licenseFile": "node_modules/lodash/LICENSE",
-      "licenseUrl": "https://github.com/lodash/lodash/blob/v4.17.15/LICENSE",
+      "versionedRepoUrl": "https://github.com/lodash/lodash/tree/v4.4.2",
+      "licenseFile": "node_modules/lodash.get/LICENSE",
+      "licenseUrl": "https://github.com/lodash/lodash/blob/v4.4.2/LICENSE",
       "licenseTextSource": "file",
       "publisher": "John-David Dalton",
-      "email": "john.david.dalton@gmail.com"
+      "email": "john.david.dalton@gmail.com",
+      "url": "http://allyoucanleet.com/"
     },
     "prop-types@15.7.2": {
       "name": "prop-types",
@@ -28,39 +54,39 @@
       "licenseUrl": "https://github.com/facebook/prop-types/blob/v15.7.2/LICENSE",
       "licenseTextSource": "file"
     },
-    "react-dom@16.9.0": {
+    "react-dom@16.13.1": {
       "name": "react-dom",
-      "version": "16.9.0",
+      "version": "16.13.1",
       "range": "^16.6.3",
       "licenses": "MIT",
       "repoUrl": "https://github.com/facebook/react",
-      "versionedRepoUrl": "https://github.com/facebook/react/tree/v16.9.0",
+      "versionedRepoUrl": "https://github.com/facebook/react/tree/v16.13.1",
       "licenseFile": "node_modules/react-dom/LICENSE",
-      "licenseUrl": "https://github.com/facebook/react/blob/v16.9.0/LICENSE",
+      "licenseUrl": "https://github.com/facebook/react/blob/v16.13.1/LICENSE",
       "licenseTextSource": "file"
     },
-    "react-markdown@4.2.2": {
+    "react-markdown@4.3.1": {
       "name": "react-markdown",
-      "version": "4.2.2",
+      "version": "4.3.1",
       "range": "^4.1.0",
       "licenses": "MIT",
       "repoUrl": "https://github.com/rexxars/react-markdown",
-      "versionedRepoUrl": "https://github.com/rexxars/react-markdown/tree/v4.2.2",
+      "versionedRepoUrl": "https://github.com/rexxars/react-markdown/tree/v4.3.1",
       "licenseFile": "node_modules/react-markdown/LICENSE",
-      "licenseUrl": "https://github.com/rexxars/react-markdown/blob/v4.2.2/LICENSE",
+      "licenseUrl": "https://github.com/rexxars/react-markdown/blob/v4.3.1/LICENSE",
       "licenseTextSource": "file",
       "publisher": "Espen Hovlandsdal",
       "email": "espen@hovlandsdal.com"
     },
-    "react@16.9.0": {
+    "react@16.13.1": {
       "name": "react",
-      "version": "16.9.0",
+      "version": "16.13.1",
       "range": "^16.6.3",
       "licenses": "MIT",
       "repoUrl": "https://github.com/facebook/react",
-      "versionedRepoUrl": "https://github.com/facebook/react/tree/v16.9.0",
+      "versionedRepoUrl": "https://github.com/facebook/react/tree/v16.13.1",
       "licenseFile": "node_modules/react/LICENSE",
-      "licenseUrl": "https://github.com/facebook/react/blob/v16.9.0/LICENSE",
+      "licenseUrl": "https://github.com/facebook/react/blob/v16.13.1/LICENSE",
       "licenseTextSource": "file"
     }
   },
@@ -77,15 +103,15 @@
       "licenseTextSource": "file",
       "publisher": "New Relic"
     },
-    "@semantic-release/changelog@3.0.5": {
+    "@semantic-release/changelog@3.0.6": {
       "name": "@semantic-release/changelog",
-      "version": "3.0.5",
+      "version": "3.0.6",
       "range": "^3.0.5",
       "licenses": "MIT",
       "repoUrl": "https://github.com/semantic-release/changelog",
-      "versionedRepoUrl": "https://github.com/semantic-release/changelog/tree/v3.0.5",
+      "versionedRepoUrl": "https://github.com/semantic-release/changelog/tree/v3.0.6",
       "licenseFile": "node_modules/@semantic-release/changelog/LICENSE",
-      "licenseUrl": "https://github.com/semantic-release/changelog/blob/v3.0.5/LICENSE",
+      "licenseUrl": "https://github.com/semantic-release/changelog/blob/v3.0.6/LICENSE",
       "licenseTextSource": "file",
       "publisher": "Pierre Vanduynslager",
       "url": "https://github.com/pvdlg"
@@ -103,32 +129,6 @@
       "publisher": "Pierre Vanduynslager",
       "url": "https://github.com/pvdlg"
     },
-    "babel-eslint@10.0.3": {
-      "name": "babel-eslint",
-      "version": "10.0.3",
-      "range": "^10.0.3",
-      "licenses": "MIT",
-      "repoUrl": "https://github.com/babel/babel-eslint",
-      "versionedRepoUrl": "https://github.com/babel/babel-eslint/tree/v10.0.3",
-      "licenseFile": "node_modules/babel-eslint/LICENSE",
-      "licenseUrl": "https://github.com/babel/babel-eslint/blob/v10.0.3/LICENSE",
-      "licenseTextSource": "file",
-      "publisher": "Sebastian McKenzie",
-      "email": "sebmck@gmail.com"
-    },
-    "babel-runtime@6.26.0": {
-      "name": "babel-runtime",
-      "version": "6.26.0",
-      "range": "^6.26.0",
-      "licenses": "MIT",
-      "repoUrl": "https://github.com/babel/babel/tree/master/packages/babel-runtime",
-      "versionedRepoUrl": "https://github.com/babel/babel/tree/master/packages/babel-runtime/tree/v6.26.0",
-      "licenseFile": "node_modules/babel-runtime/README.md",
-      "licenseUrl": "https://github.com/babel/babel/tree/master/packages/babel-runtime/blob/v6.26.0/README.md",
-      "licenseTextSource": "spdx",
-      "publisher": "Sebastian McKenzie",
-      "email": "sebmck@gmail.com"
-    },
     "eslint@6.8.0": {
       "name": "eslint",
       "version": "6.8.0",
@@ -141,18 +141,6 @@
       "licenseTextSource": "file",
       "publisher": "Nicholas C. Zakas",
       "email": "nicholas+npm@nczconsulting.com"
-    },
-    "file-loader@4.2.0": {
-      "name": "file-loader",
-      "version": "4.2.0",
-      "range": "^4.2.0",
-      "licenses": "MIT",
-      "repoUrl": "https://github.com/webpack-contrib/file-loader",
-      "versionedRepoUrl": "https://github.com/webpack-contrib/file-loader/tree/v4.2.0",
-      "licenseFile": "node_modules/file-loader/LICENSE",
-      "licenseUrl": "https://github.com/webpack-contrib/file-loader/blob/v4.2.0/LICENSE",
-      "licenseTextSource": "file",
-      "publisher": "Tobias Koppers @sokra"
     },
     "prettier@1.19.1": {
       "name": "prettier",
