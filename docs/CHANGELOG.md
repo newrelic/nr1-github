@@ -1,3 +1,11 @@
+## [0.6.4](https://github.com/newrelic/nr1-github/compare/v0.6.3...v0.6.4) (2020-09-02)
+
+
+### Bug Fixes
+
+* Trigger release and changelog generation (via GH Actions) ([c110968](https://github.com/newrelic/nr1-github/commit/c11096883838d2cfcb746714c90945767327e8bf))
+* when the error clears, make sure the state clears the error variable. ([a67ccde](https://github.com/newrelic/nr1-github/commit/a67ccde13f50f91b83c371f2a603024abd91f086))
+
 ## [0.6.3](https://github.com/newrelic/nr1-github/compare/v0.6.2...v0.6.3) (2020-05-18)
 
 
