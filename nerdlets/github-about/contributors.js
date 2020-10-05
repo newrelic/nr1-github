@@ -1,7 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import { Stack, StackItem, Button } from 'nr1';
+
 import Github from './github';
+import ErrorComponent from '../shared/error-component';
 import humanizeDuration from 'humanize-duration';
+import { ROUTES } from '../shared/constants';
 
 export default class Contributors extends React.PureComponent {
   static propTypes = {
@@ -10,7 +15,8 @@ export default class Contributors extends React.PureComponent {
     userToken: PropTypes.string,
     project: PropTypes.string,
     owner: PropTypes.string,
-    repoUrl: PropTypes.string
+    repoUrl: PropTypes.string,
+    setActiveTab: PropTypes.func
   };
 
   constructor(props) {
@@ -72,7 +78,7 @@ export default class Contributors extends React.PureComponent {
     // Bad url
     if (path.indexOf('//') > 0) {
       const error = new Error(`Bad repository url: ${path}`);
-      this.setState({ error: error.message });
+      this.setState({ error: error });
       return;
     }
 
@@ -80,10 +86,11 @@ export default class Contributors extends React.PureComponent {
 
     let query = '';
     let commitBatch = null;
+
     try {
-      for (let i = 0; i < 5; i++) {
+      for await (const i of Array(5).fill()) {
         commitBatch = await github.get(path + query);
-        // console.log(commitBatch);
+
         if (i > 0 && commitBatch) {
           commitBatch = commitBatch.slice(1);
         }
@@ -100,31 +107,46 @@ export default class Contributors extends React.PureComponent {
         (x, y) => y.commitCount - x.commitCount
       );
       this.setState({ error: null, committers: committerList });
-    } catch (e) {
+    } catch (error) {
       this.setState({
-        error:
-          commitBatch && commitBatch.message
-            ? commitBatch.message
-            : 'unknown error'
+        error
       });
-      console.error(e); // eslint-disable-line no-console
     }
   }
 
   render() {
+    const { setActiveTab } = this.props;
     const { error, committers } = this.state;
 
     if (error) {
       return (
         <>
-          <h2>An error occurred:</h2>
-          <p>{error}</p>
+          <ErrorComponent error={error} />
+          <Stack>
+            <StackItem>
+              <Button
+                iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__REFRESH}
+                type="normal"
+                onClick={this.load}
+              >
+                Try Again
+              </Button>
+            </StackItem>
+            <StackItem>
+              <Button
+                iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__REFRESH}
+                onClick={() => setActiveTab(ROUTES.TAB_SETUP)}
+              >
+                Update Settings
+              </Button>
+            </StackItem>
+          </Stack>
         </>
       );
     }
 
     if (!committers) {
-      return 'Loading Committers...';
+      return null;
     }
 
     return (

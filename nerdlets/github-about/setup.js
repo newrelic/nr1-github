@@ -3,7 +3,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { TextField, Button, Stack, StackItem, Grid, GridItem } from 'nr1';
+
 import isUrl from 'is-url';
+import { ROUTES } from '../shared/constants';
 
 const PUBLIC_GITHUB_API = 'https://api.github.com';
 
@@ -76,7 +78,7 @@ export default class Setup extends React.PureComponent {
       isValidUrl: true
     });
     setGithubUrl(githubUrl);
-    setActiveTab('repository');
+    setActiveTab(ROUTES.TAB_REPOSITORY);
   }
 
   renderUserTokenInput() {

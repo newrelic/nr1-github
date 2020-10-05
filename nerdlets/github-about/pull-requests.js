@@ -1,8 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import { Stack, StackItem, Button, Link } from 'nr1';
+
 import Github from './github';
-import { Link } from 'nr1';
+import ErrorComponent from '../shared/error-component';
+
 import humanizeDuration from 'humanize-duration';
+import { ROUTES } from '../shared/constants';
 
 export default class PullRequests extends React.PureComponent {
   static propTypes = {
@@ -11,7 +16,8 @@ export default class PullRequests extends React.PureComponent {
     userToken: PropTypes.string,
     project: PropTypes.string,
     owner: PropTypes.string,
-    repoUrl: PropTypes.string
+    repoUrl: PropTypes.string,
+    setActiveTab: PropTypes.func
   };
 
   constructor(props) {
@@ -49,7 +55,7 @@ export default class PullRequests extends React.PureComponent {
     // Bad url
     if (path.indexOf('//') > 0) {
       const error = new Error(`Bad repository url: ${path}`);
-      this.setState({ error: error.message });
+      this.setState({ error });
       return;
     }
 
@@ -57,24 +63,38 @@ export default class PullRequests extends React.PureComponent {
     try {
       pullRequests = await github.get(path);
       this.setState({ pullRequests, error: null });
-    } catch (e) {
-      const error =
-        pullRequests && pullRequests.message
-          ? pullRequests.message
-          : 'unknown error';
+    } catch (error) {
       this.setState({ error });
-      console.error(e); // eslint-disable-line no-console
     }
   }
 
   render() {
+    const { setActiveTab } = this.props;
     const { error, pullRequests } = this.state;
 
     if (error) {
       return (
         <>
-          <h2>An error occurred:</h2>
-          <p>{error}</p>
+          <ErrorComponent error={error} />
+          <Stack>
+            <StackItem>
+              <Button
+                iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__REFRESH}
+                type="normal"
+                onClick={this.load}
+              >
+                Try Again
+              </Button>
+            </StackItem>
+            <StackItem>
+              <Button
+                iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__REFRESH}
+                onClick={() => setActiveTab(ROUTES.TAB_SETUP)}
+              >
+                Update Settings
+              </Button>
+            </StackItem>
+          </Stack>
         </>
       );
     }

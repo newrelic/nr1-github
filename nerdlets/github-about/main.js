@@ -51,7 +51,7 @@ export default class GithubAbout extends React.PureComponent {
     this.checkGithubUrl = this.checkGithubUrl.bind(this);
     this._setGithubUrl = this._setGithubUrl.bind(this);
     this.handleTabClick = this.handleTabClick.bind(this);
-    this._setActiveTab = this._setActiveTab.bind(this);
+    this.handleSetActiveTab = this.handleSetActiveTab.bind(this);
 
     this.state = {
       entity: null,
@@ -245,7 +245,7 @@ export default class GithubAbout extends React.PureComponent {
     return { url, owner, project };
   }
 
-  _setActiveTab(tab) {
+  handleSetActiveTab(tab) {
     this.setState({ visibleTab: tab });
   }
 
@@ -288,6 +288,7 @@ export default class GithubAbout extends React.PureComponent {
               owner={owner}
               project={project}
               userToken={userToken}
+              setActiveTab={this.handleSetActiveTab}
             />
           </TabsItem>
           <TabsItem
@@ -302,6 +303,7 @@ export default class GithubAbout extends React.PureComponent {
               owner={owner}
               project={project}
               userToken={userToken}
+              setActiveTab={this.handleSetActiveTab}
             />
           </TabsItem>
           <TabsItem
@@ -316,6 +318,7 @@ export default class GithubAbout extends React.PureComponent {
               owner={owner}
               project={project}
               userToken={userToken}
+              setActiveTab={this.handleSetActiveTab}
             />
           </TabsItem>
           <TabsItem value="repository" label="Repository" disabled={!isSetup}>
@@ -327,6 +330,7 @@ export default class GithubAbout extends React.PureComponent {
               deleteGithubUrl={this._deleteGithubUrl}
               userToken={userToken}
               entity={entity}
+              setActiveTab={this.handleSetActiveTab}
             />
           </TabsItem>
           <TabsItem value="setup" label="Setup">
@@ -336,7 +340,7 @@ export default class GithubAbout extends React.PureComponent {
               setUserToken={this._setUserToken}
               userToken={userToken}
               onError={this.onSetupErrors}
-              setActiveTab={this._setActiveTab}
+              setActiveTab={this.handleSetActiveTab}
             />
           </TabsItem>
         </Tabs>

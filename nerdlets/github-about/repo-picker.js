@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { Button, Stack, StackItem, TextField, Spinner } from 'nr1';
+
 import Github from './github';
+import ErrorComponent from '../shared/error-component';
 import Header from './header';
+import { ROUTES } from '../shared/constants';
 
 export default class RepoPicker extends React.PureComponent {
   static propTypes = {
@@ -12,7 +16,8 @@ export default class RepoPicker extends React.PureComponent {
     setRepo: PropTypes.func.isRequired,
     deleteGithubUrl: PropTypes.func.isRequired,
     entity: PropTypes.object,
-    repoUrl: PropTypes.string
+    repoUrl: PropTypes.string,
+    setActiveTab: PropTypes.func
   };
 
   constructor(props) {
@@ -64,7 +69,7 @@ export default class RepoPicker extends React.PureComponent {
     return `in:name in:readme in:description ${cleanName}`;
   }
 
-  loadSuggestions() {
+  async loadSuggestions() {
     const { isSetup, userToken, githubUrl } = this.props;
 
     if (!isSetup) {
@@ -78,18 +83,16 @@ export default class RepoPicker extends React.PureComponent {
       this.getSearchQuery()
     )}`;
 
-    github.get(path).then(response => {
-      if (response instanceof Error) {
-        this.setState({ error: response.message });
-        return;
-      }
-
+    try {
+      const response = await github.get(path);
       const suggestions =
         response && response.items && response.items.length > 0
           ? response.items
           : [];
-      this.setState({ suggestions: suggestions });
-    });
+      this.setState({ suggestions });
+    } catch (error) {
+      this.setState({ error });
+    }
   }
 
   renderSuggestion(item, isSelected) {
@@ -169,8 +172,8 @@ export default class RepoPicker extends React.PureComponent {
     const { suggestions } = this.state;
     const { isSetup, repoUrl, entity, githubUrl } = this.props;
 
-    if (!isSetup) {
-      return <></>;
+    if (!isSetup || !Array.isArray(suggestions)) {
+      return null;
     }
 
     if (!suggestions || suggestions.length === 0 || !entity || !entity.name) {
@@ -228,7 +231,8 @@ export default class RepoPicker extends React.PureComponent {
   }
 
   render() {
-    const { deleteGithubUrl } = this.props;
+    // eslint-disable-next-line no-unused-vars
+    const { deleteGithubUrl, setActiveTab } = this.props;
     const { error, suggestions } = this.state;
 
     if (!suggestions && error === null) return <Spinner fillContainer />;
@@ -236,8 +240,7 @@ export default class RepoPicker extends React.PureComponent {
     if (error) {
       return (
         <>
-          <h2>An error occurred:</h2>
-          <p>{error}</p>
+          <ErrorComponent error={error} />
           <Stack>
             <StackItem>
               <Button

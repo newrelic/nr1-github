@@ -47,26 +47,20 @@ export default class GitHub {
       options.body = JSON.stringify(payload);
     }
 
+    const response = await fetch(url, options);
+
+    if (response.status !== 200) {
+      const bodyText = await response.text();
+      throw new Error(
+        `Error code ${response.status} when connecting to Github server (${GHURL}). Response: ${bodyText}`
+      );
+    }
+
     try {
-      const response = await fetch(url, options);
-
-      if (response.status !== 200) {
-        const bodyText = await response.text();
-        throw new Error(
-          `Error code ${response.status} when connecting to Github server (${GHURL}). Response: ${bodyText}`
-        );
-      }
-
-      try {
-        const bodyJson = await response.json();
-        return bodyJson;
-      } catch (e) {
-        return new Error('Error parsing JSON from Github server');
-      }
+      const bodyJson = await response.json();
+      return bodyJson;
     } catch (e) {
-      // eslint-disable-next-line no-console
-      console.debug(e);
-      return e;
+      return new Error('Error parsing JSON from Github server');
     }
   }
 
