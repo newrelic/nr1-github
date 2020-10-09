@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import {
   AccountStorageMutation,
   AccountStorageQuery,
@@ -8,12 +9,13 @@ import {
   TabsItem,
   Button,
   NerdGraphQuery,
-  UserStorageMutation,
   EntityStorageMutation,
   Stack,
   StackItem
 } from 'nr1';
+
 import get from 'lodash.get';
+import { UserSecretsMutation, UserSecretsQuery } from '@newrelic/nr1-community';
 
 import GITHUB_URL from '../../CONFIGURE_ME';
 
@@ -25,6 +27,7 @@ import PullRequests from './pull-requests';
 import Header from './header';
 
 import { formatGithubUrl } from '../shared/utils';
+import { GH_TOKEN, ROUTES } from '../shared/constants';
 
 // allows us to test the github url with a short timeout
 // https://stackoverflow.com/questions/46946380/fetch-api-request-timeout
@@ -46,6 +49,7 @@ export default class GithubAbout extends React.PureComponent {
     super(props);
 
     this._setUserToken = this._setUserToken.bind(this);
+    this._deleteUserToken = this._deleteUserToken.bind(this);
     this._setRepo = this._setRepo.bind(this);
     this._deleteGithubUrl = this._deleteGithubUrl.bind(this);
     this.checkGithubUrl = this.checkGithubUrl.bind(this);
@@ -59,7 +63,8 @@ export default class GithubAbout extends React.PureComponent {
       accountId: null,
       githubUrl: null,
       visibleTab: null,
-      githubAccessError: null
+      githubAccessError: null,
+      userToken: null
     };
   }
 
@@ -74,6 +79,17 @@ export default class GithubAbout extends React.PureComponent {
   }
 
   async load() {
+    const { data: userTokenObj } = await UserSecretsQuery.query({
+      secret: GH_TOKEN
+    });
+
+    if (!userTokenObj) {
+      this.setState({ visibleTab: ROUTES.TAB_SETUP, userToken: null });
+    } else {
+      const { value: userToken } = userTokenObj;
+      this.setState({ userToken });
+    }
+
     await this.fetchEntityData();
     await this._getGithubUrl();
     await this.checkGithubUrl();
@@ -83,9 +99,6 @@ export default class GithubAbout extends React.PureComponent {
     const { entityGuid } = this.props.nerdletUrlState;
     const query = `{
       actor {
-        nerdStorage {
-          userToken: document(collection: "global", documentId: "userToken")
-        }
         user {name email id}
         entity(guid: "${entityGuid}") {
           name domain type account { name id }
@@ -98,7 +111,6 @@ export default class GithubAbout extends React.PureComponent {
 
     const { data } = await NerdGraphQuery.query({ query });
     const accountId = get(data, 'actor.entity.account.id');
-    const userToken = get(data, 'actor.nerdStorage.userToken.userToken');
     const repoUrl = get(data, 'actor.entity.nerdStorage.repoUrl.repoUrl');
     const { user, entity } = data.actor;
 
@@ -112,7 +124,6 @@ export default class GithubAbout extends React.PureComponent {
       accountId,
       entity,
       entityNotFound: null,
-      userToken,
       repoUrl
     });
   }
@@ -196,13 +207,21 @@ export default class GithubAbout extends React.PureComponent {
 
   async _setUserToken(userToken) {
     const mutation = {
-      actionType: UserStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
-      collection: 'global',
-      documentId: 'userToken',
-      document: { userToken }
+      actionType: UserSecretsMutation.ACTION_TYPE.WRITE_SECRET,
+      secret: 'GH_TOKEN',
+      value: userToken
     };
-    await UserStorageMutation.mutate(mutation);
+    await UserSecretsMutation.mutate(mutation);
     this.setState({ userToken });
+  }
+
+  async _deleteUserToken() {
+    const mutation = {
+      actionType: UserSecretsMutation.ACTION_TYPE.DELETE_SECRET,
+      secret: 'GH_TOKEN'
+    };
+    await UserSecretsMutation.mutate(mutation);
+    this.setState({ userToken: null });
   }
 
   async _setRepo(repoUrl) {
@@ -338,6 +357,7 @@ export default class GithubAbout extends React.PureComponent {
               githubUrl={githubUrl}
               setGithubUrl={this._setGithubUrl}
               setUserToken={this._setUserToken}
+              deleteUserToken={this._deleteUserToken}
               userToken={userToken}
               onError={this.onSetupErrors}
               setActiveTab={this.handleSetActiveTab}

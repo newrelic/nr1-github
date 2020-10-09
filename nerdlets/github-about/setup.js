@@ -14,6 +14,7 @@ export default class Setup extends React.PureComponent {
     githubUrl: PropTypes.string,
     setGithubUrl: PropTypes.func.isRequired,
     setUserToken: PropTypes.func.isRequired,
+    deleteUserToken: PropTypes.func.isRequired,
     userToken: PropTypes.string,
     setActiveTab: PropTypes.func
   };
@@ -135,7 +136,7 @@ export default class Setup extends React.PureComponent {
   }
 
   renderDeleteUserToken() {
-    const { setUserToken } = this.props;
+    const { deleteUserToken } = this.props;
     const GHURL = this._getGithubUrl();
     return (
       <StackItem>
@@ -154,7 +155,7 @@ export default class Setup extends React.PureComponent {
         <Stack alignmentType="center" distributionType="trailing" fill>
           <StackItem>
             <Button
-              onClick={() => setUserToken(null)}
+              onClick={deleteUserToken}
               iconType="interface_operations_trash"
               sizeType={Button.SIZE_TYPE.SMALL}
               type={Button.TYPE.DESTRUCTIVE}

@@ -52,7 +52,7 @@ export default class ReadMe extends React.PureComponent {
     // Bad url
     if (path.indexOf('//') > 0) {
       const error = new Error(`Bad repository url: ${path}`);
-      this.setState({ error: error.message });
+      this.setState({ error: error });
       return;
     }
 

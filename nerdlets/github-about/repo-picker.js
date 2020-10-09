@@ -173,7 +173,7 @@ export default class RepoPicker extends React.PureComponent {
     const { isSetup, repoUrl, entity, githubUrl } = this.props;
 
     if (!isSetup || !Array.isArray(suggestions)) {
-      return null;
+      return <></>;
     }
 
     if (!suggestions || suggestions.length === 0 || !entity || !entity.name) {

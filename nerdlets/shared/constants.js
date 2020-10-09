@@ -5,3 +5,5 @@ export const ROUTES = {
   TAB_REPOSITORY: 'repository',
   TAB_SETUP: 'setup'
 };
+
+export const GH_TOKEN = 'GH_TOKEN';
