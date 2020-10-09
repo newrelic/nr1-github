@@ -208,7 +208,7 @@ export default class GithubAbout extends React.PureComponent {
   async _setUserToken(userToken) {
     const mutation = {
       actionType: UserSecretsMutation.ACTION_TYPE.WRITE_SECRET,
-      secret: 'GH_TOKEN',
+      key: 'GH_TOKEN',
       value: userToken
     };
     await UserSecretsMutation.mutate(mutation);
@@ -218,7 +218,7 @@ export default class GithubAbout extends React.PureComponent {
   async _deleteUserToken() {
     const mutation = {
       actionType: UserSecretsMutation.ACTION_TYPE.DELETE_SECRET,
-      secret: 'GH_TOKEN'
+      key: 'GH_TOKEN'
     };
     await UserSecretsMutation.mutate(mutation);
     this.setState({ userToken: null });
