@@ -1,17 +1,16 @@
 /* eslint-disable react/no-did-update-set-state */
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { TextField, Button, Stack, StackItem, Grid, GridItem } from 'nr1';
 import isUrl from 'is-url';
 
 const PUBLIC_GITHUB_API = 'https://api.github.com';
-
 export default class Setup extends React.PureComponent {
   static propTypes = {
     githubUrl: PropTypes.string,
     setGithubUrl: PropTypes.func.isRequired,
     setUserToken: PropTypes.func.isRequired,
+    deleteUserToken: PropTypes.func.isRequired,
     userToken: PropTypes.string,
     setActiveTab: PropTypes.func
   };
@@ -24,7 +23,6 @@ export default class Setup extends React.PureComponent {
       isGithubEnterprise: true,
       isValidUrl: true
     };
-
     this.handleSetGithubUrl = this.handleSetGithubUrl.bind(this);
   }
 
@@ -32,13 +30,11 @@ export default class Setup extends React.PureComponent {
     const { githubUrl, userToken } = this.props;
     if (prevProps.githubUrl !== githubUrl) {
       this.setState({ githubUrl });
-
       if (githubUrl !== null) {
         // When resetting url, also reset isGithubEnterprise
         if (githubUrl === '') {
           this.setState({ isGithubEnterprise: true });
         }
-
         if (githubUrl.indexOf('api.github.com') >= 0) {
           this.setState({ isGithubEnterprise: false });
         }
@@ -51,22 +47,18 @@ export default class Setup extends React.PureComponent {
 
   _getGithubUrl() {
     const { githubUrl } = this.state;
-
     if (githubUrl && githubUrl.indexOf('api.github.com')) {
       return 'https://github.com';
     }
-
     return githubUrl;
   }
 
   handleSetGithubUrl() {
     const { githubUrl } = this.state;
     const { setGithubUrl, setActiveTab } = this.props;
-
     if (githubUrl === '') {
       return;
     }
-
     const isValidUrl = isUrl(githubUrl);
     if (!isValidUrl) {
       this.setState({ isValidUrl: false });
@@ -133,7 +125,7 @@ export default class Setup extends React.PureComponent {
   }
 
   renderDeleteUserToken() {
-    const { setUserToken } = this.props;
+    const { deleteUserToken } = this.props;
     const GHURL = this._getGithubUrl();
     return (
       <StackItem>
@@ -152,7 +144,7 @@ export default class Setup extends React.PureComponent {
         <Stack alignmentType="center" distributionType="trailing" fill>
           <StackItem>
             <Button
-              onClick={() => setUserToken(null)}
+              onClick={deleteUserToken}
               iconType="interface_operations_trash"
               sizeType={Button.SIZE_TYPE.SMALL}
               type={Button.TYPE.DESTRUCTIVE}
@@ -167,7 +159,6 @@ export default class Setup extends React.PureComponent {
 
   renderGithubUrlInput() {
     const { isGithubEnterprise, githubUrl, isValidUrl } = this.state;
-
     return (
       <StackItem>
         <h1>Integrate with GitHub</h1>
