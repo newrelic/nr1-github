@@ -1,9 +1,21 @@
 {
-  "lastUpdated": "Wed Sep 02 2020 19:30:10 GMT+0000 (Coordinated Universal Time)",
+  "lastUpdated": "Fri Nov 06 2020 19:07:42 GMT+0000 (Coordinated Universal Time)",
   "projectName": "nr1-github",
   "projectUrl": "https://github.com/newrelic/nr1-github",
   "includeDev": true,
   "dependencies": {
+    "@newrelic/nr1-community@1.3.0-alpha.5": {
+      "name": "@newrelic/nr1-community",
+      "version": "1.3.0-alpha.5",
+      "range": "^1.3.0-alpha.5",
+      "licenses": "Apache-2.0",
+      "repoUrl": "https://github.com/newrelic/nr1-community",
+      "versionedRepoUrl": "https://github.com/newrelic/nr1-community/tree/v1.3.0-alpha.5",
+      "licenseFile": "node_modules/@newrelic/nr1-community/LICENSE",
+      "licenseUrl": "https://github.com/newrelic/nr1-community/blob/v1.3.0-alpha.5/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "newrelic"
+    },
     "humanize-duration@3.23.1": {
       "name": "humanize-duration",
       "version": "3.23.1",
