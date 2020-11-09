@@ -1,3 +1,10 @@
+## [0.6.5](https://github.com/newrelic/nr1-github/compare/v0.6.4...v0.6.5) (2020-11-09)
+
+
+### Bug Fixes
+
+* Trigger release and changelog generation (via GH Actions) ([63b7dbb](https://github.com/newrelic/nr1-github/commit/63b7dbbf4747a48cd36473bf7567cb585dcaad2e))
+
 ## [0.6.4](https://github.com/newrelic/nr1-github/compare/v0.6.3...v0.6.4) (2020-09-02)
 
 
