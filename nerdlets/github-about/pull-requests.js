@@ -72,8 +72,8 @@ export default class PullRequests extends React.PureComponent {
           <h2>An error occurred:</h2>
           <p>
             Possible issues include a repository that has moved, is within a
-            different instance of GitHub, or is malformed. The repository URL
-            can be set in the{' '}
+            different instance of GitHub, or has a malformed URL. The repository
+            URL can be set in the{' '}
             <a onClick={() => setActiveTab('repository')}>repository tab</a>.
           </p>
           <p>{error}</p>
