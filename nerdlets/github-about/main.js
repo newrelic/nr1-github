@@ -330,6 +330,7 @@ export default class GithubAbout extends React.PureComponent {
             disabled={isDisabled}
           >
             <PullRequests
+              setActiveTab={this._setActiveTab}
               isSetup={isSetup}
               githubUrl={githubUrl}
               repoUrl={repoUrl}
