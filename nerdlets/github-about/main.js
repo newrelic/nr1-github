@@ -300,7 +300,12 @@ export default class GithubAbout extends React.PureComponent {
       <div className="container">
         <Header repoUrl={repoUrl} />
         <Tabs className="tabs" onChange={this.handleTabClick} value={getTab()}>
-          <TabsItem value="readme" label="README.md" disabled={isDisabled}>
+          <TabsItem
+            className="tabsItem"
+            value="readme"
+            label="README.md"
+            disabled={isDisabled}
+          >
             <Readme
               isSetup={isSetup}
               githubUrl={githubUrl}
@@ -311,6 +316,7 @@ export default class GithubAbout extends React.PureComponent {
             />
           </TabsItem>
           <TabsItem
+            className="tabsItem"
             value="contributors"
             label="Contributors"
             disabled={isDisabled}
@@ -328,6 +334,7 @@ export default class GithubAbout extends React.PureComponent {
             value="pull-requests"
             label="Pull Requests"
             disabled={isDisabled}
+            className="tabsItem"
           >
             <PullRequests
               setActiveTab={this._setActiveTab}
@@ -339,7 +346,12 @@ export default class GithubAbout extends React.PureComponent {
               userToken={userToken}
             />
           </TabsItem>
-          <TabsItem value="repository" label="Repository" disabled={!isSetup}>
+          <TabsItem
+            className="tabsItem"
+            value="repository"
+            label="Repository"
+            disabled={!isSetup}
+          >
             <RepoPicker
               isSetup={isSetup}
               githubUrl={githubUrl}
@@ -350,7 +362,7 @@ export default class GithubAbout extends React.PureComponent {
               entity={entity}
             />
           </TabsItem>
-          <TabsItem value="setup" label="Setup">
+          <TabsItem value="setup" label="Setup" className="tabsItem">
             <Setup
               deleteUserToken={this._deleteUserToken}
               githubUrl={githubUrl}
