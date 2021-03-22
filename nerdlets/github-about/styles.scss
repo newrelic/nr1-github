@@ -33,7 +33,11 @@ h2 {
 }
 
 .tabs {
-  font-size: 16px
+  font-size: 16px;
+}
+
+.tabsItem {
+  padding: 0 2rem;
 }
 
 p {
@@ -89,7 +93,7 @@ tr.active  {
   min-height: 100%;
   // max-width: 1000px;
   background-color: #fff;
-  /* padding: 0 32px 32px; */
+  // padding: 0 32px 32px;
   box-sizing: border-box;
   box-shadow: 0 1px 1px rgba(0, 100, 101, 0.1);
 }

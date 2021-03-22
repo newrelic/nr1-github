@@ -7,6 +7,7 @@ import humanizeDuration from 'humanize-duration';
 export default class PullRequests extends React.PureComponent {
   static propTypes = {
     githubUrl: PropTypes.string,
+    setActiveTab: PropTypes.func,
     isSetup: PropTypes.bool,
     userToken: PropTypes.string,
     project: PropTypes.string,
@@ -53,27 +54,28 @@ export default class PullRequests extends React.PureComponent {
       return;
     }
 
-    let pullRequests = null;
-    try {
-      pullRequests = await github.get(path);
-      this.setState({ pullRequests, error: null });
-    } catch (e) {
-      const error =
-        pullRequests && pullRequests.message
-          ? pullRequests.message
-          : 'unknown error';
-      this.setState({ error });
-      console.error(e); // eslint-disable-line no-console
+    const response = await github.get(path);
+    if (response instanceof Error) {
+      this.setState({ error: response.message });
+    } else {
+      this.setState({ pullRequests: response, error: null });
     }
   }
 
   render() {
     const { error, pullRequests } = this.state;
+    const { setActiveTab } = this.props;
 
     if (error) {
       return (
         <>
           <h2>An error occurred:</h2>
+          <p>
+            Possible issues include a repository that has moved, is within a
+            different instance of GitHub, or has a malformed URL. The repository
+            URL can be set in the{' '}
+            <a onClick={() => setActiveTab('repository')}>repository tab</a>.
+          </p>
           <p>{error}</p>
         </>
       );
