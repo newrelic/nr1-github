@@ -1,3 +1,10 @@
+## [0.6.6](https://github.com/newrelic/nr1-github/compare/v0.6.5...v0.6.6) (2021-03-22)
+
+
+### Bug Fixes
+
+* Update error handling for PullRequests component ([7c80faa](https://github.com/newrelic/nr1-github/commit/7c80faa834061e824fa0b2caa62175bebfe6ae32))
+
 ## [0.6.5](https://github.com/newrelic/nr1-github/compare/v0.6.4...v0.6.5) (2020-11-09)
 
 
