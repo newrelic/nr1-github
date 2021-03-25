@@ -1,3 +1,10 @@
+## [0.6.7](https://github.com/newrelic/nr1-github/compare/v0.6.6...v0.6.7) (2021-03-25)
+
+
+### Bug Fixes
+
+* Update copy around errors and github tokens ([b839f9d](https://github.com/newrelic/nr1-github/commit/b839f9ddbcb48f3c82db68cf41d20fe99ef4f3f1))
+
 ## [0.6.6](https://github.com/newrelic/nr1-github/compare/v0.6.5...v0.6.6) (2021-03-22)
 
 
