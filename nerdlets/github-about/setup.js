@@ -87,8 +87,8 @@ export default class Setup extends React.PureComponent {
           >
             generate a personal access token
           </a>{' '}
-          for your GitHub account. You don't need to give the token any special
-          access scopes.
+          for your GitHub account. If your repo is private you will need to{' '}
+          include the repo access scope.
         </p>
         <Stack
           fullWidth
