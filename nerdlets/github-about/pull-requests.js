@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Github from './github';
-import { Link } from 'nr1';
+import { Link, List, ListItem } from 'nr1';
 import humanizeDuration from 'humanize-duration';
 
 export default class PullRequests extends React.PureComponent {
@@ -70,12 +70,26 @@ export default class PullRequests extends React.PureComponent {
       return (
         <>
           <h2>An error occurred:</h2>
+          <p>Possible issues include:</p>
+          <List>
+            <ListItem>- a repository that has moved</ListItem>
+            <ListItem>
+              - a repository within a different instance of GitHub
+            </ListItem>
+            <ListItem>- a malformed repository URL</ListItem>
+            <ListItem>
+              - a github token with insufficient permissions (if your repository
+              is private you will need a token with repo permissions)
+            </ListItem>
+          </List>
+          <br />
           <p>
-            Possible issues include a repository that has moved, is within a
-            different instance of GitHub, or has a malformed URL. The repository
-            URL can be set in the{' '}
+            The repository URL can be set in the{' '}
             <a onClick={() => setActiveTab('repository')}>repository tab</a>.
+            The github token can be deleted/replaced in the{' '}
+            <a onClick={() => setActiveTab('setup')}>setup tab</a>.
           </p>
+          <br />
           <p>{error}</p>
         </>
       );

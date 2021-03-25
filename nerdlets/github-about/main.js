@@ -322,6 +322,7 @@ export default class GithubAbout extends React.PureComponent {
             disabled={isDisabled}
           >
             <Contributors
+              setActiveTab={this._setActiveTab}
               isSetup={isSetup}
               githubUrl={githubUrl}
               repoUrl={repoUrl}
