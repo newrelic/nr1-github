@@ -1,3 +1,10 @@
+## [0.6.8](https://github.com/newrelic/nr1-github/compare/v0.6.7...v0.6.8) (2021-05-04)
+
+
+### Bug Fixes
+
+* Restrict repo links to http/https ([76c0bad](https://github.com/newrelic/nr1-github/commit/76c0badc7d689cc567d3f317a546c57bc72b6f3c))
+
 ## [0.6.7](https://github.com/newrelic/nr1-github/compare/v0.6.6...v0.6.7) (2021-03-25)
 
 
