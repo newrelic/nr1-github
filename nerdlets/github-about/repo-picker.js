@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Stack, StackItem, TextField, Spinner } from 'nr1';
 import Github from './github';
 import Header from './header';
+import { isUrlSafe } from '../shared/utils';
 
 export default class RepoPicker extends React.PureComponent {
   static propTypes = {
@@ -22,7 +23,8 @@ export default class RepoPicker extends React.PureComponent {
 
     this.state = {
       suggestions: null,
-      error: null
+      error: null,
+      customRepoError: null
     };
   }
 
@@ -136,9 +138,20 @@ export default class RepoPicker extends React.PureComponent {
     );
   }
 
+  validateAndSubmitRepoUrl(value) {
+    const { setRepo } = this.props;
+
+    if (!isUrlSafe(value)) {
+      return this.setState({ customRepoError: 'Invalid URL' });
+    }
+
+    this.setState({ customRepoError: null });
+    setRepo(value);
+  }
+
   renderCustomUrlRow(hasMatch) {
-    const { setRepo, repoUrl } = this.props;
-    const { customRepo } = this.state;
+    const { repoUrl } = this.props;
+    const { customRepo, customRepoError } = this.state;
 
     return (
       <tr>
@@ -146,6 +159,7 @@ export default class RepoPicker extends React.PureComponent {
           <TextField
             defaultValue={hasMatch ? '' : repoUrl}
             placeholder="Paste repository URL here"
+            invalid={customRepoError || ''}
             onChange={event =>
               this.setState({ customRepo: event.target.value })
             }
@@ -156,7 +170,7 @@ export default class RepoPicker extends React.PureComponent {
           <Button
             sizeType={Button.SIZE_TYPE.SMALL}
             type={Button.TYPE.PRIMARY}
-            onClick={() => setRepo(customRepo || repoUrl)}
+            onClick={() => this.validateAndSubmitRepoUrl(customRepo || repoUrl)}
           >
             Set Repository
           </Button>
