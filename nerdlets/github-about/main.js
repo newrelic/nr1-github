@@ -380,8 +380,6 @@ export default class GithubAbout extends React.PureComponent {
   }
 
   renderGithubAccessError() {
-    const { githubUrl } = this.state;
-    const GHURL = githubUrl.trim();
     return (
       <div className="root">
         <div className="container">
@@ -389,8 +387,8 @@ export default class GithubAbout extends React.PureComponent {
             <Header />
             <h2>Error accessing GitHub</h2>
             <p>
-              There was an error connecting to <a href={GHURL}>{GHURL}</a>. The
-              typical fix for this will be to login to your VPN.
+              There was an error connecting to the repository. The typical fix
+              for this will be to login to your VPN.
             </p>
             <Stack>
               <StackItem>
