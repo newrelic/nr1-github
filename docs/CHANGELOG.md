@@ -1,3 +1,10 @@
+## [0.6.9](https://github.com/newrelic/nr1-github/compare/v0.6.8...v0.6.9) (2021-05-14)
+
+
+### Bug Fixes
+
+* remove github url to prevent xss rendering ([0f8bf53](https://github.com/newrelic/nr1-github/commit/0f8bf53e79d8e57be6401aba986c52d79a65a215))
+
 ## [0.6.8](https://github.com/newrelic/nr1-github/compare/v0.6.7...v0.6.8) (2021-05-04)
 
 
