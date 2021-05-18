@@ -1,7 +1,17 @@
 /* eslint-disable react/no-did-update-set-state */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TextField, Button, Stack, StackItem, Grid, GridItem } from 'nr1';
+import {
+  TextField,
+  Button,
+  Stack,
+  StackItem,
+  Grid,
+  GridItem,
+  Tooltip,
+  Badge,
+  Icon
+} from 'nr1';
 import isUrl from 'is-url';
 
 const PUBLIC_GITHUB_API = 'https://api.github.com';
@@ -55,13 +65,22 @@ export default class Setup extends React.PureComponent {
 
   handleSetGithubUrl() {
     const { githubUrl } = this.state;
-    const { setGithubUrl, setActiveTab } = this.props;
+    const {
+      setGithubUrl,
+      setActiveTab,
+      deleteUserToken,
+      userToken
+    } = this.props;
     if (githubUrl === '') {
       return;
     }
     const isValidUrl = isUrl(githubUrl);
     if (!isValidUrl) {
       this.setState({ isValidUrl: false });
+      return;
+    }
+    if (userToken) {
+      deleteUserToken();
       return;
     }
     this.setState({
@@ -239,6 +258,16 @@ export default class Setup extends React.PureComponent {
                 )}
               </StackItem>
               <StackItem>
+                <Tooltip
+                  text="Setting this will delete any Personal Access Token stored for this Entity for Security purposes"
+                  placementType={Tooltip.PLACEMENT_TYPE.BOTTOM}
+                >
+                  <Badge type={Badge.TYPE.CRITICAL}>
+                    <Icon
+                      type={Icon.TYPE.INTERFACE__SIGN__EXCLAMATION__V_ALTERNATE}
+                    />
+                  </Badge>
+                </Tooltip>
                 <Button
                   onClick={this.handleSetGithubUrl}
                   disabled={!isGithubEnterprise || !githubUrl}
