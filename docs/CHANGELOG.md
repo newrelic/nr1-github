@@ -1,3 +1,11 @@
+## [0.6.10](https://github.com/newrelic/nr1-github/compare/v0.6.9...v0.6.10) (2021-05-18)
+
+
+### Bug Fixes
+
+* changed ability to see other users GitHub PAT ([ace3854](https://github.com/newrelic/nr1-github/commit/ace385442df0131ddec07c7a5b0a708bed2ac4f7))
+* when PAT is deleted so is Repo URL ([25e0f16](https://github.com/newrelic/nr1-github/commit/25e0f16bd381d78bcd9e406b1a24889c4674cc66))
+
 ## [0.6.9](https://github.com/newrelic/nr1-github/compare/v0.6.8...v0.6.9) (2021-05-14)
 
 
