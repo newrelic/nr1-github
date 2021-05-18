@@ -227,6 +227,7 @@ export default class GithubAbout extends React.PureComponent {
   }
 
   async _deleteUserToken() {
+    await this._deleteGithubUrl();
     const mutation = {
       actionType: UserSecretsMutation.ACTION_TYPE.DELETE_SECRET,
       name: 'GH_TOKEN'
