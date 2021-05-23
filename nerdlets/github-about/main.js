@@ -238,7 +238,6 @@ export default class GithubAbout extends React.PureComponent {
 
   async _setRepo(repoUrl) {
     repoUrl = formatGithubUrl(repoUrl);
-    await this._deleteUserToken();
     const { entityGuid } = this.props.nerdletUrlState;
     const mutation = {
       actionType: EntityStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
