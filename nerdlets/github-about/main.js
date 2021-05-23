@@ -56,8 +56,7 @@ export default class GithubAbout extends React.PureComponent {
       githubUrl: null,
       visibleTab: null,
       githubAccessError: null,
-      userToken: null,
-      apolloError: null
+      userToken: null
     };
   }
 
