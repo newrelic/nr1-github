@@ -195,13 +195,12 @@ export default class Setup extends React.PureComponent {
         </p>
         <Stack alignmentType="center">
           <StackItem className="integration-step-container">
-            <h2>1. First Things First</h2>
+            <h2>1. First Things First.</h2>
             <p>
-              Let's get you started! Set up this Nerdpack by configuring your 
-              organization's GitHub URL. If you are hosting your source code on 
-              a public Github repository you will use <a href="https://api.github.com">https://api.github.com</a>. 
-              If you are hosting your source code on a private Github Enterprise 
-              repository provide that URL below.
+              Let's get you started! Set up this Nerdpack by configuring your
+              organization's GitHub URL. It could be the public{' '}
+              <a href="https://github.com">https://github.com</a> or it could be
+              a private GitHub enterprise instance.
             </p>
             <Stack
               gapType={Stack.GAP_TYPE.SMALL}
@@ -263,7 +262,6 @@ export default class Setup extends React.PureComponent {
                     this.setState({ githubUrl: target.value });
                   }}
                   value={githubUrl}
-                  disabled={!isGithubEnterprise}
                 />
                 {!isValidUrl && (
                   <span>URL is invalid, please provide a valid url</span>
