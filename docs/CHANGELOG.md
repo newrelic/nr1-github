@@ -1,3 +1,10 @@
+## [0.6.12](https://github.com/newrelic/nr1-github/compare/v0.6.11...v0.6.12) (2021-05-24)
+
+
+### Bug Fixes
+
+* vulnerability ([1162d5d](https://github.com/newrelic/nr1-github/commit/1162d5dc5f4ec91a8d07fb46261844e755c0b2fb))
+
 ## [0.6.11](https://github.com/newrelic/nr1-github/compare/v0.6.10...v0.6.11) (2021-05-24)
 
 
