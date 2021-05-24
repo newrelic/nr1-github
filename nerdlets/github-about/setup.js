@@ -34,6 +34,7 @@ export default class Setup extends React.PureComponent {
       isValidUrl: true
     };
     this.handleSetGithubUrl = this.handleSetGithubUrl.bind(this);
+    this.renderTooltip = this.renderTooltip.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -65,22 +66,13 @@ export default class Setup extends React.PureComponent {
 
   handleSetGithubUrl() {
     const { githubUrl } = this.state;
-    const {
-      setGithubUrl,
-      setActiveTab,
-      deleteUserToken,
-      userToken
-    } = this.props;
+    const { setGithubUrl, setActiveTab } = this.props;
     if (githubUrl === '') {
       return;
     }
     const isValidUrl = isUrl(githubUrl);
     if (!isValidUrl) {
       this.setState({ isValidUrl: false });
-      return;
-    }
-    if (userToken) {
-      deleteUserToken();
       return;
     }
     this.setState({
@@ -176,8 +168,24 @@ export default class Setup extends React.PureComponent {
     );
   }
 
+  renderTooltip() {
+    const { userToken } = this.state;
+    if (userToken) {
+      return (
+        <Tooltip
+          text="Please delete your Personal Access Token before changing your URL"
+          placementType={Tooltip.PLACEMENT_TYPE.BOTTOM}
+        >
+          <Badge type={Badge.TYPE.CRITICAL}>
+            <Icon type={Icon.TYPE.INTERFACE__SIGN__EXCLAMATION__V_ALTERNATE} />
+          </Badge>
+        </Tooltip>
+      );
+    }
+  }
+
   renderGithubUrlInput() {
-    const { isGithubEnterprise, githubUrl, isValidUrl } = this.state;
+    const { isGithubEnterprise, githubUrl, isValidUrl, userToken } = this.state;
     return (
       <StackItem>
         <h1>Integrate with GitHub</h1>
@@ -222,6 +230,7 @@ export default class Setup extends React.PureComponent {
               <StackItem>
                 <Button
                   sizeType={Button.SIZE_TYPE.LARGE}
+                  disabled={userToken}
                   type={
                     isGithubEnterprise
                       ? Button.TYPE.PRIMARY
@@ -236,6 +245,7 @@ export default class Setup extends React.PureComponent {
                 >
                   Github Enterprise
                 </Button>
+                {this.renderTooltip()}
               </StackItem>
             </Stack>
             <Stack
@@ -258,16 +268,6 @@ export default class Setup extends React.PureComponent {
                 )}
               </StackItem>
               <StackItem>
-                <Tooltip
-                  text="Setting this will delete any Personal Access Token stored for this Entity for Security purposes"
-                  placementType={Tooltip.PLACEMENT_TYPE.BOTTOM}
-                >
-                  <Badge type={Badge.TYPE.CRITICAL}>
-                    <Icon
-                      type={Icon.TYPE.INTERFACE__SIGN__EXCLAMATION__V_ALTERNATE}
-                    />
-                  </Badge>
-                </Tooltip>
                 <Button
                   onClick={this.handleSetGithubUrl}
                   disabled={!isGithubEnterprise || !githubUrl}
