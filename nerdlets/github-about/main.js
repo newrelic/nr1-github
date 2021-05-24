@@ -238,7 +238,6 @@ export default class GithubAbout extends React.PureComponent {
 
   async _setRepo(repoUrl) {
     repoUrl = formatGithubUrl(repoUrl);
-    await this._deleteUserToken();
     const { entityGuid } = this.props.nerdletUrlState;
     const mutation = {
       actionType: EntityStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
@@ -247,7 +246,13 @@ export default class GithubAbout extends React.PureComponent {
       documentId: 'repoUrl',
       document: { repoUrl }
     };
-    await EntityStorageMutation.mutate(mutation);
+    try {
+      await EntityStorageMutation.mutate(mutation);
+    } catch (error) {
+      if (!JSON.stringify(error).includes('Invariant Violation: 8')) {
+        throw error;
+      }
+    }
     this.setState({ repoUrl });
   }
 
