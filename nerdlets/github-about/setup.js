@@ -34,7 +34,7 @@ export default class Setup extends React.PureComponent {
       isValidUrl: true
     };
     this.handleSetGithubUrl = this.handleSetGithubUrl.bind(this);
-    this.renderTooltip = this.renderTooltip.bind(this)
+    this.renderTooltip = this.renderTooltip.bind(this);
   }
 
   componentDidUpdate(prevProps) {
