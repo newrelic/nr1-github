@@ -308,7 +308,6 @@ export default class GithubAbout extends React.PureComponent {
               owner={owner}
               project={project}
               userToken={userToken}
-              handleTabClick={this.handleTabClick}
             />
           </TabsItem>
           <TabsItem
