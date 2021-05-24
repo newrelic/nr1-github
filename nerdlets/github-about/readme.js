@@ -11,8 +11,7 @@ export default class ReadMe extends React.PureComponent {
     owner: PropTypes.string,
     userToken: PropTypes.string,
     repoUrl: PropTypes.string,
-    project: PropTypes.string,
-    handleTabClick: PropTypes.func
+    project: PropTypes.string
   };
 
   constructor(props) {
@@ -33,7 +32,6 @@ export default class ReadMe extends React.PureComponent {
       (!prevProps.isSetup && this.props.isSetup)
     ) {
       this.load();
-      this.props.handleTabClick()
     }
   }
 
