@@ -120,7 +120,7 @@ export default class RepoPicker extends React.PureComponent {
               {item.full_name}
             </a>
             <br />
-            <small> 
+            <small>
               <a target="_blank" href={item.html_url} rel="noopener noreferrer">
                 {item.html_url}
               </a>
