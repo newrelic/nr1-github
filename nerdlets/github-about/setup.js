@@ -168,24 +168,19 @@ export default class Setup extends React.PureComponent {
     );
   }
 
-  renderTooltip() {
-    const { userToken } = this.state;
-    if (userToken) {
-      return (
-        <Tooltip
-          text="Please delete your Personal Access Token before changing your URL"
-          placementType={Tooltip.PLACEMENT_TYPE.BOTTOM}
-        >
-          <Badge type={Badge.TYPE.CRITICAL}>
-            <Icon type={Icon.TYPE.INTERFACE__SIGN__EXCLAMATION__V_ALTERNATE} />
-          </Badge>
-        </Tooltip>
-      );
-    }
+  renderTooltip(msg) {
+    return (
+      <Tooltip text={msg} placementType={Tooltip.PLACEMENT_TYPE.BOTTOM}>
+        <Badge type={Badge.TYPE.CRITICAL}>
+          <Icon type={Icon.TYPE.INTERFACE__SIGN__EXCLAMATION__V_ALTERNATE} />
+        </Badge>
+      </Tooltip>
+    );
   }
 
   renderGithubUrlInput() {
     const { isGithubEnterprise, githubUrl, isValidUrl, userToken } = this.state;
+    const propToken = this.props.userToken;
     return (
       <StackItem>
         <h1>Integrate with GitHub</h1>
@@ -230,7 +225,7 @@ export default class Setup extends React.PureComponent {
               <StackItem>
                 <Button
                   sizeType={Button.SIZE_TYPE.LARGE}
-                  disabled={userToken}
+                  disabled={propToken && !isGithubEnterprise}
                   type={
                     isGithubEnterprise
                       ? Button.TYPE.PRIMARY
@@ -245,7 +240,11 @@ export default class Setup extends React.PureComponent {
                 >
                   Github Enterprise
                 </Button>
-                {this.renderTooltip()}
+                {propToken && !isGithubEnterprise
+                  ? this.renderTooltip(
+                      'Please delete your Personal Access Token before changing your URL'
+                    ) : null
+                }
               </StackItem>
             </Stack>
             <Stack
@@ -256,7 +255,7 @@ export default class Setup extends React.PureComponent {
               <StackItem grow>
                 <TextField
                   autofocus
-                  label="GitHub Url"
+                  label={isGithubEnterprise ? "GitHub Enterprise Url" : "GitHub Public Url"}
                   placeholder="Provide your Github instance URL"
                   onChange={({ target }) => {
                     this.setState({ githubUrl: target.value });
@@ -268,9 +267,18 @@ export default class Setup extends React.PureComponent {
                 )}
               </StackItem>
               <StackItem>
+                {!propToken && isGithubEnterprise
+                  ? this.renderTooltip(
+                      'Please add a Personal Access Token before setting GH Enterprise URL'
+                    ) : null
+                }
                 <Button
                   onClick={this.handleSetGithubUrl}
-                  disabled={!isGithubEnterprise || !githubUrl}
+                  disabled={
+                    !isGithubEnterprise ||
+                    !githubUrl ||
+                    (!propToken && isGithubEnterprise)
+                  }
                   type={Button.TYPE.PRIMARY}
                 >
                   Set Your GitHub URL

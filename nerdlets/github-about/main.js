@@ -11,7 +11,9 @@ import {
   EntityStorageMutation,
   Stack,
   StackItem,
-  UserStorageMutation
+  UserStorageMutation,
+  Toast,
+  logger
 } from 'nr1';
 import { UserSecretsMutation, UserSecretsQuery } from '@newrelic/nr1-community';
 import get from 'lodash.get';
@@ -182,6 +184,13 @@ export default class GithubAbout extends React.PureComponent {
   }
 
   async _setGithubUrl(githubUrl) {
+    const showToast = () =>
+      Toast.showToast({
+        title: 'Unable to set URL',
+        description: `There is a Personal Access Token set for this Application. 
+        For security purposes, you will need to delete the current PAT before switching to GH Enterprise`,
+        type: Toast.TYPE.CRITICAL
+      });
     const { accountId } = this.state;
     githubUrl = formatGithubUrl(githubUrl);
     // console.log(githubUrl);
