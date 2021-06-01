@@ -88,7 +88,7 @@ export default class Setup extends React.PureComponent {
     const GHURL = this._getGithubUrl();
     return (
       <StackItem className="integration-step-container">
-        <h2>2. Personal Access Token</h2>
+        <h2>1. Personal Access Token</h2>
         <p>
           To get started,{' '}
           <a
@@ -140,7 +140,7 @@ export default class Setup extends React.PureComponent {
     const GHURL = this._getGithubUrl();
     return (
       <StackItem>
-        <h2>2. Personal Access Token</h2>
+        <h2>1. Personal Access Token</h2>
         <p>
           You have provided a GitHub personal access token, which you can{' '}
           <a
@@ -168,118 +168,121 @@ export default class Setup extends React.PureComponent {
     );
   }
 
-  renderTooltip() {
-    const { userToken } = this.state;
-    if (userToken) {
-      return (
-        <Tooltip
-          text="Please delete your Personal Access Token before changing your URL"
-          placementType={Tooltip.PLACEMENT_TYPE.BOTTOM}
-        >
-          <Badge type={Badge.TYPE.CRITICAL}>
-            <Icon type={Icon.TYPE.INTERFACE__SIGN__EXCLAMATION__V_ALTERNATE} />
-          </Badge>
-        </Tooltip>
-      );
-    }
+  renderTooltip(msg) {
+    return (
+      <Tooltip text={msg} placementType={Tooltip.PLACEMENT_TYPE.BOTTOM}>
+        <Badge type={Badge.TYPE.CRITICAL}>
+          <Icon type={Icon.TYPE.INTERFACE__SIGN__EXCLAMATION__V_ALTERNATE} />
+        </Badge>
+      </Tooltip>
+    );
   }
 
   renderGithubUrlInput() {
-    const { isGithubEnterprise, githubUrl, isValidUrl, userToken } = this.state;
+    const { isGithubEnterprise, githubUrl, isValidUrl } = this.state;
+    const { userToken } = this.props;
     return (
-      <StackItem>
-        <h1>Integrate with GitHub</h1>
-        <p>
-          Ever wondered what a Service does, or who has been working on it?
-          Answer these questions and more with this GitHub integration!
-        </p>
-        <Stack alignmentType="center">
-          <StackItem className="integration-step-container">
-            <h2>1. First Things First.</h2>
-            <p>
-              Let's get you started! Set up this Nerdpack by configuring your
-              organization's GitHub URL. It could be the public{' '}
-              <a href="https://github.com">https://github.com</a> or it could be
-              a private GitHub enterprise instance.
-            </p>
-            <Stack
-              gapType={Stack.GAP_TYPE.SMALL}
-              className="integration-github-type-selection"
-            >
-              <StackItem>
-                <Button
-                  sizeType={Button.SIZE_TYPE.LARGE}
-                  type={
-                    !isGithubEnterprise
-                      ? Button.TYPE.PRIMARY
-                      : Button.TYPE.NEUTRAL
-                  }
-                  onClick={() => {
-                    this.setState(
-                      {
-                        githubUrl: PUBLIC_GITHUB_API,
-                        isGithubEnterprise: false
-                      },
-                      this.handleSetGithubUrl
-                    );
-                  }}
-                >
-                  Public Github
-                </Button>
-              </StackItem>
-              <StackItem>
-                <Button
-                  sizeType={Button.SIZE_TYPE.LARGE}
-                  disabled={userToken}
-                  type={
-                    isGithubEnterprise
-                      ? Button.TYPE.PRIMARY
-                      : Button.TYPE.NEUTRAL
-                  }
-                  onClick={() => {
-                    this.setState(
-                      { githubUrl: '', isGithubEnterprise: true },
-                      this.handleSetGithubUrl
-                    );
-                  }}
-                >
-                  Github Enterprise
-                </Button>
-                {this.renderTooltip()}
-              </StackItem>
-            </Stack>
-            <Stack
-              fullWidth
-              verticalType={Stack.VERTICAL_TYPE.CENTER}
-              className="integration-input-container"
-            >
-              <StackItem grow>
-                <TextField
-                  autofocus
-                  label="GitHub Url"
-                  placeholder="Provide your Github instance URL"
-                  onChange={({ target }) => {
-                    this.setState({ githubUrl: target.value });
-                  }}
-                  value={githubUrl}
-                />
-                {!isValidUrl && (
-                  <span>URL is invalid, please provide a valid url</span>
-                )}
-              </StackItem>
-              <StackItem>
-                <Button
-                  onClick={this.handleSetGithubUrl}
-                  disabled={!isGithubEnterprise || !githubUrl}
-                  type={Button.TYPE.PRIMARY}
-                >
-                  Set Your GitHub URL
-                </Button>
-              </StackItem>
-            </Stack>
-          </StackItem>
-        </Stack>
-      </StackItem>
+      <Stack alignmentType="center">
+        <StackItem className="integration-step-container">
+          <h2>2. Link to GitHub</h2>
+          <p>
+            Next, set up this Nerdpack by configuring your organization's GitHub
+            URL. It could be the public{' '}
+            <a href="https://github.com">https://github.com</a> or it could be a
+            private GitHub enterprise instance.
+          </p>
+          <Stack
+            gapType={Stack.GAP_TYPE.SMALL}
+            className="integration-github-type-selection"
+          >
+            <StackItem>
+              <Button
+                sizeType={Button.SIZE_TYPE.LARGE}
+                type={
+                  !isGithubEnterprise
+                    ? Button.TYPE.PRIMARY
+                    : Button.TYPE.NEUTRAL
+                }
+                onClick={() => {
+                  this.setState(
+                    {
+                      githubUrl: PUBLIC_GITHUB_API,
+                      isGithubEnterprise: false
+                    },
+                    this.handleSetGithubUrl
+                  );
+                }}
+              >
+                Public Github
+              </Button>
+            </StackItem>
+            <StackItem>
+              <Button
+                sizeType={Button.SIZE_TYPE.LARGE}
+                disabled={userToken && !isGithubEnterprise}
+                type={
+                  isGithubEnterprise ? Button.TYPE.PRIMARY : Button.TYPE.NEUTRAL
+                }
+                onClick={() => {
+                  this.setState(
+                    { githubUrl: '', isGithubEnterprise: true },
+                    this.handleSetGithubUrl
+                  );
+                }}
+              >
+                Github Enterprise
+              </Button>
+              {userToken && !isGithubEnterprise
+                ? this.renderTooltip(
+                    'Please delete your Personal Access Token before changing your URL'
+                  )
+                : null}
+            </StackItem>
+          </Stack>
+          <Stack
+            fullWidth
+            verticalType={Stack.VERTICAL_TYPE.CENTER}
+            className="integration-input-container"
+          >
+            <StackItem grow>
+              <TextField
+                autofocus
+                label={
+                  isGithubEnterprise
+                    ? 'GitHub Enterprise Url'
+                    : 'GitHub Public Url'
+                }
+                placeholder="Provide your Github instance URL"
+                onChange={({ target }) => {
+                  this.setState({ githubUrl: target.value });
+                }}
+                value={githubUrl}
+              />
+              {!isValidUrl && (
+                <span>URL is invalid, please provide a valid url</span>
+              )}
+            </StackItem>
+            <StackItem>
+              {!userToken && isGithubEnterprise
+                ? this.renderTooltip(
+                    'Please add a Personal Access Token before setting GH Enterprise URL'
+                  )
+                : null}
+              <Button
+                onClick={this.handleSetGithubUrl}
+                disabled={
+                  !isGithubEnterprise ||
+                  !githubUrl ||
+                  (!userToken && isGithubEnterprise)
+                }
+                type={Button.TYPE.PRIMARY}
+              >
+                Set Your GitHub URL
+              </Button>
+            </StackItem>
+          </Stack>
+        </StackItem>
+      </Stack>
     );
   }
 
@@ -289,9 +292,17 @@ export default class Setup extends React.PureComponent {
       <Grid className="container integration-container">
         <GridItem columnSpan={8}>
           <Stack directionType="vertical" gapType={Stack.GAP_TYPE.EXTRA_LOOSE}>
-            {this.renderGithubUrlInput()}
-            {!userToken && this.renderUserTokenInput()}
-            {userToken && this.renderDeleteUserToken()}
+            <StackItem>
+              <h1>Integrate with GitHub</h1>
+              <p>
+                Ever wondered what a Service does, or who has been working on
+                it? Answer these questions and more with this GitHub
+                integration!
+              </p>
+              {!userToken && this.renderUserTokenInput()}
+              {userToken && this.renderDeleteUserToken()}
+              {this.renderGithubUrlInput()}
+            </StackItem>
           </Stack>
         </GridItem>
         <GridItem columnSpan={4}>
