@@ -179,8 +179,8 @@ export default class Setup extends React.PureComponent {
   }
 
   renderGithubUrlInput() {
-    const { isGithubEnterprise, githubUrl, isValidUrl, userToken } = this.state;
-    const propToken = this.props.userToken;
+    const { isGithubEnterprise, githubUrl, isValidUrl } = this.state;
+    const { userToken } = this.props;
     return (
       <StackItem>
         <h1>Integrate with GitHub</h1>
@@ -225,7 +225,7 @@ export default class Setup extends React.PureComponent {
               <StackItem>
                 <Button
                   sizeType={Button.SIZE_TYPE.LARGE}
-                  disabled={propToken && !isGithubEnterprise}
+                  disabled={userToken && !isGithubEnterprise}
                   type={
                     isGithubEnterprise
                       ? Button.TYPE.PRIMARY
@@ -240,11 +240,11 @@ export default class Setup extends React.PureComponent {
                 >
                   Github Enterprise
                 </Button>
-                {propToken && !isGithubEnterprise
+                {userToken && !isGithubEnterprise
                   ? this.renderTooltip(
                       'Please delete your Personal Access Token before changing your URL'
-                    ) : null
-                }
+                    )
+                  : null}
               </StackItem>
             </Stack>
             <Stack
@@ -255,7 +255,11 @@ export default class Setup extends React.PureComponent {
               <StackItem grow>
                 <TextField
                   autofocus
-                  label={isGithubEnterprise ? "GitHub Enterprise Url" : "GitHub Public Url"}
+                  label={
+                    isGithubEnterprise
+                      ? 'GitHub Enterprise Url'
+                      : 'GitHub Public Url'
+                  }
                   placeholder="Provide your Github instance URL"
                   onChange={({ target }) => {
                     this.setState({ githubUrl: target.value });
@@ -267,17 +271,17 @@ export default class Setup extends React.PureComponent {
                 )}
               </StackItem>
               <StackItem>
-                {!propToken && isGithubEnterprise
+                {!userToken && isGithubEnterprise
                   ? this.renderTooltip(
                       'Please add a Personal Access Token before setting GH Enterprise URL'
-                    ) : null
-                }
+                    )
+                  : null}
                 <Button
                   onClick={this.handleSetGithubUrl}
                   disabled={
                     !isGithubEnterprise ||
                     !githubUrl ||
-                    (!propToken && isGithubEnterprise)
+                    (!userToken && isGithubEnterprise)
                   }
                   type={Button.TYPE.PRIMARY}
                 >
