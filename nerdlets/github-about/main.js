@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  AccountStorageMutation,
-  AccountStorageQuery,
   Spinner,
   Tabs,
   TabsItem,
@@ -52,7 +50,6 @@ export default class GithubAbout extends React.PureComponent {
     this.state = {
       entity: null,
       entityNotFound: null,
-      accountId: null,
       githubUrl: null,
       visibleTab: null,
       githubAccessError: null,
@@ -128,7 +125,6 @@ export default class GithubAbout extends React.PureComponent {
       }
     }`;
     const { data } = await NerdGraphQuery.query({ query });
-    const accountId = get(data, 'actor.entity.account.id');
     const repoUrl = get(data, 'actor.entity.nerdStorage.repoUrl.repoUrl');
     const { user, entity } = data.actor;
     if (entity === null) {
@@ -137,7 +133,6 @@ export default class GithubAbout extends React.PureComponent {
     }
     this.setState({
       user,
-      accountId,
       entity,
       entityNotFound: null,
       repoUrl
@@ -165,14 +160,10 @@ export default class GithubAbout extends React.PureComponent {
   }
 
   async _getGithubUrl() {
-    const { accountId } = this.state;
-    const query = {
-      accountId,
-      collection: 'global',
-      documentId: 'githubUrl'
-    };
-    const result = await AccountStorageQuery.query(query);
-    const { githubUrl } = result.data || false;
+    const { data: ghUrlObj } = await UserSecretsQuery.query({
+      name: 'GH_URL'
+    });
+    const { value: githubUrl } = ghUrlObj;
     if (githubUrl) {
       this.setState({ githubUrl });
     }
@@ -182,33 +173,30 @@ export default class GithubAbout extends React.PureComponent {
   }
 
   async _setGithubUrl(githubUrl) {
-    const { accountId } = this.state;
     githubUrl = formatGithubUrl(githubUrl);
-    // console.log(githubUrl);
     if (githubUrl === '') {
       this.setState({ githubUrl });
       return;
     }
     const mutation = {
-      accountId,
-      actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
-      collection: 'global',
-      documentId: 'githubUrl',
-      document: { githubUrl }
+      actionType: UserSecretsMutation.ACTION_TYPE.WRITE_SECRET,
+      name: 'GH_URL',
+      value: githubUrl
     };
-    await AccountStorageMutation.mutate(mutation);
-    this.setState({ githubUrl, githubAccessError: null }, this.checkGithubUrl);
+    const { data } = await UserSecretsMutation.mutate(mutation);
+    const status = get(data, 'nerdStorageVaultWriteSecret.status');
+    if (status === 'SUCCESS') {
+      this.setState({ githubUrl });
+    }
+    return status;
   }
 
   async _deleteGithubUrl() {
-    const { accountId } = this.state;
     const mutation = {
-      accountId,
-      actionType: AccountStorageMutation.ACTION_TYPE.DELETE_DOCUMENT,
-      collection: 'global',
-      documentId: 'githubUrl'
+      actionType: UserSecretsMutation.ACTION_TYPE.DELETE_SECRET,
+      name: 'GH_URL'
     };
-    await AccountStorageMutation.mutate(mutation);
+    await UserSecretsMutation.mutate(mutation);
     this.setState({ githubUrl: '', githubAccessError: null });
   }
 

@@ -108,34 +108,36 @@ export default class RepoPicker extends React.PureComponent {
       buttonTitle = 'Clear';
     }
 
-    return (
-      <tr key={item.full_name} className={className}>
-        <td>
-          <a
-            onClick={() => {
-              setRepo(setRepoValue);
-            }}
-          >
-            {item.full_name}
-          </a>
-          <br />
-          <small>
-            <a target="_blank" href={item.html_url} rel="noopener noreferrer">
-              {item.html_url}
+    if (isUrlSafe(setRepoValue) || setRepoValue === '') {
+      return (
+        <tr key={item.full_name} className={className}>
+          <td>
+            <a
+              onClick={() => {
+                setRepo(setRepoValue);
+              }}
+            >
+              {item.full_name}
             </a>
-          </small>
-        </td>
-        <td>
-          <Button
-            type={buttonType}
-            sizeType={Button.SIZE_TYPE.SMALL}
-            onClick={() => setRepo(setRepoValue)}
-          >
-            {buttonTitle}
-          </Button>
-        </td>
-      </tr>
-    );
+            <br />
+            <small>
+              <a target="_blank" href={item.html_url} rel="noopener noreferrer">
+                {item.html_url}
+              </a>
+            </small>
+          </td>
+          <td>
+            <Button
+              type={buttonType}
+              sizeType={Button.SIZE_TYPE.SMALL}
+              onClick={() => setRepo(setRepoValue)}
+            >
+              {buttonTitle}
+            </Button>
+          </td>
+        </tr>
+      );
+    }
   }
 
   validateAndSubmitRepoUrl(value) {
