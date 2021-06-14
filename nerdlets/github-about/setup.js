@@ -194,7 +194,7 @@ export default class Setup extends React.PureComponent {
             <a href="https://github.com">https://github.com</a> or it could be a
             private GitHub enterprise instance.
           </p>
-          {accountGithubUrl && accountGithubUrl !== '' && (
+          {!githubUrl && accountGithubUrl && accountGithubUrl !== '' && (
             <p className="callout">
               We recently made security changes which may require you to setup
               your GitHub Url again. <br />
