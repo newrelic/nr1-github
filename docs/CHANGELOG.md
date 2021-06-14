@@ -1,3 +1,12 @@
+## [0.6.13](https://github.com/newrelic/nr1-github/compare/v0.6.12...v0.6.13) (2021-06-01)
+
+
+### Bug Fixes
+
+* ESLint issues ([b04c92e](https://github.com/newrelic/nr1-github/commit/b04c92e8335e393fb0c9234d6eb6caab16b97732))
+* prevent setting url until PAT is set ([6512d7b](https://github.com/newrelic/nr1-github/commit/6512d7be4b104499d4ba6d02ccf4684e41fcd2be))
+* revert NerdPack Id ([9f3a90f](https://github.com/newrelic/nr1-github/commit/9f3a90fee6100148f1d76cd3a43a09ca462364d2))
+
 ## [0.6.12](https://github.com/newrelic/nr1-github/compare/v0.6.11...v0.6.12) (2021-05-24)
 
 
