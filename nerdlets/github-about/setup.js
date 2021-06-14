@@ -99,7 +99,15 @@ export default class Setup extends React.PureComponent {
             generate a personal access token
           </a>{' '}
           for your GitHub account. If your repo is private you will need to{' '}
-          include the repo access scope.
+          include the repo access scope. If your organisation uses SSO, you may
+          need to{' '}
+          <a
+            href="https://docs.github.com/en/github/authenticating-to-github/authenticating-with-saml-single-sign-on/about-authentication-with-saml-single-sign-on"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            authenticate it!
+          </a>
         </p>
         <Stack
           fullWidth
@@ -195,12 +203,14 @@ export default class Setup extends React.PureComponent {
         </p>
         <Stack alignmentType="center">
           <StackItem className="integration-step-container">
-            <h2>1. First Things First.</h2>
+            <h2>1. First Things First</h2>
             <p>
               Let's get you started! Set up this Nerdpack by configuring your
-              organization's GitHub URL. It could be the public{' '}
-              <a href="https://github.com">https://github.com</a> or it could be
-              a private GitHub enterprise instance.
+              organization's GitHub URL. If you are hosting your source code on
+              a public Github repository you will use
+              <a href="https://api.github.com">https://api.github.com</a>. If
+              you are hosting your source code on a private Github Enterprise
+              repository provide that URL below.
             </p>
             <Stack
               gapType={Stack.GAP_TYPE.SMALL}
@@ -262,6 +272,7 @@ export default class Setup extends React.PureComponent {
                     this.setState({ githubUrl: target.value });
                   }}
                   value={githubUrl}
+                  disabled={!isGithubEnterprise}
                 />
                 {!isValidUrl && (
                   <span>URL is invalid, please provide a valid url</span>
