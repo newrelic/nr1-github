@@ -1,3 +1,38 @@
+## [0.6.13](https://github.com/newrelic/nr1-github/compare/v0.6.12...v0.6.13) (2021-06-01)
+
+
+### Bug Fixes
+
+* ESLint issues ([b04c92e](https://github.com/newrelic/nr1-github/commit/b04c92e8335e393fb0c9234d6eb6caab16b97732))
+* prevent setting url until PAT is set ([6512d7b](https://github.com/newrelic/nr1-github/commit/6512d7be4b104499d4ba6d02ccf4684e41fcd2be))
+* revert NerdPack Id ([9f3a90f](https://github.com/newrelic/nr1-github/commit/9f3a90fee6100148f1d76cd3a43a09ca462364d2))
+
+## [0.6.12](https://github.com/newrelic/nr1-github/compare/v0.6.11...v0.6.12) (2021-05-24)
+
+
+### Bug Fixes
+
+* vulnerability ([1162d5d](https://github.com/newrelic/nr1-github/commit/1162d5dc5f4ec91a8d07fb46261844e755c0b2fb))
+
+## [0.6.11](https://github.com/newrelic/nr1-github/compare/v0.6.10...v0.6.11) (2021-05-24)
+
+
+### Bug Fixes
+
+* catch Invariant violation ([9619cb9](https://github.com/newrelic/nr1-github/commit/9619cb94189bbe8154e486d4ae65fb9d5abaaf68))
+* prevent repo link from displaying if unsafe ([5b98b71](https://github.com/newrelic/nr1-github/commit/5b98b713bcd7d034e218f20864bb56111d3cb056))
+* remove `.` for ESLInt ([8077afc](https://github.com/newrelic/nr1-github/commit/8077afc8b73962c90f25914cb2d5e06a070a7d2d))
+* removed new line for ESLint ([57b4db9](https://github.com/newrelic/nr1-github/commit/57b4db95e30492e8d439a59d253b6bf6a448001f))
+* XSS Vulnerbility ([497574a](https://github.com/newrelic/nr1-github/commit/497574a36ecc8f0e24fb28e4ad188925141d63bf))
+
+## [0.6.10](https://github.com/newrelic/nr1-github/compare/v0.6.9...v0.6.10) (2021-05-18)
+
+
+### Bug Fixes
+
+* changed ability to see other users GitHub PAT ([ace3854](https://github.com/newrelic/nr1-github/commit/ace385442df0131ddec07c7a5b0a708bed2ac4f7))
+* when PAT is deleted so is Repo URL ([25e0f16](https://github.com/newrelic/nr1-github/commit/25e0f16bd381d78bcd9e406b1a24889c4674cc66))
+
 ## [0.6.9](https://github.com/newrelic/nr1-github/compare/v0.6.8...v0.6.9) (2021-05-14)
 
 

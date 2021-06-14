@@ -234,7 +234,13 @@ export default class GithubAbout extends React.PureComponent {
       documentId: 'repoUrl',
       document: { repoUrl }
     };
-    await EntityStorageMutation.mutate(mutation);
+    try {
+      await EntityStorageMutation.mutate(mutation);
+    } catch (error) {
+      if (!JSON.stringify(error).includes('Invariant Violation: 8')) {
+        throw error;
+      }
+    }
     this.setState({ repoUrl });
   }
 
