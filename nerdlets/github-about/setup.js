@@ -199,8 +199,10 @@ export default class Setup extends React.PureComponent {
               We recently made security changes which may require you to setup
               your GitHub Url again. <br />
               <br /> Someone on your account has set the GitHub URL to{' '}
-              <a href={accountGithubUrl}>{accountGithubUrl}</a>! Only use this
-              if it is a trusted source.
+              <a href={accountGithubUrl}>{accountGithubUrl}</a>!
+              {(accountGithubUrl !== PUBLIC_GITHUB_API &&
+                'Only use this if it is a trusted source.') ||
+                ' Click `Public GitHub` to set to this!'}
             </p>
           )}
           <Stack
