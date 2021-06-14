@@ -9,7 +9,9 @@ import {
   EntityStorageMutation,
   Stack,
   StackItem,
-  UserStorageMutation
+  UserStorageMutation,
+  AccountStorageQuery,
+  AccountStorageMutation
 } from 'nr1';
 import { UserSecretsMutation, UserSecretsQuery } from '@newrelic/nr1-community';
 import get from 'lodash.get';
@@ -43,14 +45,19 @@ export default class GithubAbout extends React.PureComponent {
     this._deleteUserToken = this._deleteUserToken.bind(this);
     this._setRepo = this._setRepo.bind(this);
     this._deleteGithubUrl = this._deleteGithubUrl.bind(this);
+    this._deleteAccountGithubUrl = this._deleteAccountGithubUrl.bind(this);
     this.checkGithubUrl = this.checkGithubUrl.bind(this);
     this._setGithubUrl = this._setGithubUrl.bind(this);
+    this._setAccountGithubUrl = this._setAccountGithubUrl.bind(this);
+    this._getAccountGithubUrl = this._getAccountGithubUrl.bind(this);
     this.handleTabClick = this.handleTabClick.bind(this);
     this._setActiveTab = this._setActiveTab.bind(this);
     this.state = {
       entity: null,
       entityNotFound: null,
       githubUrl: null,
+      accountGithubUrl: null,
+      accountId: null,
       visibleTab: null,
       githubAccessError: null,
       userToken: null
@@ -93,6 +100,7 @@ export default class GithubAbout extends React.PureComponent {
     }
     await this.fetchEntityData();
     await this._getGithubUrl();
+    await this._getAccountGithubUrl();
     await this.checkGithubUrl();
   }
 
@@ -125,6 +133,7 @@ export default class GithubAbout extends React.PureComponent {
       }
     }`;
     const { data } = await NerdGraphQuery.query({ query });
+    const accountId = get(data, 'actor.entity.account.id');
     const repoUrl = get(data, 'actor.entity.nerdStorage.repoUrl.repoUrl');
     const { user, entity } = data.actor;
     if (entity === null) {
@@ -135,7 +144,8 @@ export default class GithubAbout extends React.PureComponent {
       user,
       entity,
       entityNotFound: null,
-      repoUrl
+      repoUrl,
+      accountId
     });
   }
 
@@ -159,15 +169,65 @@ export default class GithubAbout extends React.PureComponent {
       });
   }
 
+  async _getAccountGithubUrl() {
+    const { accountId } = this.state;
+    const query = {
+      accountId,
+      collection: 'global',
+      documentId: 'githubUrl'
+    };
+    const result = await AccountStorageQuery.query(query);
+    const { accountGithubUrl } = result.data || false;
+    if (accountGithubUrl) {
+      this.setState({ accountGithubUrl });
+    }
+    if (!accountGithubUrl && GITHUB_URL) {
+      this.setState({ accountGithubUrl: GITHUB_URL });
+    }
+  }
+
+  async _setAccountGithubUrl(accountGithubUrl) {
+    const { accountId } = this.state;
+    accountGithubUrl = formatGithubUrl(accountGithubUrl);
+    if (accountGithubUrl === '') {
+      this.setState({ accountGithubUrl });
+      return;
+    }
+    const mutation = {
+      accountId,
+      actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+      collection: 'global',
+      documentId: 'githubUrl',
+      document: { accountGithubUrl }
+    };
+    await AccountStorageMutation.mutate(mutation);
+    this.setState(
+      { accountGithubUrl, githubAccessError: null },
+      this.checkGithubUrl
+    );
+  }
+
+  async _deleteAccountGithubUrl() {
+    const { accountId } = this.state;
+    const mutation = {
+      accountId,
+      actionType: AccountStorageMutation.ACTION_TYPE.DELETE_DOCUMENT,
+      collection: 'global',
+      documentId: 'githubUrl'
+    };
+    await AccountStorageMutation.mutate(mutation);
+    this.setState({ accountGithubUrl: '', githubAccessError: null });
+  }
+
   async _getGithubUrl() {
     const { data: ghUrlObj } = await UserSecretsQuery.query({
       name: 'GH_URL'
     });
-    const { value: githubUrl } = ghUrlObj;
-    if (githubUrl) {
+    if (ghUrlObj) {
+      const { value: githubUrl } = ghUrlObj;
       this.setState({ githubUrl });
     }
-    if (!githubUrl && GITHUB_URL) {
+    if (!ghUrlObj && GITHUB_URL) {
       this.setState({ githubUrl: GITHUB_URL });
     }
   }
@@ -216,6 +276,7 @@ export default class GithubAbout extends React.PureComponent {
 
   async _deleteUserToken() {
     await this._deleteGithubUrl();
+    await this._deleteAccountGithubUrl();
     const mutation = {
       actionType: UserSecretsMutation.ACTION_TYPE.DELETE_SECRET,
       name: 'GH_TOKEN'
@@ -270,7 +331,14 @@ export default class GithubAbout extends React.PureComponent {
   }
 
   renderTabs() {
-    const { entity, githubUrl, repoUrl, userToken, visibleTab } = this.state;
+    const {
+      entity,
+      githubUrl,
+      accountGithubUrl,
+      repoUrl,
+      userToken,
+      visibleTab
+    } = this.state;
     const isSetup =
       userToken !== null &&
       userToken !== undefined &&
@@ -354,6 +422,7 @@ export default class GithubAbout extends React.PureComponent {
               repoUrl={repoUrl}
               setRepo={this._setRepo}
               deleteGithubUrl={this._deleteGithubUrl}
+              deleteAccountGithubUrl={this._deleteAccountGithubUrl}
               userToken={userToken}
               entity={entity}
             />
@@ -362,7 +431,9 @@ export default class GithubAbout extends React.PureComponent {
             <Setup
               deleteUserToken={this._deleteUserToken}
               githubUrl={githubUrl}
+              accountGithubUrl={accountGithubUrl}
               setGithubUrl={this._setGithubUrl}
+              setAccountGithubUrl={this._setAccountGithubUrl}
               setUserToken={this._setUserToken}
               userToken={userToken}
               onError={this.onSetupErrors}

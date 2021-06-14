@@ -18,7 +18,9 @@ const PUBLIC_GITHUB_API = 'https://api.github.com';
 export default class Setup extends React.PureComponent {
   static propTypes = {
     githubUrl: PropTypes.string,
+    accountGithubUrl: PropTypes.string,
     setGithubUrl: PropTypes.func.isRequired,
+    setAccountGithubUrl: PropTypes.func.isRequired,
     setUserToken: PropTypes.func.isRequired,
     deleteUserToken: PropTypes.func.isRequired,
     userToken: PropTypes.string,
@@ -66,7 +68,7 @@ export default class Setup extends React.PureComponent {
 
   handleSetGithubUrl() {
     const { githubUrl } = this.state;
-    const { setGithubUrl, setActiveTab } = this.props;
+    const { setGithubUrl, setActiveTab, setAccountGithubUrl } = this.props;
     if (githubUrl === '') {
       return;
     }
@@ -79,6 +81,7 @@ export default class Setup extends React.PureComponent {
       isValidUrl: true
     });
     setGithubUrl(githubUrl);
+    setAccountGithubUrl(githubUrl);
     setActiveTab('repository');
   }
 
@@ -180,7 +183,7 @@ export default class Setup extends React.PureComponent {
 
   renderGithubUrlInput() {
     const { isGithubEnterprise, githubUrl, isValidUrl } = this.state;
-    const { userToken } = this.props;
+    const { userToken, accountGithubUrl } = this.props;
     return (
       <Stack alignmentType="center">
         <StackItem className="integration-step-container">
@@ -191,6 +194,15 @@ export default class Setup extends React.PureComponent {
             <a href="https://github.com">https://github.com</a> or it could be a
             private GitHub enterprise instance.
           </p>
+          {accountGithubUrl && accountGithubUrl !== '' && (
+            <p className="callout">
+              We recently made security changes which may require you to setup
+              your GitHub Url again. <br />
+              <br /> Someone on your account has set the GitHub URL to{' '}
+              <a href={accountGithubUrl}>{accountGithubUrl}</a>! Only use this
+              if it is a trusted source.
+            </p>
+          )}
           <Stack
             gapType={Stack.GAP_TYPE.SMALL}
             className="integration-github-type-selection"
