@@ -12,7 +12,7 @@ h2 {
 }
 
 .header {
-  text-align: center;
+  text-align: right;
   padding: 16px 24px;
   img {
     position: relative;
@@ -30,6 +30,11 @@ h2 {
   background-color: rgba(30,50,55, .04);
   padding: 8px 16px;
   border-radius: 3px;
+}
+
+.repo-link-stack {
+  display: flex;
+  flex-direction: column;
 }
 
 .tabs {

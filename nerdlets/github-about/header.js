@@ -4,7 +4,7 @@ import GitHubLogo from '../../assets/github-logo.svg';
 import { Stack, StackItem } from 'nr1';
 import { isUrlSafe } from '../shared/utils';
 
-export default function Header({ repoUrl }) {
+export default function Header({ repoUrl, username, timestamp }) {
   return (
     <div className="header">
       <Stack
@@ -15,8 +15,8 @@ export default function Header({ repoUrl }) {
         <StackItem>
           <img src={GitHubLogo} className="github-logo" />
         </StackItem>
-        {isUrlSafe(repoUrl) && (
-          <StackItem className="repo-link-stack">
+        <StackItem className="repo-link-stack">
+          {isUrlSafe(repoUrl) && (
             <a
               href={repoUrl}
               target="_blank"
@@ -25,13 +25,18 @@ export default function Header({ repoUrl }) {
             >
               {repoUrl}
             </a>
-          </StackItem>
-        )}
+          )}
+          <span>
+            RepoURL updated by {username} at {timestamp}
+          </span>
+        </StackItem>
       </Stack>
     </div>
   );
 }
 
 Header.propTypes = {
-  repoUrl: PropTypes.string
+  repoUrl: PropTypes.string,
+  username: PropTypes.string,
+  timestamp: PropTypes.string
 };

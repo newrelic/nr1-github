@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Stack, StackItem, TextField, Spinner } from 'nr1';
 import Github from './github';
-import Header from './header';
 import { isUrlSafe } from '../shared/utils';
 
 export default class RepoPicker extends React.PureComponent {
@@ -192,7 +191,6 @@ export default class RepoPicker extends React.PureComponent {
     if (!suggestions || suggestions.length === 0 || !entity || !entity.name) {
       return (
         <>
-          <Header />
           <table style={{ width: '100%', marginTop: '16px' }}>
             <tbody>
               <tr>
@@ -219,7 +217,6 @@ export default class RepoPicker extends React.PureComponent {
     // limit to top 5 suggestions
     return (
       <>
-        <Header />
         <h2>Select a Repository</h2>
         <p>
           We've&#160;

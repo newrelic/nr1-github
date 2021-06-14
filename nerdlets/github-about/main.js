@@ -9,7 +9,8 @@ import {
   EntityStorageMutation,
   Stack,
   StackItem,
-  UserStorageMutation
+  UserStorageMutation,
+  UserQuery
 } from 'nr1';
 import { UserSecretsMutation, UserSecretsQuery } from '@newrelic/nr1-community';
 import get from 'lodash.get';
@@ -53,7 +54,9 @@ export default class GithubAbout extends React.PureComponent {
       githubUrl: null,
       visibleTab: null,
       githubAccessError: null,
-      userToken: null
+      userToken: null,
+      username: null,
+      timestamp: null
     };
   }
 
@@ -126,6 +129,8 @@ export default class GithubAbout extends React.PureComponent {
     }`;
     const { data } = await NerdGraphQuery.query({ query });
     const repoUrl = get(data, 'actor.entity.nerdStorage.repoUrl.repoUrl');
+    const username = get(data, 'actor.entity.nerdStorage.repoUrl.username');
+    const timestamp = get(data, 'actor.entity.nerdStorage.repoUrl.timestamp');
     const { user, entity } = data.actor;
     if (entity === null) {
       this.setState({ entityNotFound: true });
@@ -135,7 +140,9 @@ export default class GithubAbout extends React.PureComponent {
       user,
       entity,
       entityNotFound: null,
-      repoUrl
+      repoUrl,
+      username,
+      timestamp
     });
   }
 
@@ -226,13 +233,17 @@ export default class GithubAbout extends React.PureComponent {
 
   async _setRepo(repoUrl) {
     repoUrl = formatGithubUrl(repoUrl);
+    const { data } = await UserQuery.query();
+    const username = get(data, 'name');
+    const timestamp = new Date().toLocaleString();
+    console.log(timestamp);
     const { entityGuid } = this.props.nerdletUrlState;
     const mutation = {
       actionType: EntityStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
       collection: 'global',
       entityGuid,
       documentId: 'repoUrl',
-      document: { repoUrl }
+      document: { repoUrl, username, timestamp }
     };
     try {
       await EntityStorageMutation.mutate(mutation);
@@ -241,7 +252,7 @@ export default class GithubAbout extends React.PureComponent {
         throw error;
       }
     }
-    this.setState({ repoUrl });
+    this.setState({ repoUrl, username, timestamp });
   }
 
   parseRepoUrl(repoUrl) {
@@ -270,7 +281,15 @@ export default class GithubAbout extends React.PureComponent {
   }
 
   renderTabs() {
-    const { entity, githubUrl, repoUrl, userToken, visibleTab } = this.state;
+    const {
+      entity,
+      githubUrl,
+      repoUrl,
+      userToken,
+      visibleTab,
+      username,
+      timestamp
+    } = this.state;
     const isSetup =
       userToken !== null &&
       userToken !== undefined &&
@@ -287,13 +306,11 @@ export default class GithubAbout extends React.PureComponent {
       if (isSetup && !visibleTab && !hasRepoUrl) {
         return 'repository';
       }
-      // return 'pull-requests'
       return visibleTab || 'readme';
     };
-    // console.log([repoUrl, owner, project]);
     return (
       <div className="container">
-        <Header repoUrl={repoUrl} />
+        <Header repoUrl={repoUrl} username={username} timestamp={timestamp} />
         <Tabs className="tabs" onChange={this.handleTabClick} value={getTab()}>
           <TabsItem
             className="tabsItem"
