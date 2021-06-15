@@ -1,7 +1,7 @@
 {
   "schemaType": "NERDLET",
-  "id": "github-t",
-  "displayName": "GitHub Repo T",
+  "id": "github",
+  "displayName": "GitHub Repo",
   "description": "GitHub integration to give every service its own About Page",
   "entities": [
     {
