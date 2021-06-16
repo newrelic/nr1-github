@@ -194,17 +194,31 @@ export default class Setup extends React.PureComponent {
             <a href="https://github.com">https://github.com</a> or it could be a
             private GitHub enterprise instance.
           </p>
-          {!githubUrl && accountGithubUrl && accountGithubUrl !== '' && (
-            <p className="callout">
-              We recently made security changes which may require you to setup
-              your GitHub Url again. <br />
-              <br /> Someone on your account has set the GitHub URL to{' '}
-              <a href={accountGithubUrl}>{accountGithubUrl}</a>!
-              {(accountGithubUrl !== PUBLIC_GITHUB_API &&
-                'Only use this if it is a trusted source.') ||
-                ' Click `Public GitHub` to set to this!'}
-            </p>
-          )}
+          {!githubUrl &&
+            accountGithubUrl &&
+            accountGithubUrl !== '' &&
+            accountGithubUrl !== PUBLIC_GITHUB_API && (
+              <p className="callout">
+                We recently made security changes which may require you to setup
+                your GitHub Url again. <br />
+                <br /> Someone on your account has set the GitHub URL to{' '}
+                <b>
+                  <i>{accountGithubUrl}</i>
+                </b>
+                <p>
+                  If this is a trusted source, <b>Copy/Paste</b> it into the
+                  GitHub Enterprise Url input below and click{' '}
+                  <b>Set Your GitHub URL</b>
+                </p>
+                <br />
+                <Button
+                  type={Button.TYPE.OUTLINE}
+                  onClick={() => this.setState({ githubUrl: accountGithubUrl })}
+                >
+                  Copy/Paste
+                </Button>
+              </p>
+            )}
           <Stack
             gapType={Stack.GAP_TYPE.SMALL}
             className="integration-github-type-selection"

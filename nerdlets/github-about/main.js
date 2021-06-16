@@ -24,6 +24,8 @@ import PullRequests from './pull-requests';
 import Header from './header';
 import { GH_TOKEN, ROUTES } from '../shared/constants';
 import { formatGithubUrl } from '../shared/utils';
+
+const PUBLIC_GITHUB_API = 'https://api.github.com';
 // allows us to test the github url with a short timeout
 // https://stackoverflow.com/questions/46946380/fetch-api-request-timeout
 function timeout(ms, promise) {
@@ -181,6 +183,9 @@ export default class GithubAbout extends React.PureComponent {
     if (accountGithubUrl) {
       this.setState({ accountGithubUrl });
     }
+    if (accountGithubUrl === PUBLIC_GITHUB_API) {
+      this._setGithubUrl(PUBLIC_GITHUB_API);
+    }
     if (!accountGithubUrl && GITHUB_URL) {
       this.setState({ accountGithubUrl: GITHUB_URL });
     }
@@ -261,6 +266,7 @@ export default class GithubAbout extends React.PureComponent {
   }
 
   async _setUserToken(userToken) {
+    const { githubUrl } = this.state;
     const mutation = {
       actionType: UserSecretsMutation.ACTION_TYPE.WRITE_SECRET,
       name: 'GH_TOKEN',
@@ -270,6 +276,9 @@ export default class GithubAbout extends React.PureComponent {
     const status = get(data, 'nerdStorageVaultWriteSecret.status');
     if (status === 'SUCCESS') {
       this.setState({ userToken });
+      if (githubUrl) {
+        this._setActiveTab('repository');
+      }
     }
     return status;
   }
