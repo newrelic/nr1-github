@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
+  AccountStorageMutation,
+  AccountStorageQuery,
   Spinner,
   Tabs,
   TabsItem,
@@ -9,9 +11,7 @@ import {
   EntityStorageMutation,
   Stack,
   StackItem,
-  UserStorageMutation,
-  AccountStorageQuery,
-  AccountStorageMutation
+  UserStorageMutation
 } from 'nr1';
 import { UserSecretsMutation, UserSecretsQuery } from '@newrelic/nr1-community';
 import get from 'lodash.get';
@@ -24,8 +24,6 @@ import PullRequests from './pull-requests';
 import Header from './header';
 import { GH_TOKEN, ROUTES } from '../shared/constants';
 import { formatGithubUrl } from '../shared/utils';
-
-const PUBLIC_GITHUB_API = 'https://api.github.com';
 // allows us to test the github url with a short timeout
 // https://stackoverflow.com/questions/46946380/fetch-api-request-timeout
 function timeout(ms, promise) {
@@ -47,19 +45,15 @@ export default class GithubAbout extends React.PureComponent {
     this._deleteUserToken = this._deleteUserToken.bind(this);
     this._setRepo = this._setRepo.bind(this);
     this._deleteGithubUrl = this._deleteGithubUrl.bind(this);
-    this._deleteAccountGithubUrl = this._deleteAccountGithubUrl.bind(this);
     this.checkGithubUrl = this.checkGithubUrl.bind(this);
     this._setGithubUrl = this._setGithubUrl.bind(this);
-    this._setAccountGithubUrl = this._setAccountGithubUrl.bind(this);
-    this._getAccountGithubUrl = this._getAccountGithubUrl.bind(this);
     this.handleTabClick = this.handleTabClick.bind(this);
     this._setActiveTab = this._setActiveTab.bind(this);
     this.state = {
       entity: null,
       entityNotFound: null,
-      githubUrl: null,
-      accountGithubUrl: null,
       accountId: null,
+      githubUrl: null,
       visibleTab: null,
       githubAccessError: null,
       userToken: null
@@ -102,7 +96,6 @@ export default class GithubAbout extends React.PureComponent {
     }
     await this.fetchEntityData();
     await this._getGithubUrl();
-    await this._getAccountGithubUrl();
     await this.checkGithubUrl();
   }
 
@@ -144,10 +137,10 @@ export default class GithubAbout extends React.PureComponent {
     }
     this.setState({
       user,
+      accountId,
       entity,
       entityNotFound: null,
-      repoUrl,
-      accountId
+      repoUrl
     });
   }
 
@@ -171,7 +164,7 @@ export default class GithubAbout extends React.PureComponent {
       });
   }
 
-  async _getAccountGithubUrl() {
+  async _getGithubUrl() {
     const { accountId } = this.state;
     const query = {
       accountId,
@@ -179,23 +172,21 @@ export default class GithubAbout extends React.PureComponent {
       documentId: 'githubUrl'
     };
     const result = await AccountStorageQuery.query(query);
-    const { accountGithubUrl } = result.data || false;
-    if (accountGithubUrl) {
-      this.setState({ accountGithubUrl });
+    const { githubUrl } = result.data || false;
+    if (githubUrl) {
+      this.setState({ githubUrl });
     }
-    if (accountGithubUrl === PUBLIC_GITHUB_API) {
-      this._setGithubUrl(PUBLIC_GITHUB_API);
-    }
-    if (!accountGithubUrl && GITHUB_URL) {
-      this.setState({ accountGithubUrl: GITHUB_URL });
+    if (!githubUrl && GITHUB_URL) {
+      this.setState({ githubUrl: GITHUB_URL });
     }
   }
 
-  async _setAccountGithubUrl(accountGithubUrl) {
+  async _setGithubUrl(githubUrl) {
     const { accountId } = this.state;
-    accountGithubUrl = formatGithubUrl(accountGithubUrl);
-    if (accountGithubUrl === '') {
-      this.setState({ accountGithubUrl });
+    githubUrl = formatGithubUrl(githubUrl);
+    // console.log(githubUrl);
+    if (githubUrl === '') {
+      this.setState({ githubUrl });
       return;
     }
     const mutation = {
@@ -203,16 +194,13 @@ export default class GithubAbout extends React.PureComponent {
       actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
       collection: 'global',
       documentId: 'githubUrl',
-      document: { accountGithubUrl }
+      document: { githubUrl }
     };
     await AccountStorageMutation.mutate(mutation);
-    this.setState(
-      { accountGithubUrl, githubAccessError: null },
-      this.checkGithubUrl
-    );
+    this.setState({ githubUrl, githubAccessError: null }, this.checkGithubUrl);
   }
 
-  async _deleteAccountGithubUrl() {
+  async _deleteGithubUrl() {
     const { accountId } = this.state;
     const mutation = {
       accountId,
@@ -221,52 +209,10 @@ export default class GithubAbout extends React.PureComponent {
       documentId: 'githubUrl'
     };
     await AccountStorageMutation.mutate(mutation);
-    this.setState({ accountGithubUrl: '', githubAccessError: null });
-  }
-
-  async _getGithubUrl() {
-    const { data: ghUrlObj } = await UserSecretsQuery.query({
-      name: 'GH_URL'
-    });
-    if (ghUrlObj) {
-      const { value: githubUrl } = ghUrlObj;
-      this.setState({ githubUrl });
-    }
-    if (!ghUrlObj && GITHUB_URL) {
-      this.setState({ githubUrl: GITHUB_URL });
-    }
-  }
-
-  async _setGithubUrl(githubUrl) {
-    githubUrl = formatGithubUrl(githubUrl);
-    if (githubUrl === '') {
-      this.setState({ githubUrl });
-      return;
-    }
-    const mutation = {
-      actionType: UserSecretsMutation.ACTION_TYPE.WRITE_SECRET,
-      name: 'GH_URL',
-      value: githubUrl
-    };
-    const { data } = await UserSecretsMutation.mutate(mutation);
-    const status = get(data, 'nerdStorageVaultWriteSecret.status');
-    if (status === 'SUCCESS') {
-      this.setState({ githubUrl });
-    }
-    return status;
-  }
-
-  async _deleteGithubUrl() {
-    const mutation = {
-      actionType: UserSecretsMutation.ACTION_TYPE.DELETE_SECRET,
-      name: 'GH_URL'
-    };
-    await UserSecretsMutation.mutate(mutation);
     this.setState({ githubUrl: '', githubAccessError: null });
   }
 
   async _setUserToken(userToken) {
-    const { githubUrl } = this.state;
     const mutation = {
       actionType: UserSecretsMutation.ACTION_TYPE.WRITE_SECRET,
       name: 'GH_TOKEN',
@@ -276,15 +222,11 @@ export default class GithubAbout extends React.PureComponent {
     const status = get(data, 'nerdStorageVaultWriteSecret.status');
     if (status === 'SUCCESS') {
       this.setState({ userToken });
-      if (githubUrl) {
-        this._setActiveTab('repository');
-      }
     }
     return status;
   }
 
   async _deleteUserToken() {
-    await this._deleteAccountGithubUrl();
     await this._deleteGithubUrl();
     const mutation = {
       actionType: UserSecretsMutation.ACTION_TYPE.DELETE_SECRET,
@@ -340,14 +282,7 @@ export default class GithubAbout extends React.PureComponent {
   }
 
   renderTabs() {
-    const {
-      entity,
-      githubUrl,
-      accountGithubUrl,
-      repoUrl,
-      userToken,
-      visibleTab
-    } = this.state;
+    const { entity, githubUrl, repoUrl, userToken, visibleTab } = this.state;
     const isSetup =
       userToken !== null &&
       userToken !== undefined &&
@@ -431,7 +366,6 @@ export default class GithubAbout extends React.PureComponent {
               repoUrl={repoUrl}
               setRepo={this._setRepo}
               deleteGithubUrl={this._deleteGithubUrl}
-              deleteAccountGithubUrl={this._deleteAccountGithubUrl}
               userToken={userToken}
               entity={entity}
             />
@@ -440,9 +374,7 @@ export default class GithubAbout extends React.PureComponent {
             <Setup
               deleteUserToken={this._deleteUserToken}
               githubUrl={githubUrl}
-              accountGithubUrl={accountGithubUrl}
               setGithubUrl={this._setGithubUrl}
-              setAccountGithubUrl={this._setAccountGithubUrl}
               setUserToken={this._setUserToken}
               userToken={userToken}
               onError={this.onSetupErrors}
