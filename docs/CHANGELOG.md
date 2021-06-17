@@ -1,3 +1,11 @@
+## [0.6.14](https://github.com/newrelic/nr1-github/compare/v0.6.13...v0.6.14) (2021-06-17)
+
+
+### Bug Fixes
+
+* add security warning ([3a33326](https://github.com/newrelic/nr1-github/commit/3a33326a90c2f805b17a1cb82958b3867a2bacdc))
+* remove PAT vulnerability ([3c4c66b](https://github.com/newrelic/nr1-github/commit/3c4c66b652f4c3b28858b24e9cf6033d585ff284))
+
 ## [0.6.13](https://github.com/newrelic/nr1-github/compare/v0.6.12...v0.6.13) (2021-06-01)
 
 
