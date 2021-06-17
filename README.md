@@ -46,12 +46,8 @@ and you should give that token `read only` permissions. See
 [GitHub's doc on access tokens](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line)
 for full instructions.
 
-Personal access tokens are stored with New Relic One's `UserSecret`
-API. `UserSecret` data is accessible only to the user account and `Nerdpack` which created it. The data is encrypted in transmission and at rest (within the underlying database).
-
-### Setting GitHub URL
-
-To keep your Personal Access Token secure, you are no longer able to set an Account Wide GitHub URL. GitHub URL's are now scoped to an individual User. If a URL has been setup by someone in your account it will be suggested to you and you can choose to set it if you trust the source.
+Personal access tokens are stored with New Relic One's `UserStorage`
+APIs. `UserStorage` data is accessible only to the user account and `Nerdpack` which created it. The data is encrypted in transmission, but is not encrypted at rest (within the underlying database). Because of this, `UserStorage` data may be accessible to a New Relic employee via an administrative privilege in the platform.
 
 ## Getting started
 
