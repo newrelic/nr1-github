@@ -105,11 +105,10 @@ export default class RepoPicker extends React.PureComponent {
 
     if (isSelected) {
       buttonType = Button.TYPE.DESTRUCTIVE;
-      setRepoValue = '';
       buttonTitle = 'Clear';
     }
 
-    if (isUrlSafe(setRepoValue) || setRepoValue === '') {
+    if (isUrlSafe(setRepoValue)) {
       return (
         <tr key={item.full_name} className={className}>
           <td>
@@ -131,7 +130,10 @@ export default class RepoPicker extends React.PureComponent {
             <Button
               type={buttonType}
               sizeType={Button.SIZE_TYPE.SMALL}
-              onClick={() => setRepo(setRepoValue)}
+              onClick={() => {
+                setRepoValue = isSelected ? '' : setRepoValue;
+                setRepo(setRepoValue);
+              }}
             >
               {buttonTitle}
             </Button>

@@ -196,7 +196,6 @@ export default class Setup extends React.PureComponent {
           </p>
           {!githubUrl &&
             accountGithubUrl &&
-            accountGithubUrl !== '' &&
             accountGithubUrl !== PUBLIC_GITHUB_API && (
               <p className="callout">
                 We recently made security changes which may require you to setup
