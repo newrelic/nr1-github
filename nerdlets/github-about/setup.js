@@ -18,9 +18,7 @@ const PUBLIC_GITHUB_API = 'https://api.github.com';
 export default class Setup extends React.PureComponent {
   static propTypes = {
     githubUrl: PropTypes.string,
-    accountGithubUrl: PropTypes.string,
     setGithubUrl: PropTypes.func.isRequired,
-    setAccountGithubUrl: PropTypes.func.isRequired,
     setUserToken: PropTypes.func.isRequired,
     deleteUserToken: PropTypes.func.isRequired,
     userToken: PropTypes.string,
@@ -68,7 +66,7 @@ export default class Setup extends React.PureComponent {
 
   handleSetGithubUrl() {
     const { githubUrl } = this.state;
-    const { setGithubUrl, setActiveTab, setAccountGithubUrl } = this.props;
+    const { setGithubUrl, setActiveTab } = this.props;
     if (githubUrl === '') {
       return;
     }
@@ -81,7 +79,6 @@ export default class Setup extends React.PureComponent {
       isValidUrl: true
     });
     setGithubUrl(githubUrl);
-    setAccountGithubUrl(githubUrl);
     setActiveTab('repository');
   }
 
@@ -183,7 +180,7 @@ export default class Setup extends React.PureComponent {
 
   renderGithubUrlInput() {
     const { isGithubEnterprise, githubUrl, isValidUrl } = this.state;
-    const { userToken, accountGithubUrl } = this.props;
+    const { userToken } = this.props;
     return (
       <Stack alignmentType="center">
         <StackItem className="integration-step-container">

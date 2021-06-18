@@ -12,7 +12,6 @@ export default class RepoPicker extends React.PureComponent {
     userToken: PropTypes.string,
     setRepo: PropTypes.func.isRequired,
     deleteGithubUrl: PropTypes.func.isRequired,
-    deleteAccountGithubUrl: PropTypes.func.isRequired,
     entity: PropTypes.object,
     repoUrl: PropTypes.string
   };
@@ -247,7 +246,7 @@ export default class RepoPicker extends React.PureComponent {
   }
 
   render() {
-    const { deleteGithubUrl, deleteAccountGithubUrl } = this.props;
+    const { deleteGithubUrl } = this.props;
     const { error, suggestions } = this.state;
 
     if (!suggestions && error === null) return <Spinner fillContainer />;
@@ -270,10 +269,7 @@ export default class RepoPicker extends React.PureComponent {
             <StackItem>
               <Button
                 iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__REFRESH}
-                onClick={() => {
-                  deleteGithubUrl();
-                  deleteAccountGithubUrl();
-                }}
+                onClick={deleteGithubUrl}
               >
                 Reset Url
               </Button>
