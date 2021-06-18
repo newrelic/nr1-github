@@ -51,7 +51,7 @@ API. `UserSecret` data is accessible only to the user account and `Nerdpack` whi
 
 ### Setting GitHub URL
 
-To keep your Personal Access Token secure, you are no longer able to set an Account Wide GitHub URL. GitHub URL's are now scoped to an individual User. If a URL has been setup by someone in your account it will be suggested to you and you can choose to set it if you trust the source.
+To keep your Personal Access Token secure, you are no longer able to set an account-wide GitHub URL. GitHub URLs are now scoped to an individual user. If a URL has been setup by someone in your account, it will be suggested to you and you can choose to set it if you trust the source.
 
 ## Getting started
 
