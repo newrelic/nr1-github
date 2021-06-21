@@ -1,3 +1,10 @@
+## [0.6.15](https://github.com/newrelic/nr1-github/compare/v0.6.14...v0.6.15) (2021-06-21)
+
+
+### Bug Fixes
+
+* release for updates ([eae16d6](https://github.com/newrelic/nr1-github/commit/eae16d6cbb671ee90c2597e0efec6ce1a13ea8bb))
+
 ## [0.6.14](https://github.com/newrelic/nr1-github/compare/v0.6.13...v0.6.14) (2021-06-17)
 
 
