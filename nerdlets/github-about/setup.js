@@ -205,7 +205,7 @@ export default class Setup extends React.PureComponent {
                   <i>{accountGithubUrl}</i>
                 </b>
                 <p>
-                  If this is a trusted source, <b>Copy/Paste</b> it into the
+                  If you trust this source, <b>Copy/Paste</b> it into the GitHub
                   GitHub Enterprise Url input below and click{' '}
                   <b>Set Your GitHub URL</b>
                 </p>
