@@ -3,19 +3,20 @@
   "id": "github",
   "displayName": "GitHub Repo",
   "description": "GitHub integration to give every service its own About Page",
-  "entities": [
-    {
-      "domain": "APM",
-      "type": "APPLICATION"
-    },
-    {
-      "domain": "BROWSER",
-      "type": "APPLICATION"
-    },
-    {
-      "domain": "MOBILE",
-      "type": "APPLICATION"
-    }
-  ],
-  "actionCategory": "troubleshoot"
+  "context": {
+    "entities": [
+      {
+        "domain": "APM",
+        "type": "APPLICATION"
+      },
+      {
+        "domain": "BROWSER",
+        "type": "APPLICATION"
+      },
+      {
+        "domain": "MOBILE",
+        "type": "APPLICATION"
+      }
+    ]
+  }
 }
