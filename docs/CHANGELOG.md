@@ -1,3 +1,10 @@
+# [0.8.0](https://github.com/newrelic/nr1-github/compare/v0.7.0...v0.8.0) (2021-10-18)
+
+
+### Features
+
+* add whats inside screenshot for nerdlet ([2b953e9](https://github.com/newrelic/nr1-github/commit/2b953e9e00df0526b4717b705a7a6f04cf14d957))
+
 # [0.7.0](https://github.com/newrelic/nr1-github/compare/v0.6.15...v0.7.0) (2021-10-01)
 
 
