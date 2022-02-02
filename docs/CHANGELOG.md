@@ -1,3 +1,10 @@
+## [0.9.1](https://github.com/newrelic/nr1-github/compare/v0.9.0...v0.9.1) (2022-02-02)
+
+
+### Bug Fixes
+
+* remove unused state field ([970e2dd](https://github.com/newrelic/nr1-github/commit/970e2ddbbb1a4fdfac7f157de477fce0d12e5be7))
+
 # [0.9.0](https://github.com/newrelic/nr1-github/compare/v0.8.1...v0.9.0) (2021-11-05)
 
 
