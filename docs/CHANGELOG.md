@@ -1,3 +1,10 @@
+## [0.9.2](https://github.com/newrelic/nr1-github/compare/v0.9.1...v0.9.2) (2022-02-17)
+
+
+### Bug Fixes
+
+* Update badge child to be string ([cdfc115](https://github.com/newrelic/nr1-github/commit/cdfc115d1f1f08034ae476d88e00b14d7575f27c))
+
 ## [0.9.1](https://github.com/newrelic/nr1-github/compare/v0.9.0...v0.9.1) (2022-02-02)
 
 
