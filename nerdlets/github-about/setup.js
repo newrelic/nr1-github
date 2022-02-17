@@ -9,8 +9,7 @@ import {
   Grid,
   GridItem,
   Tooltip,
-  Badge,
-  Icon
+  Badge
 } from 'nr1';
 import isUrl from 'is-url';
 
@@ -174,9 +173,7 @@ export default class Setup extends React.PureComponent {
   renderTooltip(msg) {
     return (
       <Tooltip text={msg} placementType={Tooltip.PLACEMENT_TYPE.BOTTOM}>
-        <Badge type={Badge.TYPE.CRITICAL}>
-          <Icon type={Icon.TYPE.INTERFACE__SIGN__EXCLAMATION__V_ALTERNATE} />
-        </Badge>
+        <Badge type={Badge.TYPE.CRITICAL}>!</Badge>
       </Tooltip>
     );
   }
