@@ -16,7 +16,7 @@
     "humanize-duration": "^3.25.1",
     "is-url": "^1.2.4",
     "lodash.get": "^4.4.2",
-    "prop-types": "^15.6.2",
+    "prop-types": "^15.8.1",
     "react-markdown": "^5.0.3"
   },
   "devDependencies": {
