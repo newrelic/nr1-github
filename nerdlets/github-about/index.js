@@ -2,7 +2,7 @@ import React from 'react';
 import GithubAbout from './main';
 import { Icon, nerdlet, NerdletStateContext } from 'nr1';
 
-import { HelpModal } from 'nr-labs-components';
+import { HelpModal, Messages } from 'nr-labs-components';
 
 export default class Wrapper extends React.PureComponent {
   state = {
@@ -33,6 +33,14 @@ export default class Wrapper extends React.PureComponent {
 
     return (
       <>
+        <Messages
+          // org="newrelic"
+          repo="nr1-github"
+          branch="dev"
+          // directory="/"
+          // file="messages"
+          // timeoutPeriod={259200}
+        />
         <NerdletStateContext.Consumer>
           {nerdletUrlState => <GithubAbout nerdletUrlState={nerdletUrlState} />}
         </NerdletStateContext.Consumer>
