@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@newrelic/nr1-community": "^1.3.0-alpha.5",
+    "nr-labs-components": "github:newrelic/nr-labs-components",
     "humanize-duration": "^3.23.1",
     "is-url": "^1.2.4",
     "lodash.get": "^4.4.2",
