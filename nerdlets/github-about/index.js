@@ -33,14 +33,7 @@ export default class Wrapper extends React.PureComponent {
 
     return (
       <>
-        <Messages
-          // org="newrelic"
-          repo="nr1-github"
-          branch="dev"
-          // directory="/"
-          // file="messages"
-          // timeoutPeriod={259200}
-        />
+        <Messages repo="nr1-github" branch="main" />
         <NerdletStateContext.Consumer>
           {nerdletUrlState => <GithubAbout nerdletUrlState={nerdletUrlState} />}
         </NerdletStateContext.Consumer>
