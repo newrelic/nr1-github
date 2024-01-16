@@ -1,3 +1,11 @@
+## [0.9.3](https://github.com/newrelic/nr1-github/compare/v0.9.2...v0.9.3) (2024-01-16)
+
+
+### Bug Fixes
+
+* support github fine-grained tokens ([252fe68](https://github.com/newrelic/nr1-github/commit/252fe682ca5c50bcf23f8e57d6f6d0927afe5fb1))
+* support github fine-grained tokens ([96bf2ad](https://github.com/newrelic/nr1-github/commit/96bf2add5af74ad92f3d2bc09f585d2b784c83a1))
+
 ## [0.9.2](https://github.com/newrelic/nr1-github/compare/v0.9.1...v0.9.2) (2022-02-17)
 
 
