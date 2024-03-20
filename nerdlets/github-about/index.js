@@ -52,7 +52,7 @@ export default class Wrapper extends React.PureComponent {
           ownerBadge={{
             logo: {
               src:
-                'https://drive.google.com/uc?id=1BdXVy2X34rufvG4_1BYb9czhLRlGlgsT',
+                'https://drive.google.com/thumbnail?id=1BdXVy2X34rufvG4_1BYb9czhLRlGlgsT',
               alt: 'New Relic Labs'
             },
             blurb: {
