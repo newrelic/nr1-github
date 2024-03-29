@@ -1,3 +1,10 @@
+## [0.10.1](https://github.com/newrelic/nr1-github/compare/v0.10.0...v0.10.1) (2024-03-29)
+
+
+### Bug Fixes
+
+* kick build ([7f09ce6](https://github.com/newrelic/nr1-github/commit/7f09ce617d98dd8dc1492b85664951eec48a60d6))
+
 # [0.10.0](https://github.com/newrelic/nr1-github/compare/v0.9.3...v0.10.0) (2024-03-25)
 
 
