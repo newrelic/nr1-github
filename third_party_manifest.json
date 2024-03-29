@@ -1,9 +1,23 @@
 {
-  "lastUpdated": "Fri Nov 06 2020 19:07:42 GMT+0000 (Coordinated Universal Time)",
+  "lastUpdated": "Mon Mar 25 2024 21:41:31 GMT+0000 (Coordinated Universal Time)",
   "projectName": "nr1-github",
   "projectUrl": "https://github.com/newrelic/nr1-github",
   "includeDev": true,
+  "includeOptDeps": false,
   "dependencies": {
+    "@newrelic/nr-labs-components@1.22.0": {
+      "name": "@newrelic/nr-labs-components",
+      "version": "1.22.0",
+      "range": "^1.22.0",
+      "licenses": "Apache-2.0",
+      "repoUrl": "https://github.com/newrelic/nr-labs-components",
+      "versionedRepoUrl": "https://github.com/newrelic/nr-labs-components/tree/v1.22.0",
+      "licenseFile": "node_modules/@newrelic/nr-labs-components/LICENSE",
+      "licenseUrl": "https://github.com/newrelic/nr-labs-components/blob/v1.22.0/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "New Relic Labs - Viz",
+      "url": "https://github.com/orgs/newrelic/teams/labs-viz"
+    },
     "@newrelic/nr1-community@1.3.0-alpha.5": {
       "name": "@newrelic/nr1-community",
       "version": "1.3.0-alpha.5",
@@ -16,15 +30,15 @@
       "licenseTextSource": "file",
       "publisher": "newrelic"
     },
-    "humanize-duration@3.23.1": {
+    "humanize-duration@3.31.0": {
       "name": "humanize-duration",
-      "version": "3.23.1",
+      "version": "3.31.0",
       "range": "^3.23.1",
       "licenses": "Unlicense",
       "repoUrl": "https://github.com/EvanHahn/HumanizeDuration.js",
-      "versionedRepoUrl": "https://github.com/EvanHahn/HumanizeDuration.js/tree/v3.23.1",
+      "versionedRepoUrl": "https://github.com/EvanHahn/HumanizeDuration.js/tree/v3.31.0",
       "licenseFile": "node_modules/humanize-duration/LICENSE.txt",
-      "licenseUrl": "https://github.com/EvanHahn/HumanizeDuration.js/blob/v3.23.1/LICENSE.txt",
+      "licenseUrl": "https://github.com/EvanHahn/HumanizeDuration.js/blob/v3.31.0/LICENSE.txt",
       "licenseTextSource": "file",
       "publisher": "Evan Hahn",
       "email": "me@evanhahn.com",
@@ -54,17 +68,6 @@
       "publisher": "John-David Dalton",
       "email": "john.david.dalton@gmail.com",
       "url": "http://allyoucanleet.com/"
-    },
-    "prop-types@15.7.2": {
-      "name": "prop-types",
-      "version": "15.7.2",
-      "range": "^15.6.2",
-      "licenses": "MIT",
-      "repoUrl": "https://github.com/facebook/prop-types",
-      "versionedRepoUrl": "https://github.com/facebook/prop-types/tree/v15.7.2",
-      "licenseFile": "node_modules/prop-types/LICENSE",
-      "licenseUrl": "https://github.com/facebook/prop-types/blob/v15.7.2/LICENSE",
-      "licenseTextSource": "file"
     },
     "react-markdown@4.3.1": {
       "name": "react-markdown",
@@ -106,15 +109,15 @@
       "publisher": "Pierre Vanduynslager",
       "url": "https://github.com/pvdlg"
     },
-    "@semantic-release/git@9.0.0": {
+    "@semantic-release/git@9.0.1": {
       "name": "@semantic-release/git",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "range": "^9.0.0",
       "licenses": "MIT",
       "repoUrl": "https://github.com/semantic-release/git",
-      "versionedRepoUrl": "https://github.com/semantic-release/git/tree/v9.0.0",
+      "versionedRepoUrl": "https://github.com/semantic-release/git/tree/v9.0.1",
       "licenseFile": "node_modules/@semantic-release/git/LICENSE",
-      "licenseUrl": "https://github.com/semantic-release/git/blob/v9.0.0/LICENSE",
+      "licenseUrl": "https://github.com/semantic-release/git/blob/v9.0.1/LICENSE",
       "licenseTextSource": "file",
       "publisher": "Pierre Vanduynslager",
       "url": "https://github.com/pvdlg"
@@ -143,6 +146,17 @@
       "licenseUrl": "https://github.com/prettier/prettier/blob/v1.19.1/LICENSE",
       "licenseTextSource": "file",
       "publisher": "James Long"
+    },
+    "prop-types@15.8.1": {
+      "name": "prop-types",
+      "version": "15.8.1",
+      "range": "^15.6.2",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/facebook/prop-types",
+      "versionedRepoUrl": "https://github.com/facebook/prop-types/tree/v15.8.1",
+      "licenseFile": "node_modules/prop-types/LICENSE",
+      "licenseUrl": "https://github.com/facebook/prop-types/blob/v15.8.1/LICENSE",
+      "licenseTextSource": "file"
     },
     "react-dom@16.6.3": {
       "name": "react-dom",

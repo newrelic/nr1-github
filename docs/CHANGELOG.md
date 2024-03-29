@@ -1,3 +1,26 @@
+# [0.10.0](https://github.com/newrelic/nr1-github/compare/v0.9.3...v0.10.0) (2024-03-25)
+
+
+### Bug Fixes
+
+* eslint errors ([926f891](https://github.com/newrelic/nr1-github/commit/926f891980b069e2e2369a4f1798549dd1849e16))
+* lockfileVersion value ([e94d08f](https://github.com/newrelic/nr1-github/commit/e94d08f2d5e2ffe9e5e171ff1e23fc7a3c882cf6))
+* nr-labs logo url ([defae09](https://github.com/newrelic/nr1-github/commit/defae097f4ffa9af2865f0c965423e62f604202a))
+
+
+### Features
+
+* add HelpModal component ([47c6d2a](https://github.com/newrelic/nr1-github/commit/47c6d2a64f53efd3f78eac60afa7757ef630b4cb))
+* add nrlabs Messages component ([012a081](https://github.com/newrelic/nr1-github/commit/012a081a46b11ddc12594f0d114f1374d488da54))
+
+## [0.9.3](https://github.com/newrelic/nr1-github/compare/v0.9.2...v0.9.3) (2024-01-16)
+
+
+### Bug Fixes
+
+* support github fine-grained tokens ([252fe68](https://github.com/newrelic/nr1-github/commit/252fe682ca5c50bcf23f8e57d6f6d0927afe5fb1))
+* support github fine-grained tokens ([96bf2ad](https://github.com/newrelic/nr1-github/commit/96bf2add5af74ad92f3d2bc09f585d2b784c83a1))
+
 ## [0.9.2](https://github.com/newrelic/nr1-github/compare/v0.9.1...v0.9.2) (2022-02-17)
 
 

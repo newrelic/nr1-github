@@ -120,7 +120,10 @@ export default class Setup extends React.PureComponent {
           <StackItem>
             <Button
               onClick={() => setUserToken(userToken)}
-              disabled={!userToken || userToken.length !== 40}
+              disabled={
+                !userToken ||
+                (userToken.length !== 40 && userToken.length !== 93)
+              }
               type="primary"
             >
               Set Your GitHub Token
