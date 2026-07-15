@@ -1,3 +1,15 @@
+## [0.10.2](https://github.com/newrelic/nr1-github/compare/v0.10.1...v0.10.2) (2026-07-15)
+
+
+### Bug Fixes
+
+* codeql vulnerabilities ([e31e27c](https://github.com/newrelic/nr1-github/commit/e31e27c80a662160ee9e9a6a112fec4671ea833d))
+* header.js CodeQL / DOM text reinterpreted as HTML ([f9b2c6e](https://github.com/newrelic/nr1-github/commit/f9b2c6ede714e1cc1563fa0cc77b27c5840bef99))
+* release workflow ([d512516](https://github.com/newrelic/nr1-github/commit/d5125163e7364284b894c73326b20bcd5dfa9e4f))
+* repo-picker.js CodeQL / DOM text reinterpreted as HTML ([b02d6d6](https://github.com/newrelic/nr1-github/commit/b02d6d697c224694c7ca7238fd3a8f9d918bc13e))
+* setup.js CodeQL / DOM text reinterpreted as HTML ([fd9ca7f](https://github.com/newrelic/nr1-github/commit/fd9ca7f9d3c66007058d4cb9b37150fe509b697a))
+* setup.js CodeQL / DOM text reinterpreted as HTML ([c4cdac6](https://github.com/newrelic/nr1-github/commit/c4cdac6051ca666fa2b9e203c1dcb9867548d02b))
+
 ## [0.10.1](https://github.com/newrelic/nr1-github/compare/v0.10.0...v0.10.1) (2024-03-29)
 
 
