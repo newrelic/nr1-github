@@ -163,13 +163,22 @@ export default class Setup extends React.PureComponent {
     const { deleteUserToken } = this.props;
     const GHURL = this._getGithubUrl();
     const safeGHURL = isUrlSafe(GHURL) ? GHURL : 'https://github.com';
+    let tokenSettingsUrl = 'https://github.com/settings/tokens';
+    try {
+      const parsedBaseUrl = new URL(safeGHURL);
+      if (parsedBaseUrl.protocol === 'https:') {
+        tokenSettingsUrl = new URL('/settings/tokens', parsedBaseUrl.origin).toString();
+      }
+    } catch (e) {
+      tokenSettingsUrl = 'https://github.com/settings/tokens';
+    }
     return (
       <StackItem>
         <h2>1. Personal Access Token</h2>
         <p>
           You have provided a GitHub personal access token, which you can{' '}
           <a
-            href={`${safeGHURL}/settings/tokens`}
+            href={tokenSettingsUrl}
             target="_blank"
             rel="noopener noreferrer"
           >
