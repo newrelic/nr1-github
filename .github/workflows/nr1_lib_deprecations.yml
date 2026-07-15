@@ -1,5 +1,9 @@
 name: NR1 Library Deprecation Checks
 
+permissions:
+  contents: read
+  issues: write
+
 on: [push, workflow_dispatch]
 
 jobs:
@@ -16,7 +20,7 @@ jobs:
             return data.data && data.data.default_branch === context.ref.split('/').slice(-1)[0]
       - name: Checkout Self
         if: ${{ steps.default-branch.outputs.result == 'true' }}
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Run Repolinter
         if: ${{ steps.default-branch.outputs.result == 'true' }}
         uses: newrelic/repolinter-action@v1
