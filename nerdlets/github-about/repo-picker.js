@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Stack, StackItem, TextField, Spinner } from 'nr1';
 import Github from './github';
 import Header from './header';
-import { isUrlSafe } from '../shared/utils';
+import { isUrlSafe, isPublicGithubApi } from '../shared/utils';
 
 export default class RepoPicker extends React.PureComponent {
   static propTypes = {
@@ -215,10 +215,17 @@ export default class RepoPicker extends React.PureComponent {
 
     let hasMatch = false;
     const GHURL =
-      githubUrl && githubUrl.indexOf('api.github.com') === -1 && checkSafeURL
+      githubUrl && !isPublicGithubApi(githubUrl) && checkSafeURL
         ? githubUrl.trim()
         : 'https://github.com';
-    const searchUrl = `${GHURL}/search?q=${this.getSearchQuery()}`;
+    let searchUrl = '#';
+    try {
+      const url = new URL('/search', GHURL);
+      url.searchParams.set('q', this.getSearchQuery());
+      searchUrl = url.toString();
+    } catch (e) {
+      searchUrl = '#';
+    }
     // limit to top 5 suggestions
     return (
       <>

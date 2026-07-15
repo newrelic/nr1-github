@@ -11,6 +11,7 @@ import {
   Badge
 } from 'nr1';
 import isUrl from 'is-url';
+import { isUrlSafe, isPublicGithubApi } from '../shared/utils';
 
 const PUBLIC_GITHUB_API = 'https://api.github.com';
 export default class Setup extends React.PureComponent {
@@ -46,7 +47,7 @@ export default class Setup extends React.PureComponent {
         if (githubUrl === '') {
           this.setState({ isGithubEnterprise: true });
         }
-        if (githubUrl.indexOf('api.github.com') >= 0) {
+        if (isPublicGithubApi(githubUrl)) {
           this.setState({ isGithubEnterprise: false });
         }
       }
@@ -58,7 +59,7 @@ export default class Setup extends React.PureComponent {
 
   _getGithubUrl() {
     const { githubUrl } = this.state;
-    if (githubUrl && githubUrl.indexOf('api.github.com')) {
+    if (githubUrl && isPublicGithubApi(githubUrl)) {
       return 'https://github.com';
     }
     return githubUrl;
@@ -83,20 +84,35 @@ export default class Setup extends React.PureComponent {
     setActiveTab('repository');
   }
 
+  _getTokenSettingsUrl(baseUrl) {
+    const fallback = 'https://github.com/settings/tokens';
+    try {
+      const parsed = new URL(baseUrl);
+      if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') {
+        return fallback;
+      }
+      const basePath = parsed.pathname.endsWith('/')
+        ? parsed.pathname
+        : `${parsed.pathname}/`;
+      parsed.pathname = `${basePath}settings/tokens`;
+      return parsed.toString();
+    } catch (e) {
+      return fallback;
+    }
+  }
+
   renderUserTokenInput() {
     const { userToken } = this.state;
     const { setUserToken } = this.props;
     const GHURL = this._getGithubUrl();
+    const safeGHURL = isUrlSafe(GHURL) ? GHURL : 'https://github.com';
+    const tokenUrl = this._getTokenSettingsUrl(safeGHURL);
     return (
       <StackItem className="integration-step-container">
         <h2>1. Personal Access Token</h2>
         <p>
           To get started,{' '}
-          <a
-            href={`${GHURL}/settings/tokens`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href={tokenUrl} target="_blank" rel="noopener noreferrer">
             generate a personal access token
           </a>{' '}
           for your GitHub account. If your repo is private you will need to{' '}
@@ -142,16 +158,25 @@ export default class Setup extends React.PureComponent {
   renderDeleteUserToken() {
     const { deleteUserToken } = this.props;
     const GHURL = this._getGithubUrl();
+    const safeGHURL = isUrlSafe(GHURL) ? GHURL : 'https://github.com';
+    let tokenSettingsUrl = 'https://github.com/settings/tokens';
+    try {
+      const parsedBaseUrl = new URL(safeGHURL);
+      if (parsedBaseUrl.protocol === 'https:') {
+        tokenSettingsUrl = new URL(
+          '/settings/tokens',
+          parsedBaseUrl.origin
+        ).toString();
+      }
+    } catch (e) {
+      tokenSettingsUrl = 'https://github.com/settings/tokens';
+    }
     return (
       <StackItem>
         <h2>1. Personal Access Token</h2>
         <p>
           You have provided a GitHub personal access token, which you can{' '}
-          <a
-            href={`${GHURL}/settings/tokens`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href={tokenSettingsUrl} target="_blank" rel="noopener noreferrer">
             delete from GitHub
           </a>
           . You can also delete your token from New Relic's secure storage.
