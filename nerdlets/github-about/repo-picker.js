@@ -218,7 +218,14 @@ export default class RepoPicker extends React.PureComponent {
       githubUrl && !isPublicGithubApi(githubUrl) && checkSafeURL
         ? githubUrl.trim()
         : 'https://github.com';
-    const searchUrl = `${GHURL}/search?q=${this.getSearchQuery()}`;
+    let searchUrl = '#';
+    try {
+      const url = new URL('/search', GHURL);
+      url.searchParams.set('q', this.getSearchQuery());
+      searchUrl = url.toString();
+    } catch (e) {
+      searchUrl = '#';
+    }
     // limit to top 5 suggestions
     return (
       <>
@@ -226,7 +233,7 @@ export default class RepoPicker extends React.PureComponent {
         <h2>Select a Repository</h2>
         <p>
           We've&#160;
-          <a href={isUrlSafe(GHURL) ? searchUrl : '#'} target="_blank" rel="noopener noreferrer">
+          <a href={searchUrl} target="_blank" rel="noopener noreferrer">
             searched GitHub
           </a>
           &#160; for a repository matching <strong>{entity.name}</strong> and
