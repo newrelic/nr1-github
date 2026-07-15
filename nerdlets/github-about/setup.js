@@ -112,11 +112,7 @@ export default class Setup extends React.PureComponent {
         <h2>1. Personal Access Token</h2>
         <p>
           To get started,{' '}
-          <a
-            href={tokenUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href={tokenUrl} target="_blank" rel="noopener noreferrer">
             generate a personal access token
           </a>{' '}
           for your GitHub account. If your repo is private you will need to{' '}
@@ -167,7 +163,10 @@ export default class Setup extends React.PureComponent {
     try {
       const parsedBaseUrl = new URL(safeGHURL);
       if (parsedBaseUrl.protocol === 'https:') {
-        tokenSettingsUrl = new URL('/settings/tokens', parsedBaseUrl.origin).toString();
+        tokenSettingsUrl = new URL(
+          '/settings/tokens',
+          parsedBaseUrl.origin
+        ).toString();
       }
     } catch (e) {
       tokenSettingsUrl = 'https://github.com/settings/tokens';
@@ -177,11 +176,7 @@ export default class Setup extends React.PureComponent {
         <h2>1. Personal Access Token</h2>
         <p>
           You have provided a GitHub personal access token, which you can{' '}
-          <a
-            href={tokenSettingsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href={tokenSettingsUrl} target="_blank" rel="noopener noreferrer">
             delete from GitHub
           </a>
           . You can also delete your token from New Relic's secure storage.
