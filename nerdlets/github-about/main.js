@@ -23,7 +23,7 @@ import Contributors from './contributors';
 import PullRequests from './pull-requests';
 import Header from './header';
 import { GH_TOKEN, ROUTES } from '../shared/constants';
-import { formatGithubUrl } from '../shared/utils';
+import { formatGithubUrl, sanitizeUrl } from '../shared/utils';
 
 const PUBLIC_GITHUB_API = 'https://api.github.com';
 // allows us to test the github url with a short timeout
@@ -295,7 +295,7 @@ export default class GithubAbout extends React.PureComponent {
   }
 
   async _setRepo(repoUrl) {
-    repoUrl = formatGithubUrl(repoUrl);
+    repoUrl = sanitizeUrl(formatGithubUrl(repoUrl));
     const { entityGuid } = this.props.nerdletUrlState;
     const mutation = {
       actionType: EntityStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,

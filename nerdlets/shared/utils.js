@@ -3,18 +3,21 @@ export const formatGithubUrl = githubUrl => {
   return githubUrl;
 };
 
-export const isUrlSafe = url => {
+export const sanitizeUrl = url => {
   try {
     const fullUrl = new URL(url);
     const protocol = fullUrl.protocol;
-
     if (protocol === 'https:' || protocol === 'http:') {
-      return true;
+      return fullUrl.toString();
     }
   } catch {
-    return false;
+    return '';
   }
-  return false;
+  return '';
+};
+
+export const isUrlSafe = url => {
+  return sanitizeUrl(url) !== '';
 };
 
 export const isPublicGithubApi = url => {
