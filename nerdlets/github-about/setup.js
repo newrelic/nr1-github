@@ -84,18 +84,36 @@ export default class Setup extends React.PureComponent {
     setActiveTab('repository');
   }
 
+  _getTokenSettingsUrl(baseUrl) {
+    const fallback = 'https://github.com/settings/tokens';
+    try {
+      const parsed = new URL(baseUrl);
+      if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') {
+        return fallback;
+      }
+      const basePath = parsed.pathname.endsWith('/')
+        ? parsed.pathname
+        : `${parsed.pathname}/`;
+      parsed.pathname = `${basePath}settings/tokens`;
+      return parsed.toString();
+    } catch (e) {
+      return fallback;
+    }
+  }
+
   renderUserTokenInput() {
     const { userToken } = this.state;
     const { setUserToken } = this.props;
     const GHURL = this._getGithubUrl();
     const safeGHURL = isUrlSafe(GHURL) ? GHURL : 'https://github.com';
+    const tokenUrl = this._getTokenSettingsUrl(safeGHURL);
     return (
       <StackItem className="integration-step-container">
         <h2>1. Personal Access Token</h2>
         <p>
           To get started,{' '}
           <a
-            href={`${safeGHURL}/settings/tokens`}
+            href={tokenUrl}
             target="_blank"
             rel="noopener noreferrer"
           >
