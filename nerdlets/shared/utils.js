@@ -16,3 +16,11 @@ export const isUrlSafe = url => {
   }
   return false;
 };
+
+export const isPublicGithubApi = url => {
+  try {
+    return new URL(url).hostname === 'api.github.com';
+  } catch {
+    return false;
+  }
+};

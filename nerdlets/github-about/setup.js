@@ -11,6 +11,7 @@ import {
   Badge
 } from 'nr1';
 import isUrl from 'is-url';
+import { isUrlSafe, isPublicGithubApi } from '../shared/utils';
 
 const PUBLIC_GITHUB_API = 'https://api.github.com';
 export default class Setup extends React.PureComponent {
@@ -46,7 +47,7 @@ export default class Setup extends React.PureComponent {
         if (githubUrl === '') {
           this.setState({ isGithubEnterprise: true });
         }
-        if (githubUrl.indexOf('api.github.com') >= 0) {
+        if (isPublicGithubApi(githubUrl)) {
           this.setState({ isGithubEnterprise: false });
         }
       }
@@ -58,7 +59,7 @@ export default class Setup extends React.PureComponent {
 
   _getGithubUrl() {
     const { githubUrl } = this.state;
-    if (githubUrl && githubUrl.indexOf('api.github.com')) {
+    if (githubUrl && isPublicGithubApi(githubUrl)) {
       return 'https://github.com';
     }
     return githubUrl;
@@ -87,13 +88,14 @@ export default class Setup extends React.PureComponent {
     const { userToken } = this.state;
     const { setUserToken } = this.props;
     const GHURL = this._getGithubUrl();
+    const safeGHURL = isUrlSafe(GHURL) ? GHURL : 'https://github.com';
     return (
       <StackItem className="integration-step-container">
         <h2>1. Personal Access Token</h2>
         <p>
           To get started,{' '}
           <a
-            href={`${GHURL}/settings/tokens`}
+            href={`${safeGHURL}/settings/tokens`}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -142,13 +144,14 @@ export default class Setup extends React.PureComponent {
   renderDeleteUserToken() {
     const { deleteUserToken } = this.props;
     const GHURL = this._getGithubUrl();
+    const safeGHURL = isUrlSafe(GHURL) ? GHURL : 'https://github.com';
     return (
       <StackItem>
         <h2>1. Personal Access Token</h2>
         <p>
           You have provided a GitHub personal access token, which you can{' '}
           <a
-            href={`${GHURL}/settings/tokens`}
+            href={`${safeGHURL}/settings/tokens`}
             target="_blank"
             rel="noopener noreferrer"
           >

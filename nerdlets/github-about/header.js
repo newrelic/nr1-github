@@ -18,7 +18,7 @@ export default function Header({ repoUrl }) {
         {isUrlSafe(repoUrl) && (
           <StackItem className="repo-link-stack">
             <a
-              href={repoUrl}
+              href={isUrlSafe(repoUrl) ? repoUrl : '#'}
               target="_blank"
               className="repo-link"
               rel="noopener noreferrer"
