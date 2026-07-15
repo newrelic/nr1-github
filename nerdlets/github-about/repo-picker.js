@@ -121,7 +121,11 @@ export default class RepoPicker extends React.PureComponent {
             </a>
             <br />
             <small>
-              <a target="_blank" href={sanitizeUrl(item.html_url)} rel="noopener noreferrer">
+              <a
+                target="_blank"
+                href={sanitizeUrl(item.html_url)}
+                rel="noopener noreferrer"
+              >
                 {item.html_url}
               </a>
             </small>
