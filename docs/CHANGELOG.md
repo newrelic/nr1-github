@@ -1,3 +1,10 @@
+## [0.10.3](https://github.com/newrelic/nr1-github/compare/v0.10.2...v0.10.3) (2026-07-16)
+
+
+### Bug Fixes
+
+* Exception text reinterpreted as HTML ([8783a8a](https://github.com/newrelic/nr1-github/commit/8783a8acc1855a87ffa00974ccac0fe34b544868))
+
 ## [0.10.2](https://github.com/newrelic/nr1-github/compare/v0.10.1...v0.10.2) (2026-07-15)
 
 
